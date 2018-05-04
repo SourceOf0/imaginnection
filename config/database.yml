@@ -48,7 +48,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: imaginnection_production
   username: imaginnection
   password: <%= ENV['IMAGINNECTION_DATABASE_PASSWORD'] %>

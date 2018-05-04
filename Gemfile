@@ -28,7 +28,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -49,3 +49,40 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+
+# CUSTUM------------
+
+# Paginator 
+gem 'kaminari'
+
+# login system
+gem 'devise'
+
+# load environment variables from `.env` 
+# please add dotenv-rails file `.env` to .gitignore
+gem 'dotenv-rails'
+
+group :development, :test do 
+  # break point system
+  gem 'pry-byebug', group: :development
+  
+  gem 'rspec-rails', '~> 3.6.0' 
+  gem "factory_bot_rails" 
+end
+
+group :development do 
+  # please do "bundle exec spring binstub rspec"
+  gem 'spring-commands-rspec' 
+end
+
+group :test do
+  gem 'shoulda-matchers',
+    git: 'https://github.com/thoughtbot/shoulda-matchers.git',
+    branch: 'rails-5'
+end
+
+group :production do 
+  # for heroku
+  #gem 'pg', '0.21.0'
+end
