@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180506044541) do
+ActiveRecord::Schema.define(version: 20180507015832) do
 
   create_table "edges", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
@@ -25,10 +25,28 @@ ActiveRecord::Schema.define(version: 20180506044541) do
     t.index ["user_id"], name: "index_edges_on_user_id"
   end
 
+  create_table "gazes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "node_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["node_id"], name: "index_gazes_on_node_id"
+    t.index ["user_id", "node_id"], name: "index_gazes_on_user_id_and_node_id", unique: true
+    t.index ["user_id"], name: "index_gazes_on_user_id"
+  end
+
   create_table "nodes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notification_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notification_logs_on_user_id"
   end
 
   create_table "relationships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -66,6 +84,9 @@ ActiveRecord::Schema.define(version: 20180506044541) do
   add_foreign_key "edges", "nodes", column: "from_node_id"
   add_foreign_key "edges", "nodes", column: "to_node_id"
   add_foreign_key "edges", "users"
+  add_foreign_key "gazes", "nodes"
+  add_foreign_key "gazes", "users"
+  add_foreign_key "notification_logs", "users"
   add_foreign_key "relationships", "users", column: "from_user_id"
   add_foreign_key "relationships", "users", column: "to_user_id"
 end

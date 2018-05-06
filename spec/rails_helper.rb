@@ -26,6 +26,9 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+# output sql command
+#ActiveRecord::Base.logger = Logger.new(STDOUT)
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -55,13 +58,8 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   
-  
-  # Devise のテストヘルパーを使用する
-  config.include Devise::Test::ControllerHelpers, type: :controller  # コントローラスペック用
-  config.include RequestSpecHelper, type: :request  # リクエストスペック用（RequestSpecHelperは自作）
-  config.include Warden::Test::Helpers  # フィーチャースペック用
-  
 end
+
 # gem shoulda-matchers 用設定
 # Shoulda Matchers を RSpec と Rails で使うことを宣言
 Shoulda::Matchers.configure do |config|

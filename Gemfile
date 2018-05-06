@@ -65,10 +65,13 @@ gem 'dotenv-rails'
 
 group :development, :test do 
   # break point system
-  gem 'pry-byebug', group: :development
+  gem 'pry-byebug'
   
-  gem 'rspec-rails', '~> 3.6.0' 
-  gem "factory_bot_rails" 
+  # alert N+1 Query
+  gem 'bullet'
+  
+  gem 'rspec-rails', '~> 3.6.0'
+  gem "factory_bot_rails"
 end
 
 group :development do 

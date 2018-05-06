@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :relationship do
-    from_user_id nil
-    to_user_id nil
+    
+    association :from_user
+    association :to_user
+
   end
 end

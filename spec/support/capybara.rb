@@ -1,3 +1,3 @@
 
-require 'selenium-webdriver'
-require 'capybara/rspec'
+#require 'selenium-webdriver'
+#require 'capybara/rspec'

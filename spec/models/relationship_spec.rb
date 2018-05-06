@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Relationship, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  
+  # STIのモデルごとにテスト
+  # 共通処理は spex/support/contexts/relationship_examples.rb で実装
+  
 end
