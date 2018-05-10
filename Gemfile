@@ -53,6 +53,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # CUSTUM------------
 
+# messages to internationalization
+gem 'rails-i18n'
+
 # Paginator 
 gem 'kaminari'
 
