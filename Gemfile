@@ -53,6 +53,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # CUSTUM------------
 
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+
 # messages to internationalization
 gem 'rails-i18n'
 
@@ -61,6 +64,8 @@ gem 'kaminari'
 
 # login system
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-twitter'
 
 # load environment variables from `.env` 
 # please add dotenv-rails file `.env` to .gitignore

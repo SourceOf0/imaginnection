@@ -53,6 +53,18 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
 
+  # メーラー
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => 'smtp.gmail.com',
+    :user_name => ENV['MAILER_USER_NAME'], #gmailアドレス
+    :password => ENV['MAILER_PASSWORD'], #gmailパスワード
+    :authentication => 'login',
+  }
+
   config.after_initialize do
     
     Bullet.enable = true   # bullet を有効にする

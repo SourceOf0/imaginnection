@@ -28,10 +28,10 @@ class User < ApplicationRecord
   has_many :followers, through: :reverses_of_follows, source: :from_user
   
   
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  # Include devise modules.
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :confirmable, :lockable, :timeoutable, :omniauthable
   
   
   # デフォルト値設定
