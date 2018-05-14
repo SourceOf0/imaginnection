@@ -1,0 +1,140 @@
+
+@import 'common';
+
+body {
+  padding-top: $navHeight + 20px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: $navHeight;
+  z-index: 1030;
+  background-color: $baseColor;
+  
+  .logo {
+    position: absolute;
+    left: 50%;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    height: $navHeight;
+    a {
+      display: block;
+      position: absolute;
+      left: -$logoWidth*0.5;
+      top: $navHeight*0.5 - $logoHeight*0.5;
+    }
+  }
+
+  nav {
+    .centering {
+      list-style: none;
+      &:before {
+        @include centering;
+        height: $navHeight;
+      }
+      >li {
+        margin: 0 2px;
+        &:first-child {
+          margin-left: 8px;
+        }
+        &:last-child {
+          margin-right: 8px;
+        }
+        display: inline-block;
+      }
+      .text-link {
+        padding: ($navHeight - $defaultFontSize)*0.5 $defaultFontSize;
+        color: $subColor;
+        &:hover, &:active, &:visited {
+          text-decoration: none;
+        }
+      }
+      .active>a {
+        background-color: darken($baseColor, 10%);
+      }
+    }
+    
+    .dropdown-menu {
+      .user {
+        margin-left: 0;
+        padding-bottom: 10px;
+        p {
+          margin: 0;
+        }
+        .user-name {
+          margin-top: 6px;
+          font-size: 18px;
+        }
+        .user-email {
+          margin-left: 16px;
+        }
+      }
+    }
+    
+    .icon.button {
+      width: $navHeight*0.6;
+      height: $navHeight*0.6;
+      line-height: $navHeight*0.6;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      color: $colorWhite;
+      background: $subColor;
+      border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      &:hover {
+        background: darken($subColor, 10%);
+      }
+    }
+    .icon-bar {
+      button {
+        display: block;
+        width: $navHeight*0.7;
+        height: $navHeight*0.7;
+        padding: 0;
+        cursor: pointer;
+        span {
+          width: $navSize;
+          height: $navBorderSize;
+          left: $navBorderMarginLeft;
+          position: absolute;
+          pointer-events: none;
+          -webkit-transition: .15s ease-in-out;
+          background-color: $subColor;
+        }
+      }
+    }
+    .icon-bar-top {
+      top: $navBorderMarginTop + 0;
+    }
+    .icon-bar-middle {
+      top: $navBorderMarginTop + $navSize*0.35;
+    }
+    .icon-bar-bottom {
+      top: $navBorderMarginTop + $navSize*0.7;
+    }
+    .open {
+      .icon-bar-top {
+        top: $navBorderMarginTop + $navSize*0.35;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      .icon-bar-middle {
+        width: 0;
+        left: $navSize;
+      }
+      .icon-bar-bottom {
+        top: $navBorderMarginTop + $navSize*0.35;
+        -webkit-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+    }
+  }
+}
+

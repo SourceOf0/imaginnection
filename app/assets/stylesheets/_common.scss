@@ -1,0 +1,25 @@
+
+$baseColor: #f8f8f8;
+$subColor: #555555;
+
+/* 確認用 */
+$colorBlack: #000000;
+$colorWhite: #ffffff;
+
+$defaultFontSize: 14px;
+
+$logoWidth: 120px;
+$logoHeight: 18px;
+
+$navHeight: 50px;
+$navSize: 17px;
+$navBorderSize: 2px;
+$navBorderMarginLeft: $navSize*0.45;
+$navBorderMarginTop: $navBorderMarginLeft + $navBorderSize;
+
+@mixin centering {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+}
+

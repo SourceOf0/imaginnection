@@ -4,9 +4,11 @@ class Edge < ApplicationRecord
   validates :user_id, presence: true, uniqueness: { scope: [:from_node_id, :to_node_id] }
 
   belongs_to :from_node, class_name: 'Node'
+  accepts_nested_attributes_for :from_node
   validates :from_node_id, presence: true, uniqueness: { scope: [:user_id, :to_node_id] }
-  
+
   belongs_to :to_node, class_name: 'Node'
+  accepts_nested_attributes_for :to_node
   validates :to_node_id, presence: true, uniqueness: { scope: [:user_id, :from_node_id] }
   
   #validates :is_hide_user
