@@ -1,7 +1,7 @@
 class EdgesController < ApplicationController
   
   def index
-    @edges = current_user.edges;
+    @edges = current_user.edges
   end
 
   def show
@@ -16,11 +16,11 @@ class EdgesController < ApplicationController
     @edge = current_user.edges.build(edge_params)
     binding.pry
     if @edge.save
-      flash[:success] = 'タスクを追加しました';
-      redirect_to edges_path;
+      flash[:success] = 'エッジを追加しました'
+      redirect_to edges_path
     else
       @from_node = Node.new(@edge.from_node.name)
-      flash.now[:danger] = 'タスクの追加に失敗しました';
+      flash.now[:danger] = 'エッジの追加に失敗しました'
       render :new;
     end
   end

@@ -58,6 +58,10 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   
+  # Devise のテストヘルパーを使用する
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include ControllerMacros, type: :controller # controller_macros.rbを使用
+  
 end
 
 # gem shoulda-matchers 用設定

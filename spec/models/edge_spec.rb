@@ -33,7 +33,8 @@ RSpec.describe Edge, type: :model do
   it "ユーザー単位では重複したノードへの紐づけを許可しないこと" do
     new_edge = FactoryBot.build(:edge, user: user, from_node: from_node, to_node: to_node)
     new_edge.valid?
-    expect(new_edge.errors[:user_id]).to include("has already been taken")
+    #expect(new_edge.errors[:user_id]).to include("has already been taken")
+    expect(new_edge.errors[:user_id]).to include("はすでに存在します")
   end
   it "二人のユーザーが同じノードへの紐づけを使うことは許可すること" do
     other_edge = FactoryBot.build(:edge, user: other_user, from_node: from_node, to_node: to_node)

@@ -7,7 +7,7 @@ class NodesController < ApplicationController
   end
 
   def new
-    @from_node = Node.new;
+    @from_node = Node.new
   end
   
 end
