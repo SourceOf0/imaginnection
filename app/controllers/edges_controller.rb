@@ -1,29 +1,40 @@
 class EdgesController < ApplicationController
   
   def index
-    @edges = current_user.edges
+    @edge_list = Edge.viewable_edges(current_user).includes(:from_node, :to_node).group_by{ |edge| edge.from_node }
+    @nodes_count = Edge.viewable_node_counts(current_user)
   end
 
   def show
   end
 
   def new
-    @edge = current_user.edges.build()
-    @edge.from_node = Node.new(node_params)
+    @from_node = Node.find(params[:from_node_id])
+    @to_node = Node.new
   end
-
+  
+  
   def create
-    @edge = current_user.edges.build(edge_params)
-    binding.pry
-    if @edge.save
-      flash[:success] = 'エッジを追加しました'
-      redirect_to edges_path
-    else
-      @from_node = Node.new(@edge.from_node.name)
-      flash.now[:danger] = 'エッジの追加に失敗しました'
-      render :new;
+    @from_node = Node.find(params[:from_node_id])
+    @to_node = Node.find_by(name: node_params[:name])
+    
+    if !@to_node
+      @to_node = Node.new(node_params)
+      if !@to_node.save
+        flash.now[:danger] = 'エッジの追加に失敗しました'
+        render :new
+        return
+      end
+    elsif @from_node.id == @to_node.id
+      flash.now[:danger] = '同名ノードをエッジに登録することはできません'
+      render :new
+      return
     end
+    @edge = current_user.edges.create(from_node_id: @from_node.id, to_node_id: @to_node.id)
+    flash[:success] = 'エッジを追加しました'
+    redirect_to edges_path
   end
+  
   
   def destroy
   end
@@ -32,14 +43,8 @@ class EdgesController < ApplicationController
   private
   
   # Strong Paramter
-  def edge_params
-    params.require(:edge).permit(
-        from_node_attributes: [:name],
-        to_node_attributes: [:name]
-      )
-  end
   def node_params
     params.require(:node).permit(:name)
   end
-  
+
 end

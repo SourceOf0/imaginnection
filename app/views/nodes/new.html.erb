@@ -1,5 +1,5 @@
 
-<%= form_for(@from_node, url: new_edge_path, method: :get) do |f| %>
+<%= form_for(@from_node) do |f| %>
   
   <%# エラーメッセージをレンダリング %>
   <%= render 'layouts/error_messages', model: f.object %>

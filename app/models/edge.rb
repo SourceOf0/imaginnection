@@ -4,11 +4,9 @@ class Edge < ApplicationRecord
   validates :user_id, presence: true, uniqueness: { scope: [:from_node_id, :to_node_id] }
 
   belongs_to :from_node, class_name: 'Node'
-  accepts_nested_attributes_for :from_node
   validates :from_node_id, presence: true, uniqueness: { scope: [:user_id, :to_node_id] }
 
   belongs_to :to_node, class_name: 'Node'
-  accepts_nested_attributes_for :to_node
   validates :to_node_id, presence: true, uniqueness: { scope: [:user_id, :from_node_id] }
   
   #validates :is_hide_user
@@ -38,14 +36,14 @@ class Edge < ApplicationRecord
     where(from_node: from_node, to_node: to_node).map(&:user)
   }
 
-  # 指定されたユーザが所有するエッジを取得
+  # 指定されたユーザが表示できるエッジを取得
   # @param user: 対象のユーザ
   # @return: 該当のエッジのリスト
   scope :viewable_edges, ->(user) {
     where(user_id: user.following_ids.push(user.id))
   }
   
-  # ユーザが所有するエッジが紐づいているノードと総数を取得
+  # ユーザが表示できるエッジが紐づいているノードと総数を取得
   # @param user: 対象のユーザ
   # @return: ノードと総数のハッシュ{ ノード, 数 }
   scope :viewable_node_counts, ->(user) {

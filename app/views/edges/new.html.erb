@@ -1,20 +1,20 @@
 
 <div>
-  <%= @edge.from_node.name %>
+  <%= @from_node.name %>
 </div>
 
-<%= form_for(@edge) do |f| %>
+<%= form_for(@to_node, method: :post, url: edges_path) do |f| %>
   
   <%# エラーメッセージをレンダリング %>
   <%= render 'layouts/error_messages', model: f.object %>
   
   <%# フォーム %>
-  <%= f.fields_for :to_node do |builder| %>
-    <div class="form-group">
-      <%= builder.label :name, '名前' %>
-      <%= builder.text_field :name, class: 'form-control' %>
-    </div>
-  <% end %>
+  <%= hidden_field_tag :from_node_id, @from_node.id %>
+  
+  <div class="form-group">
+    <%= f.label :name, '名前' %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
 
   <div class="form-group">
     <%= f.submit '作成', class: 'btn btn-primary', name: nil %>

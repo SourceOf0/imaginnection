@@ -1,6 +1,6 @@
 class Node < ApplicationRecord
   
-  validates :name, presence: true, length: { maximum: 20 }
+  validates :name, presence: true, length: { maximum: 20 }, uniqueness: true
   
   has_many :users
   has_many :gazes

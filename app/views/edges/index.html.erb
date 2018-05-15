@@ -1,17 +1,13 @@
 
-<table class="table table-striped">
-  <tr>
-    <th>id</th>
-    <th>名前</th>
-    <th>id</th>
-    <th>名前</th>
-  </tr>
-  <% @edges.each do |edge| %>
+<% @edge_list.each do |from_node, edges| %>
+  <table class="table table-bordered">
     <tr>
-      <td><%= edge.from_node.id %></td>
-      <td><%= edge.from_node.name %></td>
-      <td><%= edge.to_node.id %></td>
-      <td><%= edge.to_node.name %></td>
+      <th><%= from_node.id %> : <%= from_node.name %> ( <%= @nodes_count[from_node] %> )</th>
     </tr>
-  <% end %>
-</table>
+    <% edges.each do |edge| %>
+      <tr>
+        <td><%= edge.to_node.id %> : <%= edge.to_node.name %> ( <%= @nodes_count[edge.to_node] %> )</td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

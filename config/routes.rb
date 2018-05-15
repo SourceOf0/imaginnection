@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :edges, only: [:index, :show, :new, :create, :destroy]
   
   # ノード
-  resources :nodes, only: [:index, :show, :new]
+  resources :nodes, only: [:index, :show, :new, :create]
   
   # フォロー
   resources :follows, only: [:create, :destroy] do
