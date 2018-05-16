@@ -43,6 +43,14 @@ class Edge < ApplicationRecord
     where(user_id: user.following_ids.push(user.id))
   }
   
+  # 指定されたユーザが表示できるエッジのうちユニークな関連付けのものを取得
+  # @param user: 対象のユーザ
+  # @return: 始点のノードとエッジの配列のハッシュ{ ノード, [エッジ, ... ] }
+  scope :viewable_uniq_edges, ->(user) {
+    # fromとtoのセットがユニークなedgeの配列をfromでグループ化する
+    viewable_edges(user).includes(:from_node, :to_node).uniq{ |edge| [edge.from_node, edge.to_node] }.group_by(&:from_node)
+  }
+  
   # ユーザが表示できるエッジが紐づいているノードと総数を取得
   # @param user: 対象のユーザ
   # @return: ノードと総数のハッシュ{ ノード, 数 }

@@ -1,11 +1,13 @@
 class EdgesController < ApplicationController
   
   def index
-    @edge_list = Edge.viewable_edges(current_user).includes(:from_node, :to_node).group_by{ |edge| edge.from_node }
+    @edge_list = Edge.viewable_uniq_edges(current_user)
     @nodes_count = Edge.viewable_node_counts(current_user)
   end
 
   def show
+    edge = Edge.find(params[:id])
+    @users = Edge.connected_users(edge.from_node, edge.to_node)
   end
 
   def new

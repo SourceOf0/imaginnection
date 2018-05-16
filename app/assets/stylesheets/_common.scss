@@ -1,6 +1,9 @@
 
+$backgroundColor: #666666;
+
 $baseColor: #f8f8f8;
-$subColor: #555555;
+$accentColor: #777777;
+$subColor: #aaaaaa;
 
 /* 確認用 */
 $colorBlack: #000000;
@@ -11,15 +14,19 @@ $defaultFontSize: 14px;
 $logoWidth: 120px;
 $logoHeight: 18px;
 
+$navZIndex: 1030;
 $navHeight: 50px;
 $navSize: 17px;
 $navBorderSize: 2px;
 $navBorderMarginLeft: $navSize*0.45;
 $navBorderMarginTop: $navBorderMarginLeft + $navBorderSize;
 
-@mixin centering {
+@mixin height-centering {
     content: "";
     display: inline-block;
     vertical-align: middle;
 }
 
+.background-sub {
+    background-color: $subColor;
+}

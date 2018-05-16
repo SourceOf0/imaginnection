@@ -1,0 +1,12 @@
+<%# フォローを外すリンクを作る %>
+<%# @params user: 対象のユーザ %>
+
+<%#
+    MEMO: Ajaxでのリンクを使用するためにremote: trueを使用
+    参考: https://railsguides.jp/working_with_javascript_in_rails.html
+%>
+<% if user %>
+  <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-danger btn-xs' do %>
+    フォロー中
+  <% end %>
+<% end %>

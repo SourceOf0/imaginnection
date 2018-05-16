@@ -1,13 +1,19 @@
 
 <% @edge_list.each do |from_node, edges| %>
-  <table class="table table-bordered">
+  <table class="table table-bordered background-sub">
     <tr>
       <th><%= from_node.id %> : <%= from_node.name %> ( <%= @nodes_count[from_node] %> )</th>
     </tr>
     <% edges.each do |edge| %>
       <tr>
-        <td><%= edge.to_node.id %> : <%= edge.to_node.name %> ( <%= @nodes_count[edge.to_node] %> )</td>
+        <td>
+          <%= link_to(edge_path(edge.id), remote: true) do %>
+            <%= edge.to_node.id %> : <%= edge.to_node.name %> ( <%= @nodes_count[edge.to_node] %> )
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </table>
 <% end %>
+
+<div id="users-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

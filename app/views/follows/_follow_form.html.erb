@@ -1,0 +1,18 @@
+<%#
+  フォローする・しないボタンを表示
+  @param :user
+%>
+
+<% if current_user != user %>
+  <% if current_user.following?(user) %>
+    <span id="follow-form-<%= user.id %>">
+      <%# フォロー中 %>
+      <%= render "follows/unfollow", user: user %>
+    </span>
+  <% elsif user.is_enable_follow %>
+    <span id="follow-form-<%= user.id %>">
+      <%# フォローしてない %>
+      <%= render "follows/follow", user: user %>
+    </span>
+  <% end %>
+<% end %>

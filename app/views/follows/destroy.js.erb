@@ -1,0 +1,2 @@
+<%# 表示されている対象の記事のリンクを切り替える %>
+$('#follow-form-<%= @user.id %>').html('<%=j render 'follows/follow', user: @user %>')

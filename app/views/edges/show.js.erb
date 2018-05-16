@@ -1,0 +1,3 @@
+<%# エッジ詳細のポップアップを表示する %>
+$("#users-modal").html("<%=j render 'users_form', users: @users %>")
+$("#users-modal").modal("show")

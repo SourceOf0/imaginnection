@@ -1,0 +1,22 @@
+<%# 共感者一覧 %>
+<%# @param users: リスト表示するユーザのモデルインスタンス %>
+
+<div class="modal-dialog">
+  <div class="modal-content">
+    
+    <ul class="media-list">
+      <% users.each do |user| %>
+        <li>
+          <span>
+            <%= user.name %>
+          </span>
+          <span>
+            <%= render 'follows/follow_form', user: user %>
+          </span>
+        </li>
+      <% end %>
+      
+    </ul>
+    
+  </div>
+</div>
