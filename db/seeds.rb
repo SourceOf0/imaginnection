@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+users = User.all
+
+users.each do |user|
+  user.ref_id = SecureRandom::urlsafe_base64(30)
+  user.save
+end

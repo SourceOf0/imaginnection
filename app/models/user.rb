@@ -5,6 +5,7 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
 
+  #validates :ref_id
   #validates :is_enable_follow
   
   validates :empathy_button_kind, presence: true,
@@ -36,6 +37,7 @@ class User < ApplicationRecord
   
   # デフォルト値設定
   before_validation do
+    self.ref_id = SecureRandom::urlsafe_base64(30) if self.ref_id.nil?
     self.is_enable_follow = true if self.is_enable_follow.nil?
     self.notified_at = Date.current.in_time_zone if self.notified_at.nil?
     self.empathy_button_kind = 0 if self.empathy_button_kind.nil?
