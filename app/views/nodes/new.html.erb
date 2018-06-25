@@ -1,12 +1,12 @@
 
-<%= form_for(@from_node) do |f| %>
+<%= form_for(@from_node, method: :get, url: new_edge_path) do |f| %>
   
   <%# エラーメッセージをレンダリング %>
   <%= render 'layouts/error_messages', model: f.object %>
   
   <%# フォーム %>
   <div class="form-group">
-    <%= f.label :name, '名前' %>
+    <%= f.label :name, 'ノード名', class: 'sr-only' %>
     <%= f.text_field :name, class: 'form-control' %>
   </div>
 

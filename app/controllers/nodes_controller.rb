@@ -12,6 +12,7 @@ class NodesController < ApplicationController
   
   
   def create
+=begin
     @from_node = Node.find_by(name: node_params[:name])
     if !@from_node
       @from_node = Node.new(node_params)
@@ -22,6 +23,7 @@ class NodesController < ApplicationController
       end
     end
     redirect_to new_edge_path(from_node_id: @from_node.id)
+=end
   end
   
   

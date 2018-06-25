@@ -1,19 +1,25 @@
 
-<% @edge_list.each do |from_node, edges| %>
+<div class="edge-temp">
   <table class="table table-bordered background-sub">
     <tr>
-      <th><%= from_node.id %> : <%= from_node.name %> ( <%= @nodes_count[from_node] %> )</th>
+      <th class="from-node-name"></th>
     </tr>
-    <% edges.each do |edge| %>
-      <tr>
-        <td>
-          <%= link_to(edge_path(edge.id), remote: true) do %>
-            <%= edge.to_node.id %> : <%= edge.to_node.name %> ( <%= @nodes_count[edge.to_node] %> )
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
+    <tr>
+      <td class="to-node-name"><a data-remote="true"></a></td>
+    </tr>
   </table>
-<% end %>
+</div>
+
+<div class="edge-list">
+</div>
 
 <div id="users-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+<% content_for :script do %>
+  <script>
+    var current_id = "<%= @current_ref_id %>";
+    var view_ids = <%= @view_ref_ids.to_json.html_safe %>;
+  </script>
+  <%= javascript_include_tag 'firebase/init.js' %>
+  <%= javascript_include_tag 'firebase/edges_index.js' %>
+<% end %>
