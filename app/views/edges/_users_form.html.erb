@@ -1,22 +1,80 @@
 <%# 共感者一覧 %>
 <%# @param users: リスト表示するユーザのモデルインスタンス %>
+<%# @param count: 総人数 %>
 
-<div class="modal-dialog">
+<div class="modal-dialog modal-lg">
   <div class="modal-content">
     
-    <ul class="media-list">
-      <% users.each do |user| %>
-        <li>
-          <span>
-            <%= user.name %>
-          </span>
-          <span>
-            <%= render 'follows/follow_form', user: user %>
-          </span>
-        </li>
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+    </div>
+    
+    <div class="modal-body">
+      
+      <h3>
+        「<%= @from_node.name %>」 → 「<%= @to_node.name %>」
+      </h3>
+        
+      <% if !!count %>
+        <div>
+          <p>共感した人：<%= count %>人（非公開含む）</p>
+        </div>
       <% end %>
       
-    </ul>
-    
+      <div class="well" id="empathy-user-list">
+        <ul class="media-list">
+          <% users.each do |user| %>
+            <li>
+              <span>
+                <% if user.is_hide_edges %>
+                  <%= user.name %>
+                <% else %>
+                  <%= link_to(user.name, edge_path(user.ref_id)) %>
+                <% end %>
+              </span>
+              <span>
+                <% if current_user != user %>
+                  <% if current_user.following?(user) %>
+                    <span id="follow-form-<%= user.id %>">
+                      <%# フォロー中 %>
+                      <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-danger btn-xs' do %>
+                        フォロー中
+                      <% end %>
+                    </span>
+                  <% elsif user.is_enable_follow %>
+                    <span id="follow-form-<%= user.id %>">
+                      <%# フォローしてない %>
+                      <%= link_to follows_path(id: user.id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
+                        フォローする
+                      <% end %>
+                    </span>
+                  <% end %>
+                <% end %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      
+      <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
+        
+        <%# エラーメッセージをレンダリング %>
+        <%# render 'layouts/error_messages', model: f.object %>
+        
+        <%= hidden_field_tag :from_node_name, @from_node.name %>
+        <%= f.hidden_field :name, value: @to_node.name %>
+  
+        <div class="form-group">
+          <%= check_box_tag :is_hide_user %>
+          <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.submit empathy_button_name(), class: 'btn btn-primary', name: nil %>
+        </div>
+        
+      <% end %>
+
+    </div>
   </div>
 </div>

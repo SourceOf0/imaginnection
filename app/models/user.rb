@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   #validates :ref_id
   #validates :is_enable_follow
+  #validates :is_hide_edges
   
   validates :empathy_button_kind, presence: true,
     numericality: {
@@ -39,6 +40,7 @@ class User < ApplicationRecord
   before_validation do
     self.ref_id = SecureRandom::urlsafe_base64(30) if self.ref_id.nil?
     self.is_enable_follow = true if self.is_enable_follow.nil?
+    self.is_hide_edges = false if self.is_hide_edges.nil?
     self.notified_at = Date.current.in_time_zone if self.notified_at.nil?
     self.empathy_button_kind = 0 if self.empathy_button_kind.nil?
     

@@ -4,3 +4,13 @@
 .edge-temp {
   display: none;
 }
+
+.view {
+  display: none;
+}
+
+#empathy-user-list {
+  width: 80%;
+  min-height: 50%;
+  overflow-y: scroll;
+}

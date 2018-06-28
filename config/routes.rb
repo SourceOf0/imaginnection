@@ -7,10 +7,14 @@ Rails.application.routes.draw do
   devise_for :users
   
   # エッジ
-  resources :edges, only: [:index, :show, :new, :create, :destroy]
+  resources :edges, only: [:index, :show, :new, :create, :destroy] do
+    collection do
+      get :users
+    end
+  end
   
   # ノード
-  resources :nodes, only: [:index, :show, :new, :create]
+  resources :nodes, only: [:show]
   
   # フォロー
   resources :follows, only: [:create, :destroy] do

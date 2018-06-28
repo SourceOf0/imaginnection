@@ -9,6 +9,6 @@
 users = User.all
 
 users.each do |user|
-  user.ref_id = SecureRandom::urlsafe_base64(30)
+  user.is_hide_edges = false
   user.save
 end
