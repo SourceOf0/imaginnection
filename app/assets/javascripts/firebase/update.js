@@ -2,8 +2,6 @@
 /* global $ */
 /* global firebase */
 
-/* global view_ids */
-
 
 var imaginnection = imaginnection || {};
 

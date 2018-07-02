@@ -1,10 +1,12 @@
 
 /* global $ */
-/* global imaginnection */
+
+
+var imaginnection = imaginnection || {};
 
 
 // 表示要素切り替え
-imaginnection.chengeContent = function() {
+imaginnection.changeContent = function() {
   // 全部一旦隠す
   $(".view").hide();
   
@@ -47,10 +49,13 @@ $(document).ready(function() {
   imaginnection.initDB();
   imaginnection.clearEdges();
   imaginnection.initShowEdges();
-  imaginnection.chengeContent();
+  imaginnection.changeContent();
+  if( imaginnection.three ) {
+    imaginnection.three.initView();
+  }
 });
 
 // URLの#以降が変化したとき
 window.onhashchange = function() {
-  imaginnection.chengeContent();
+  imaginnection.changeContent();
 };

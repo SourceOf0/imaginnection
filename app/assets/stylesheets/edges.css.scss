@@ -9,8 +9,23 @@
   display: none;
 }
 
+#edges-index {
+  width: 100%;
+}
+
 #empathy-user-list {
   width: 80%;
   min-height: 50%;
   overflow-y: scroll;
+}
+
+.text-label {
+  color: #fff;
+  display: none;
+  height: 16px;
+  text-align: center;
+  text-shadow: 0 0 5px #000;
+  font-weight: bold;
+  pointer-events: none;
+  width: 300px;
 }

@@ -1,8 +1,6 @@
 
 /* global firebase */
 
-/* global view_ids */
-
 
 /** 
  * firebase初期化
@@ -36,7 +34,7 @@ imaginnection.initDB = function() {
   
   // users
   imaginnection.dbdata.users = {};
-  view_ids.forEach( function(id) {
+  imaginnection.view_ids.forEach( function(id) {
     var usersSnapshot = firebase.database().ref("users/" + id);
     usersSnapshot.off("value");
     usersSnapshot.on("value", function(usersSnapshot) {
@@ -52,4 +50,4 @@ imaginnection.initDB = function() {
     imaginnection.dbdata.edges = edgesSnapshot.val();
   });
   
-}
+};

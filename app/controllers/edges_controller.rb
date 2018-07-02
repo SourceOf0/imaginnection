@@ -1,5 +1,7 @@
 class EdgesController < ApplicationController
   
+  #before_action :set_debug
+  
   def index
     @view_ref_ids = current_user.followings.map(&:ref_id).push(current_user.ref_id)
     
@@ -18,7 +20,7 @@ class EdgesController < ApplicationController
     
     @from_node = Node.new
     @to_node = Node.new
-    
+
     render :index
   end
   
@@ -52,4 +54,7 @@ class EdgesController < ApplicationController
     params.require(:node).permit(:name)
   end
 
+  def set_debug
+    @is_view_edges_list = true
+  end
 end

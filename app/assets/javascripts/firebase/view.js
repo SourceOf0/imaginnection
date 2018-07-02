@@ -2,10 +2,8 @@
 /* global $ */
 /* global firebase */
 
-/* global current_id */
-/* global view_ids */
-
 var imaginnection = imaginnection || {};
+
 
 /** 
  * edge関連
@@ -14,11 +12,16 @@ var imaginnection = imaginnection || {};
 // 追加表示
 imaginnection.addEdgeList = function(user_id, from_node_name, to_node_name) {
   
+  if( imaginnection.three ) {
+    imaginnection.three.addEdge(user_id, from_node_name, to_node_name);
+    return;
+  }
+  
   var $div = $("#edges-index .edge-temp .table").clone();
   $div.find(".from-node-name").text(from_node_name);
   $div.find(".to-node-name a").attr("href", encodeURIComponent(from_node_name) + "/" + encodeURIComponent(to_node_name)).text(to_node_name);
   //$div.attr("id", "edge-id-" + edge_id);
-  if(user_id === current_id) {
+  if(user_id === imaginnection.current_id) {
     $div.addClass("edge-owner");
   }
   
@@ -55,7 +58,7 @@ imaginnection.initShowEdges = function() {
   imaginnection.clearEdges();
   
   // 追加イベント監視
-  view_ids.forEach( function(user_id) {
+  imaginnection.view_ids.forEach( function(user_id) {
     var edgeRef = firebase.database().ref("users/" + user_id + "/edges");
     edgeRef.off("child_added");
     edgeRef.on("child_added", function(childSnapshot, prevChildKey) {

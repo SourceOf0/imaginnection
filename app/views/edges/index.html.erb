@@ -1,14 +1,20 @@
 
+<% content_for :cover do %>
+
 <div class="view" id="edges-index">
-  <h1>
-    <% if @target_user %>
-      <%= @target_user.name %>さんのマップ
-    <% else %>
-      マップ
-    <% end %>
-  </h1>
-  <%= render 'edges/debug_index' %>
+  <% if @is_view_edges_list %>
+    <h1>
+      <% if @target_user %>
+        <%= @target_user.name %>さんのマップ
+      <% else %>
+        マップ
+      <% end %>
+    </h1>
+    <%= render 'edges/debug_index' %>
+  <% end %>
 </div>
+
+<% end %>
 
 
 <%# node new %>
@@ -75,12 +81,28 @@
 
 
 <% content_for :script do %>
+
   <script>
-    var current_id = "<%= current_user.ref_id %>";
-    var view_ids = <%= @view_ref_ids.to_json.html_safe %>;
+    var imaginnection = imaginnection || {};
+    <% if @is_view_edges_list %>
+      imaginnection.is_view_edges_list = true;
+    <% end %>
+    imaginnection.current_id = "<%= current_user.ref_id %>";
+    imaginnection.view_ids = <%= @view_ref_ids.to_json.html_safe %>;
   </script>
+  
   <%= javascript_include_tag 'firebase/init.js' %>
   <%= javascript_include_tag 'firebase/view.js' %>
   <%= javascript_include_tag 'firebase/update.js' %>
+  
+  <% if !@is_view_edges_list %>
+    <%= javascript_include_tag 'three/vendor/three.min.js' %>
+    <%= javascript_include_tag 'three/vendor/controls/TrackballControls.js' %>
+    <%= javascript_include_tag 'three/vendor/renderers/CanvasRenderer.js' %>
+    <%= javascript_include_tag 'three/vendor/renderers/Projector.js' %>
+    <%= javascript_include_tag 'three/init.js' %>
+  <% end %>
+
   <%= javascript_include_tag 'firebase/events.js' %>
+  
 <% end %>
