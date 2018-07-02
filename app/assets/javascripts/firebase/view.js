@@ -9,6 +9,23 @@ var imaginnection = imaginnection || {};
  * edge関連
  */
 
+// 共感者一覧表示
+imaginnection.viewUserList = function(from_node_name, to_node_name) {
+  var users = imaginnection.dbdata.edges[from_node_name][to_node_name]["users"];
+  var post_data = [];
+  var count = 0;
+  for( var key in users ) {
+    count++;
+    if( !users[key].is_hide_user ) post_data.push(key);
+  }
+  $.ajax({
+    url: "/edges/users",
+    type: "GET",
+    data: {from_node: from_node_name, to_node: to_node_name,content: post_data, count: count},
+    datatype: "html",
+  });
+}
+
 // 追加表示
 imaginnection.addEdgeList = function(user_id, from_node_name, to_node_name) {
   
@@ -29,19 +46,7 @@ imaginnection.addEdgeList = function(user_id, from_node_name, to_node_name) {
     var data = $(this).attr("href").split("/");
     var from_node_name = decodeURIComponent(data[0]);
     var to_node_name = decodeURIComponent(data[1]);
-    var users = imaginnection.dbdata.edges[from_node_name][to_node_name]["users"];
-    var post_data = [];
-    var count = 0;
-    for( var key in users ) {
-      count++;
-      if( !users[key].is_hide_user ) post_data.push(key);
-    }
-    $.ajax({
-      url: "/edges/users",
-      type: "GET",
-      data: {from_node: from_node_name, to_node: to_node_name,content: post_data, count: count},
-      datatype: "html",
-    });
+    imaginnection.viewUserList(from_node_name, to_node_name);
     return false;
   });
   
