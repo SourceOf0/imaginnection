@@ -30,15 +30,17 @@
     
     <main>
       
+      <%= render 'layouts/flash_messages' %>
+        
       <%= yield :cover %>
       
-      <div class="container">
-        
-        <%= render 'layouts/flash_messages' %>
-        
-        <%= yield %>
-        
-      </div>
+      <% if params[:controller] != 'edges' %>
+        <div class="container">
+          
+          <%= yield %>
+          
+        </div>
+      <% end %>
   
     </main>
     

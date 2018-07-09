@@ -26,101 +26,101 @@
     </div>
   </div>
 
-<% end %>
-
-
-<% if @is_view_edges_list %>
-  <%= render 'edges/debug_index' %>
-<% end %>
-
-
-<div id="node-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
-        <h4 class="modal-title">新規作成</h4>
-      </div>
-      
-      <div class="modal-body">
-        <%= form_for(@from_node, method: :get, url: new_edge_path, html: {id: "node-new-form"}, remote: true) do |f| %>
-          
-          <%# エラーメッセージをレンダリング %>
-          <%= render 'layouts/error_messages', model: f.object %>
-          
-          <div class="form-group node-circle text-center">
-            <%= f.label :name, 'ノード名', class: 'sr-only' %>
-            <%= f.text_field :name, class: 'form-control node-name', placeholder: "単語を入力", required: true %>
-          </div>
+  
+  <% if @is_view_edges_list %>
+    <%= render 'edges/debug_index' %>
+  <% end %>
+  
+  
+  <div id="node-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
         
-          <div class="form-group text-center">
-            <%= f.submit '次へ', class: 'btn btn-primary', name: nil %>
-          </div>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+          <h4 class="modal-title">新規作成</h4>
+        </div>
+        
+        <div class="modal-body">
+          <%= form_for(@from_node, method: :get, url: new_edge_path, html: {id: "node-new-form"}, remote: true) do |f| %>
+            
+            <%# エラーメッセージをレンダリング %>
+            <%= render 'layouts/error_messages', model: f.object %>
+            
+            <div class="form-group node-circle text-center">
+              <%= f.label :name, 'ノード名', class: 'sr-only' %>
+              <%= f.text_field :name, class: 'form-control node-name', placeholder: "単語を入力", required: true %>
+            </div>
           
-        <% end %>
+            <div class="form-group text-center">
+              <%= f.submit '次へ', class: 'btn btn-primary', name: nil %>
+            </div>
+            
+          <% end %>
+        </div>
+        
       </div>
-      
     </div>
   </div>
-</div>
-
-
-<div id="edge-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
-        <h4 class="modal-title">新規作成</h4>
-      </div>
-      
-      <div class="modal-body">
-        <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
-          
-          <%# エラーメッセージをレンダリング %>
-          <%# render 'layouts/error_messages', model: f.object %>
-          
-          <%= hidden_field_tag :from_node_name, "" %>
-          
-          <div class="row">
-            <div class="edge-line"></div>
+  
+  
+  <div id="edge-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+          <h4 class="modal-title">新規作成</h4>
+        </div>
+        
+        <div class="modal-body">
+          <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
             
-            <div class="col-xs-4">
-              <div class="text-center">
-                <div class="node-circle">
-                  <span id="from-node-label" class="node-name"></span>
+            <%# エラーメッセージをレンダリング %>
+            <%# render 'layouts/error_messages', model: f.object %>
+            
+            <%= hidden_field_tag :from_node_name, "" %>
+            
+            <div class="row">
+              <div class="edge-line"></div>
+              
+              <div class="col-xs-4">
+                <div class="text-center">
+                  <div class="node-circle">
+                    <span id="from-node-label" class="node-name"></span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-xs-8 text-center">
+                <div class="form-group node-circle">
+                  <%= f.label :name, 'ノード名', class: 'sr-only' %>
+                  <%= f.text_field :name, class: 'form-control node-name', placeholder: "連想する単語を入力", required: true %>
                 </div>
               </div>
             </div>
             
-            <div class="col-xs-8 text-center">
-              <div class="form-group node-circle">
-                <%= f.label :name, 'ノード名', class: 'sr-only' %>
-                <%= f.text_field :name, class: 'form-control node-name', placeholder: "連想する単語を入力", required: true %>
-              </div>
+            <div class="form-group text-center">
+              <%= check_box_tag :is_hide_user %>
+              <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
             </div>
-          </div>
-          
-          <div class="form-group text-center">
-            <%= check_box_tag :is_hide_user %>
-            <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
-          </div>
-          
-          <div class="form-group text-center">
-            <%= f.submit '作成', class: 'btn btn-primary', name: nil %>
-          </div>
-          
-        <% end %>
+            
+            <div class="form-group text-center">
+              <%= f.submit '作成', class: 'btn btn-primary', name: nil %>
+            </div>
+            
+          <% end %>
+        </div>
+        
       </div>
-      
     </div>
   </div>
-</div>
+  
+  
+  <%# ポップアップ %>
+  <div id="users-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-
-<%# ポップアップ %>
-<div id="users-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<% end %>
 
 
 <% content_for :script do %>

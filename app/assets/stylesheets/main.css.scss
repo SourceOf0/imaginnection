@@ -14,10 +14,34 @@ body {
 main {
   display: block;
   height: 100%;
-  margin-top: $navHeight;
-  margin-bottom: $navHeight;
+  margin: $navHeight 0;
   overflow: hidden;
   width: 100%;
+}
+
+.container {
+  padding: 20px 15px;
+}
+
+.alert {
+  left: 0;
+  margin: 10px auto;
+  position: absolute;
+  right: 0;
+  width: 50%;
+  z-index: 10;
+	transform-origin:center top;
+	animation: show 0.5s both;
+}
+@keyframes show {
+	0% {
+		transform: translate(0,-2em);
+		opacity: 0;
+	}
+	100% {
+		transform: translate(0,0);
+		opacity: 1;
+	}
 }
 
 .background-sub {

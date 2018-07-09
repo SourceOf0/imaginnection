@@ -4,7 +4,14 @@ Rails.application.routes.draw do
   root to: "home#index"
   
   # ユーザ
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+  
+  # メールログ
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
   
   # エッジ
   resources :edges, only: [:index, :show, :new, :create, :destroy] do

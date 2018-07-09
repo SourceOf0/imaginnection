@@ -64,7 +64,8 @@ Rails.application.configure do
     :password => ENV['MAILER_PASSWORD'], #gmailパスワード
     :authentication => 'login',
   }
-
+  config.action_mailer.delivery_method = :letter_opener_web
+  
   config.after_initialize do
     
     Bullet.enable = true   # bullet を有効にする
