@@ -5,7 +5,8 @@ $baseColor: #f8f8f8;
 $accentColor: #777777;
 $subColor: #aaaaaa;
 
-/* 確認用 */
+$ownNodeColor: #aaaaff;
+
 $colorBlack: #000000;
 $colorWhite: #ffffff;
 
@@ -25,8 +26,4 @@ $navBorderMarginTop: $navBorderMarginLeft + $navBorderSize;
     content: "";
     display: inline-block;
     vertical-align: middle;
-}
-
-.background-sub {
-    background-color: $subColor;
 }

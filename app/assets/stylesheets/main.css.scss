@@ -1,0 +1,78 @@
+
+@import 'common';
+
+html {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-color: $backgroundColor;
+}
+
+main {
+  display: block;
+  height: 100%;
+  margin-top: $navHeight;
+  margin-bottom: $navHeight;
+  overflow: hidden;
+  width: 100%;
+}
+
+.background-sub {
+  background-color: $subColor;
+}
+
+#drawer {
+  background-color: rgba($baseColor, 0.5);
+  display: block;
+  height: 100%;
+  max-width: 100%;
+  padding: $navHeight 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+  .drawer-open {
+    background-color: $baseColor;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 20px;
+    &:before {
+      @include height-centering;
+      height: 100%;
+    }
+    span {
+      display: inline-block;
+    }
+  }
+  .drawer-body {
+    display: block;
+    left: 20px;
+    padding: 0 20px 0 0;
+    position: relative;
+    height: 100%;
+    white-space: nowrap;
+    width: 0;
+    transition: .3s all ease-in-out;
+    overflow: auto;
+    .drawer-title {
+      color: $colorWhite;
+      background-color: $accentColor;
+      padding: 5px 10px;
+      margin: 30px 0 20px;
+      width: 100%;
+    }
+    .drawer-content {
+      padding: 0 20px;
+    }
+  }
+  .drawer-body.in {
+    max-width: 100%;
+    width: 400px;
+  }
+}
+

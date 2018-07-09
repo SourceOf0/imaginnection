@@ -1,7 +1,7 @@
 
 <header>
   
-  <section class="top-nav">
+  <section id="top-nav">
     <nav class="row">
       
       <% if user_signed_in? %>
@@ -47,8 +47,8 @@
             
         <ul class="height-centering col-xs-6 text-right">
           <li>
-            <%= link_to(edges_path + "#node-new", class: 'icon button') do %>
-              <span class="glyphicon glyphicon-plus"></span>
+            <%= link_to("#", class: 'icon button', id: 'tour-icon') do %>
+              <span><strong>？</strong></span>
             <% end %>
           </li>
         </ul><!-- .col-xs-6 -->
@@ -87,40 +87,42 @@
 
   <% if user_signed_in? %>
 
-    <section class="bottom-nav">
+    <section id="bottom-nav">
       <nav class="row">
         
         <ul class="height-centering col-xs-6 text-left">
-          <% if !current_page?(edges_path) %>
-            <li>
-              <%= link_to(:back, class: 'icon button') do %>
-                <span class="glyphicon glyphicon-chevron-left"></span>
+          <li>
+            <% if params[:controller] == 'edges' %>
+              <%= link_to("#node-new", class: 'icon button', id: 'new-node-icon') do %>
+                <span class="glyphicon glyphicon-plus"></span>
               <% end %>
-            </li>
-          <% end %>
+            <% else %>
+              <%= link_to(edges_path + "#node-new", class: 'icon button', id: 'new-node-icon') do %>
+                <span class="glyphicon glyphicon-plus"></span>
+              <% end %>
+            <% end %>
+          </li>
         </ul><!-- .col-xs-6 -->
         
         <ul class="height-centering col-xs-6 text-right" >
           <li>
             <div class="btn-group zoom-button" role="group" aria-label="zoom">
-              <button type="button" class="zoom-in-button btn btn-default">
+              <button type="button" class="zoom-out-button btn btn-default">
                 <span class="glyphicon glyphicon-zoom-out"></span>
               </button>
-              <button type="button" class="zoom-out-button btn btn-default">
+              <button type="button" class="zoom-in-button btn btn-default">
                 <span class="glyphicon glyphicon-zoom-in"></span>
               </button>
             </div>
           </li>
         </ul><!-- .col-xs-6 -->
         
-        <% if @node %>
-          <div class="centering">
-            <li>
-              <%= link_to('エッジ作成', '', class: 'btn btn-default') %>
-            </li>
-          </div><!-- .centering -->
-        <% end %>
-        
+        <div class="centering">
+          <li>
+            <%= link_to('エッジ作成', '', class: 'btn btn-default') %>
+          </li>
+        </div><!-- .centering -->
+
       </nav>
     </section><!-- .bottom-nav -->
   

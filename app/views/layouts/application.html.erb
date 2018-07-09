@@ -10,6 +10,7 @@
 
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     
     <!-- app/assets/stylesheets -->
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -27,16 +28,20 @@
   <body>
     <%= render 'layouts/navbar' %>
     
-    <%= yield :cover %>
+    <main>
+      
+      <%= yield :cover %>
+      
+      <div class="container">
+        
+        <%= render 'layouts/flash_messages' %>
+        
+        <%= yield %>
+        
+      </div>
+  
+    </main>
     
-    <div class="container">
-      
-      <%= render 'layouts/flash_messages' %>
-      
-      <%= yield %>
-      
-    </div>
-
     <%= render 'layouts/footer' %>
     
     <%= yield :script %>

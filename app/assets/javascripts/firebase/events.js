@@ -5,23 +5,33 @@
 var imaginnection = imaginnection || {};
 
 
+imaginnection.three.setFocusEvent = function( event ) {
+	imaginnection.three.setFocusNode($(this).find(".panel-title .name").text());
+};
+imaginnection.three.onClickEdgeEvent = function( event ) {
+  let data = $(this).attr("href").split("/");
+	let from_node = imaginnection.three.Node.list[decodeURIComponent(data[0])];
+	let to_node = imaginnection.three.Node.list[decodeURIComponent(data[1])];
+	let edge = from_node.getToEdge( to_node );
+  edge.onClick();
+  return false;
+};
+
 // 表示要素切り替え
 imaginnection.changeContent = function() {
-  // 全部一旦隠す
-  $(".view").hide();
   
   if( window.location.hash.length == 0 ) {
-    // デフォルト表示
-    $("#edges-index").show();
+    // ポップアップ全部隠す
+    $(".modal").modal("hide");
     return;
   }
   
-  var hash = decodeURIComponent(window.location.hash.substring(1));
+  let hash = decodeURIComponent(window.location.hash.substring(1));
   
   if( hash === "node-new" ) {
     // フォームの中身を消す
     $("#node-new-form")[0].reset();
-    $("#node-new").show();
+    $("#node-new").modal("show");
     return;
   }
   
@@ -30,11 +40,11 @@ imaginnection.changeContent = function() {
     $("#edge-new-form")[0].reset();
     
     // 指定されている名前を挿入
-    var name = decodeURIComponent(hash.replace(/^edge-new-/, ""));
-    $("#from_node_name .from-node-name").text("ノード名 : " + name);
+    let name = decodeURIComponent(hash.replace(/^edge-new-/, ""));
+    $("#from-node-label").text(name);
     $("#from_node_name").attr("value", name);
     
-    $("#edge-new").show();
+    $("#edge-new").modal("show");
     return;
   }
   
@@ -47,12 +57,52 @@ imaginnection.changeContent = function() {
  
 $(document).ready(function() {
   imaginnection.initDB();
-  imaginnection.clearEdges();
-  imaginnection.initShowEdges();
-  imaginnection.changeContent();
   if( imaginnection.three ) {
-    imaginnection.three.initView();
+    imaginnection.initTour();
+    imaginnection.three.init();
+  } else {
+    imaginnection.clearEdges();
   }
+  imaginnection.changeContent();
+  
+  
+  $("#tour-icon").on("click", function() {
+  	imaginnection.setTour(0);
+  	imaginnection.tour.restart();
+  });
+  
+  $("#node-new").on("shown.bs.modal", function() {
+    imaginnection.setTour(3);
+    $("#node-new .node-name").focus();
+  }).on("hide.bs.modal", function() {
+    window.location.hash = "";
+  });
+  
+  $("#edge-new").on("shown.bs.modal", function() {
+    imaginnection.setTour(4);
+    $("#edge-new .node-name").focus();
+  }).on("hide.bs.modal", function() {
+    window.location.hash = "";
+  });
+  
+  
+	$("#drawer .drawer-open").click(function() {
+		let $div = $("#drawer .drawer-body");
+		let $icon = $("#drawer .drawer-open span");
+		if($div.hasClass("in")) {
+			$div.removeClass("in");
+			$icon.addClass("glyphicon-triangle-left");
+			$icon.removeClass("glyphicon-triangle-right");
+		} else {
+			$div.addClass("in");
+			$icon.removeClass("glyphicon-triangle-left");
+			$icon.addClass("glyphicon-triangle-right");
+		}
+	});
+	
+	if( window.innerWidth > 1500 ) {
+	  $("#drawer .drawer-open").click();
+	}
 });
 
 // URLの#以降が変化したとき

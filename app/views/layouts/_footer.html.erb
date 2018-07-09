@@ -1,4 +1,6 @@
 
-<footer>
-  <div class="text-center">&copy; 2018 IMAGINNECTION.</div>
-</footer>
+<% if params[:controller] != 'edges' %>
+  <footer>
+    <div class="text-center">&copy; 2018 IMAGINNECTION.</div>
+  </footer>
+<% end %>

@@ -1,8 +1,7 @@
 
 <% content_for :cover do %>
 
-<div class="view" id="edges-index">
-  <% if @is_view_edges_list %>
+  <div class="view" id="edges-index">
     <h1>
       <% if @target_user %>
         <%= @target_user.name %>さんのマップ
@@ -10,74 +9,118 @@
         マップ
       <% end %>
     </h1>
-    <%= render 'edges/debug_index' %>
-  <% end %>
-</div>
+  </div>
+  
+  <div id="drawer">
+    <div class="drawer-open">
+      <span class="glyphicon glyphicon-triangle-left"></span>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-title">
+        <h4>単語一覧</h4>
+      </div>
+      <div class="drawer-content">
+        <div class="panel-group" id="nodes-index" role="tablist" aria-multiselectable="true">
+        </div>
+      </div>
+    </div>
+  </div>
 
 <% end %>
 
 
-<%# node new %>
-<div class="view" id="node-new">
-  
-  <h2>
-    ノード作成
-  </h2>
-  
-  <%= form_for(@from_node, method: :get, url: new_edge_path, html: {id: "node-new-form"}, remote: true) do |f| %>
-    
-    <%# エラーメッセージをレンダリング %>
-    <%= render 'layouts/error_messages', model: f.object %>
-    
-    <div class="form-group">
-      <%= f.label :name, 'ノード名', class: 'sr-only' %>
-      <%= f.text_field :name, class: 'form-control', required: true %>
+<% if @is_view_edges_list %>
+  <%= render 'edges/debug_index' %>
+<% end %>
+
+
+<div id="node-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+        <h4 class="modal-title">新規作成</h4>
+      </div>
+      
+      <div class="modal-body">
+        <%= form_for(@from_node, method: :get, url: new_edge_path, html: {id: "node-new-form"}, remote: true) do |f| %>
+          
+          <%# エラーメッセージをレンダリング %>
+          <%= render 'layouts/error_messages', model: f.object %>
+          
+          <div class="form-group node-circle text-center">
+            <%= f.label :name, 'ノード名', class: 'sr-only' %>
+            <%= f.text_field :name, class: 'form-control node-name', placeholder: "単語を入力", required: true %>
+          </div>
+        
+          <div class="form-group text-center">
+            <%= f.submit '次へ', class: 'btn btn-primary', name: nil %>
+          </div>
+          
+        <% end %>
+      </div>
+      
     </div>
-  
-    <div class="form-group">
-      <%= f.submit '作成', class: 'btn btn-primary', name: nil %>
-    </div>
-    
-  <% end %>
+  </div>
 </div>
 
 
-<%# edge new %>
-<div class="view" id="edge-new">
-  
-  <h2>
-    エッジ作成
-  </h2>
-  
-  <h3 class="from-node-name"></h3>
-  
-  <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
-    
-    <%# エラーメッセージをレンダリング %>
-    <%# render 'layouts/error_messages', model: f.object %>
-    
-    <%= hidden_field_tag :from_node_name, "" %>
-    
-    <div class="form-group">
-      <%= f.label :name, 'ノード名', class: 'sr-only' %>
-      <%= f.text_field :name, class: 'form-control', required: true %>
+<div id="edge-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+        <h4 class="modal-title">新規作成</h4>
+      </div>
+      
+      <div class="modal-body">
+        <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
+          
+          <%# エラーメッセージをレンダリング %>
+          <%# render 'layouts/error_messages', model: f.object %>
+          
+          <%= hidden_field_tag :from_node_name, "" %>
+          
+          <div class="row">
+            <div class="edge-line"></div>
+            
+            <div class="col-xs-4">
+              <div class="text-center">
+                <div class="node-circle">
+                  <span id="from-node-label" class="node-name"></span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-xs-8 text-center">
+              <div class="form-group node-circle">
+                <%= f.label :name, 'ノード名', class: 'sr-only' %>
+                <%= f.text_field :name, class: 'form-control node-name', placeholder: "連想する単語を入力", required: true %>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group text-center">
+            <%= check_box_tag :is_hide_user %>
+            <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
+          </div>
+          
+          <div class="form-group text-center">
+            <%= f.submit '作成', class: 'btn btn-primary', name: nil %>
+          </div>
+          
+        <% end %>
+      </div>
+      
     </div>
-  
-    <div class="form-group">
-      <%= check_box_tag :is_hide_user %>
-      <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
-    </div>
-    
-    <div class="form-group">
-      <%= f.submit '作成', class: 'btn btn-primary', name: nil %>
-    </div>
-    
-  <% end %>
+  </div>
 </div>
 
 
 <%# ポップアップ %>
-<div id="users-modal" class="modal fade " tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="users-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
 
 <% content_for :script do %>
@@ -91,16 +134,20 @@
     imaginnection.view_ids = <%= @view_ref_ids.to_json.html_safe %>;
   </script>
   
+  <%= javascript_include_tag 'vendor/bootstrap-tour.min.js' %>
+  
   <%= javascript_include_tag 'firebase/init.js' %>
   <%= javascript_include_tag 'firebase/view.js' %>
   <%= javascript_include_tag 'firebase/update.js' %>
   
   <% if !@is_view_edges_list %>
-    <%= javascript_include_tag 'three/vendor/three.min.js' %>
-    <%= javascript_include_tag 'three/vendor/controls/TrackballControls.js' %>
-    <%= javascript_include_tag 'three/vendor/renderers/CanvasRenderer.js' %>
-    <%= javascript_include_tag 'three/vendor/renderers/Projector.js' %>
+    <%= javascript_include_tag 'firebase/tour.js' %>
+    <%= javascript_include_tag 'vendor/three/three.min.js' %>
+    <%= javascript_include_tag 'vendor/three/controls/TrackballControls.js' %>
+    <%= javascript_include_tag 'vendor/three/renderers/CanvasRenderer.js' %>
+    <%= javascript_include_tag 'vendor/three/renderers/Projector.js' %>
     <%= javascript_include_tag 'three/data.js' %>
+    <%= javascript_include_tag 'three/update.js' %>
     <%= javascript_include_tag 'three/init.js' %>
   <% end %>
 

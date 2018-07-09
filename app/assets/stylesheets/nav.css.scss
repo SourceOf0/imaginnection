@@ -1,12 +1,6 @@
 
 @import 'common';
 
-body {
-  padding-top: $navHeight;
-  padding-bottom: $navHeight + 20px;
-  background-color: $backgroundColor;
-}
-
 header {
   .col-xs-6, .col-xs-4 {
     padding: 0;
@@ -54,33 +48,31 @@ header {
       top: $navHeight*0.5 - $logoHeight*0.5;
     }
   }
-}
 
-
-.height-centering {
-  list-style: none;
-  &:before {
-    @include height-centering;
-    height: $navHeight;
-  }
-  >li {
-    margin: 0 2px;
-    display: inline-block;
-  }
-  .text-link {
-    padding: ($navHeight - $defaultFontSize)*0.5 $defaultFontSize;
-    color: $colorBlack;
-    &:hover, &:active, &:visited {
-      text-decoration: none;
+  .height-centering {
+    list-style: none;
+    &:before {
+      @include height-centering;
+      height: $navHeight;
+    }
+    >li {
+      margin: 0 2px;
+      display: inline-block;
+    }
+    .text-link {
+      padding: ($navHeight - $defaultFontSize)*0.5 $defaultFontSize;
+      color: $colorBlack;
+      &:hover, &:active, &:visited {
+        text-decoration: none;
+      }
+    }
+    .active>a {
+      background-color: darken($baseColor, 10%);
     }
   }
-  .active>a {
-    background-color: darken($baseColor, 10%);
-  }
 }
 
-
-.top-nav {
+#top-nav {
   top: 0;
   
   .dropdown-menu {
@@ -146,11 +138,16 @@ header {
 }
 
 
-.bottom-nav {
+#bottom-nav {
   bottom: 0;
   
   .zoom-button span {
     font-size: 18px;
   }
+}
+
+footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 

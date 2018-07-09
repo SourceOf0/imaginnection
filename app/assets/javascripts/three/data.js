@@ -12,7 +12,7 @@ imaginnection.three.NodeLabel = {
 	list: [],
 	
 	create: function() {
-		var div = document.createElement('div');
+		let div = document.createElement('div');
 		div.className = 'text-label';
 		div.style.position = 'absolute';
 
@@ -21,22 +21,39 @@ imaginnection.three.NodeLabel = {
 			width: 300,
 			height: 16,
 			node: null,
-			position: new THREE.Vector3(0,0,0),
+			position: new THREE.Vector3(0, 0, 0),
 			hide: function() {
 				this.element.style.display = "none";
 			},
+			setTarget: function() {
+				div.classList.add("target-node");
+			},
+			resetTarget: function() {
+				div.classList.remove("target-node");
+			},
 			update: function( node, camera, viewWidth, viewHeight ) {
 				if( node == null ) {
+					this.resetTarget();
 					this.hide();
 					return false;
 				}
 	
 				this.position.copy(node.particle.position);
-				var vector = this.position.project(camera);
-	
-				if( (vector.z*1000 > 997) || ((vector.x < -0.5 || vector.x > 0.5) || (vector.y < -0.9 || vector.y > 0.9)) ) {
-					this.hide();
-					return false;
+				let vector = this.position.project(camera);
+				
+				let z_min = Math.min(0.001 * node.edge_count + 0.996, 1.0);
+				if( imaginnection.threeData.focusNode != node ) {
+					if( (vector.z > z_min) || ((vector.x < -0.5 || vector.x > 0.5) || (vector.y < -0.9 || vector.y > 0.9)) ) {
+						this.resetTarget();
+						this.hide();
+						return false;
+					}
+				} else {
+					if( (vector.z < -1.0) || ((vector.x < -0.5 || vector.x > 0.5) || (vector.y < -0.9 || vector.y > 0.9)) ) {
+						this.hide();
+						return false;
+					}
+					this.setTarget();
 				}
 	
 				this.node = node;
@@ -46,7 +63,7 @@ imaginnection.three.NodeLabel = {
 				vector.y = -(vector.y - 1)/2 * viewHeight - this.height/2;
 	
 				this.element.style.left = vector.x + 'px';
-				this.element.style.top = (vector.y + 50) + 'px';
+				this.element.style.top = vector.y + 'px';
 				this.element.style.display = "block";
 				return true;
 			},
@@ -79,7 +96,7 @@ imaginnection.three.Node = {
 	},
 	
 	create: function( name, index ) {
-		let pos = new THREE.Vector3( ((this.total_count % 6 / 6) * 20 + 4) * 10 + 30, 0, 0);
+		let pos = new THREE.Vector3( ((this.total_count % 6 / 6) * 20 + 4) * 30 + 30, 0, 0);
 		pos.applyAxisAngle( this.org1, (this.total_count % 50 / 50) * PI2 );
 		pos.applyAxisAngle( this.org2, (this.total_count % 7 / 7) * PI2/2 );
 	
@@ -90,8 +107,9 @@ imaginnection.three.Node = {
 		particle.name = name;
 		
 		this.total_count++;
-
+		
 		return {
+			index: this.total_count,
 			particle: particle,
 			name: name,
 			is_owner: false,
@@ -99,28 +117,25 @@ imaginnection.three.Node = {
 			to_edges: {},
 			edge_count: 0,
 			update: function() {
-				let target_scale = this.edge_count * 10;
+				let target_scale = this.edge_count * 5 + 10;
 				this.particle.scale.x += (target_scale - this.particle.scale.x) * 0.1;
 				this.particle.scale.y += (target_scale - this.particle.scale.y) * 0.1;
 			},
 			getToEdge: function( to_node ) {
 				for( let key in this.to_edges ) {
 					let edge = this.to_edges[key];
-					if( edge.to_node === to_node )
-					return edge;
+					if( edge.to_node.name == to_node.name ) return edge;
 				}
 				return null;
 			},
 			addFromEdge: function( edge ) {
 				if( !edge ) return;
 				this.from_edges[edge.line.uuid] = edge;
-				this.edge_count++;
 				return edge;
 			},
 			addToEdge: function( edge ) {
 				if( !edge ) return;
 				this.to_edges[edge.line.uuid] = edge;
-				this.edge_count++;
 				return edge;
 			},
 			setTargetStyle: function() {
@@ -151,7 +166,7 @@ imaginnection.three.Node = {
 				to_node.setOwner( null );
 				for( let key in this.to_edges ) {
 					let edge = this.to_edges[key];
-				  if( edge.to_node === to_node ) edge.setOwner( this.is_owner );
+				  if( edge.to_node.name == to_node.name ) edge.setOwner();
 				}
 			},
 			resetOwner: function( to_node ) {
@@ -164,7 +179,7 @@ imaginnection.three.Node = {
 				to_node.resetOwner( null );
 				for( let key in this.to_edges ) {
 					let edge = this.to_edges[key];
-				  if( edge.to_node === to_node ) edge.setOwner( this.is_owner );
+				  if( edge.to_node.name == to_node.name ) edge.resetOwner();
 				}
 			},
 		};
@@ -176,19 +191,22 @@ imaginnection.three.Edge = {
 	list: {},
 	point_color: new THREE.Color(0xffff00),
 	
-	create: function( is_owner, from_node, to_node ) {
+	create: function( from_node, to_node ) {
 		if(!from_node || !to_node) return null;
 		
-		let color = (is_owner)? 0xaaaaff : 0xffffff;
+		let color = 0xffffff;
 		let geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
 		let line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: color, opacity: 0.5, linewidth: 1 } ) );
+		
+		line.name = from_node.name + " -> " + to_node.name;
 
 		return {
 			line: line,
-			is_owner: is_owner,
+			is_owner: false,
 			from_node: from_node,
 			to_node: to_node,
 			click_time: 0,
+			count: 0,
 			update: function() {
 				if( this.click_time > 0 ) {
 					let ratio = 1 - this.click_time / 20;
@@ -201,6 +219,11 @@ imaginnection.three.Edge = {
 				imaginnection.viewUserList(this.from_node.name, this.to_node.name);
 				this.click_time = 20;
 				line.material.linewidth = 1;
+			},
+			addCount: function() {
+				this.count++;
+				this.from_node.edge_count++;
+				this.to_node.edge_count++;
 			},
 			setTargetStyle: function() {
 				line.material.linewidth = 10;
@@ -217,11 +240,19 @@ imaginnection.three.Edge = {
 				line.material.opacity = 0.5;
 				this.click_time = 0;
 			},
-			setOwner: function( is_owner ) {
-				if(this.is_owner == is_owner) return;
-				this.is_owner = is_owner;
-				let color = (is_owner)? 0xaaaaff : 0xffffff;
+			setOwner: function() {
+				if( this.is_owner == true ) return;
+				this.is_owner = true;
+				let color = 0xaaaaff;
 				line.material.color.set(color);
+				from_node.setOwner( to_node );
+			},
+			resetOwner: function() {
+				if( this.is_owner == false ) return;
+				this.is_owner = false;
+				let color = 0xffffff;
+				line.material.color.set(color);
+				from_node.setOwner( to_node );
 			},
 		};
 	}

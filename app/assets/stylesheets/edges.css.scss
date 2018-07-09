@@ -5,16 +5,18 @@
   display: none;
 }
 
-.view {
-  display: none;
-}
-
 #edges-index {
-  width: 100%;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  h1 {
+    color: $colorWhite;
+    margin: 0.5em;
+    position: absolute;
+  }
 }
 
 #empathy-user-list {
-  width: 80%;
   min-height: 50%;
   overflow-y: scroll;
 }
@@ -28,4 +30,61 @@
   font-weight: bold;
   pointer-events: none;
   width: 300px;
+}
+
+.node-circle {
+  background: $ownNodeColor;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  position: relative;
+  width: 70%;
+  height: 70%;
+  padding: 35%;
+  margin: 1em auto;
+  .node-name {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin: -1.3em -5% 0;
+    width: 110%;
+    text-align: center;
+  }
+  #from-node-label {
+    margin-top: -.7em;
+  }
+}
+
+#edge-new {
+  .edge-line {
+    background: $ownNodeColor;
+    display: block;
+    height: 2%;
+    margin: 23% 25% 0 20%;
+    position: absolute;
+    width: 50%;
+  }
+  .col-xs-4 {
+    padding-top: 11.5%;
+  }
+}
+
+#users-modal {
+  .edge-order {
+    text-align: center;
+    width: 45%;
+  }
+  .check-hide-user {
+    white-space: nowrap;
+    &:before {
+      display: inline-block;
+      content: "";
+      height: 100%;
+      vertical-align: middle;
+    }
+    label {
+      white-space: normal;
+      vertical-align: middle;
+    }
+  }
 }
