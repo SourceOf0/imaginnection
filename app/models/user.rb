@@ -6,7 +6,7 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
 
   #validates :ref_id
-  #validates :is_enable_follow
+  #validates :is_disable_follow
   #validates :is_hide_edges
   
   validates :empathy_button_kind, presence: true,
@@ -39,7 +39,7 @@ class User < ApplicationRecord
   # デフォルト値設定
   before_validation do
     self.ref_id = SecureRandom::urlsafe_base64(30) if self.ref_id.nil?
-    self.is_enable_follow = true if self.is_enable_follow.nil?
+    self.is_disable_follow = true if self.is_disable_follow.nil?
     self.is_hide_edges = false if self.is_hide_edges.nil?
     self.notified_at = Date.current.in_time_zone if self.notified_at.nil?
     self.empathy_button_kind = 0 if self.empathy_button_kind.nil?
@@ -70,7 +70,7 @@ class User < ApplicationRecord
   # @return: フォロー可能ならtrue
   def can_follow?(target_user)
     # TODO: 相手にブロックされてるかどうかのチェックも入れるならここ
-    return target_user.is_enable_follow && (self != target_user)
+    return !target_user.is_disable_follow && (self != target_user)
   end
   
   # フォローしているか

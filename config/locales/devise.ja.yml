@@ -12,7 +12,7 @@ ja:
         email: "Eメール"
         encrypted_password: "暗号化パスワード"
         failed_attempts: "失敗したログイン試行回数"
-        is_enable_follow: "新規フォロワーを受け付けない"
+        is_disable_follow: "新規フォロワーを受け付けない"
         is_hide_edges: "他のユーザからマップ（投稿内容一覧）を隠す"
         last_sign_in_at: "最終ログイン時刻"
         last_sign_in_ip: "最終ログインIPアドレス"

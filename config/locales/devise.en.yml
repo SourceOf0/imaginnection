@@ -12,7 +12,7 @@ en:
         email: Email
         encrypted_password: Encrypted password
         failed_attempts: Failed attempts
-        is_enable_follow: Do not accept new followers
+        is_disable_follow: Do not accept new followers
         is_hide_edges: Hide my map (posted content list) from other users
         last_sign_in_at: Last sign in at
         last_sign_in_ip: Last sign in IP

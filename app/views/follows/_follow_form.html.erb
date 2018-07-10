@@ -9,7 +9,7 @@
       <%# フォロー中 %>
       <%= render "follows/unfollow", user: user %>
     </span>
-  <% elsif user.is_enable_follow %>
+  <% elsif !user.is_disable_follow %>
     <span id="follow-form-<%= user.id %>">
       <%# フォローしてない %>
       <%= render "follows/follow", user: user %>

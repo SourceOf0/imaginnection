@@ -9,6 +9,6 @@
 users = User.all
 
 users.each do |user|
-  user.is_hide_edges = false
+  user.is_disable_follow = !user.is_disable_follow
   user.save
 end

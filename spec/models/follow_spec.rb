@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe Follow, type: :model do
   
   # テストデータをセットアップする
-  let(:user) { FactoryBot.create(:user, is_enable_follow: true) }
-  let(:enable_follow_user) { FactoryBot.create(:user, is_enable_follow: true) }
-  let(:unenable_follow_user) { FactoryBot.create(:user, is_enable_follow: false) }
+  let(:user) { FactoryBot.create(:user, is_disable_follow: false) }
+  let(:enable_follow_user) { FactoryBot.create(:user, is_disable_follow: false) }
+  let(:unenable_follow_user) { FactoryBot.create(:user, is_disable_follow: true) }
 
   # STIのモデルごとにテスト
   # 共通処理は spex/support/contexts/relationship_examples.rb で実装
