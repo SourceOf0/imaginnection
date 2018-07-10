@@ -29,6 +29,9 @@ imaginnection.threeData = {
 	
 	focusNode: null,
 	is_camera_targeting: false,
+
+	normalColor: 0xffffff,
+	ownerColor: 0x9999ff,
 };
 
 
@@ -43,14 +46,14 @@ imaginnection.three.init = function() {
 	data.camera.position.set( 0, 300, 500 );
 	
 	data.scene = new THREE.Scene();
-	data.scene.background = new THREE.Color( 0x666666 );
+	//data.scene.background = new THREE.Color( 0x666666 );
 	
 	data.raycaster = new THREE.Raycaster();
 	data.mouse = new THREE.Vector2();
-	data.renderer = new THREE.CanvasRenderer();
+	data.renderer = new THREE.CanvasRenderer({ alpha: true });
 	data.renderer.setPixelRatio( window.devicePixelRatio );
 	data.renderer.setSize( data.container.clientWidth, data.container.clientHeight );
-	data.container.appendChild( data.renderer.domElement );
+  data.container.appendChild( data.renderer.domElement );
 	
 	for( let i = 0; i < 20; i++ ) {
 		let nodeLabel = imaginnection.three.NodeLabel.create();

@@ -9,13 +9,15 @@ en:
         current_password: Current password
         current_sign_in_at: Current sign in at
         current_sign_in_ip: Current sign in IP
-        name: Name
         email: Email
         encrypted_password: Encrypted password
         failed_attempts: Failed attempts
+        is_enable_follow: Do not accept new followers
+        is_hide_edges: Hide my map (posted content list) from other users
         last_sign_in_at: Last sign in at
         last_sign_in_ip: Last sign in IP
         locked_at: Locked at
+        name: Name
         password: Password
         password_confirmation: Password confirmation
         remember_created_at: Remember created at

@@ -1,14 +1,12 @@
 
 <% flash.each do |message_type, message| %>
-  <% if message_type === "notice" %>
-    <div class="alert alert-info alert-dismissible" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <%= message %>
-    </div>
-  <% else %>
-    <div class="alert alert-<%= message_type %>">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <%= message %>
-    </div>
+  <% if message_type === 'notice' %>
+    <% message_type = 'info' %>
+  <% elsif message_type === 'alert' %>
+    <% message_type = 'danger' %>
   <% end %>
+  <div class="alert alert-<%= message_type %>">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <%= message %>
+  </div>
 <% end %>

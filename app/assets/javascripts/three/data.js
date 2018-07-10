@@ -100,7 +100,7 @@ imaginnection.three.Node = {
 		pos.applyAxisAngle( this.org1, (this.total_count % 50 / 50) * PI2 );
 		pos.applyAxisAngle( this.org2, (this.total_count % 7 / 7) * PI2/2 );
 	
-		let color = 0xffffff;
+		let color = imaginnection.threeData.normalColor;
 		let particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: color, program: this.programStroke } ) );
 		particle.position.copy(pos);
 		particle.scale.x = particle.scale.y = 10;
@@ -159,7 +159,7 @@ imaginnection.three.Node = {
 			setOwner: function( to_node ) {
 				if( !this.is_owner ) {
 					this.is_owner = true;
-					let color = 0xaaaaff;
+					let color = imaginnection.threeData.ownerColor;
 					this.particle.material.color.set(color);
 				}
 				if( !to_node ) return;
@@ -172,7 +172,7 @@ imaginnection.three.Node = {
 			resetOwner: function( to_node ) {
 				if( this.is_owner ) {
 					this.is_owner = false;
-					let color = 0xffffff;
+					let color = imaginnection.threeData.normalColor;
 					this.particle.material.color.set(color);
 				}
 				if( !to_node ) return;
@@ -189,12 +189,11 @@ imaginnection.three.Node = {
 imaginnection.three.Edge = {
 
 	list: {},
-	point_color: new THREE.Color(0xffff00),
-	
+
 	create: function( from_node, to_node ) {
 		if(!from_node || !to_node) return null;
 		
-		let color = 0xffffff;
+		let color = imaginnection.threeData.normalColor;
 		let geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
 		let line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: color, opacity: 0.5, linewidth: 1 } ) );
 		
@@ -243,14 +242,14 @@ imaginnection.three.Edge = {
 			setOwner: function() {
 				if( this.is_owner == true ) return;
 				this.is_owner = true;
-				let color = 0xaaaaff;
+				let color = imaginnection.threeData.ownerColor;
 				line.material.color.set(color);
 				from_node.setOwner( to_node );
 			},
 			resetOwner: function() {
 				if( this.is_owner == false ) return;
 				this.is_owner = false;
-				let color = 0xffffff;
+				let color = imaginnection.threeData.normalColor;
 				line.material.color.set(color);
 				from_node.setOwner( to_node );
 			},

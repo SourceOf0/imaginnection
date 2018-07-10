@@ -44,6 +44,10 @@ main {
 	}
 }
 
+form input {
+  max-width: 400px;
+}
+
 .background-sub {
   background-color: $subColor;
 }

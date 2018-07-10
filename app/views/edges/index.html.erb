@@ -49,7 +49,7 @@
             
             <div class="form-group node-circle text-center">
               <%= f.label :name, 'ノード名', class: 'sr-only' %>
-              <%= f.text_field :name, class: 'form-control node-name', placeholder: "単語を入力", required: true %>
+              <%= f.text_field :name, class: 'form-control node-name', autocomplete: "off", placeholder: "単語を入力", required: true %>
             </div>
           
             <div class="form-group text-center">
@@ -95,7 +95,7 @@
               <div class="col-xs-8 text-center">
                 <div class="form-group node-circle">
                   <%= f.label :name, 'ノード名', class: 'sr-only' %>
-                  <%= f.text_field :name, class: 'form-control node-name', placeholder: "連想する単語を入力", required: true %>
+                  <%= f.text_field :name, class: 'form-control node-name', autocomplete: "off", placeholder: "連想する単語を入力", required: true %>
                 </div>
               </div>
             </div>
