@@ -19,7 +19,7 @@
               <span id="follow-form-<%= user.id %>">
                 <% if user.is_disable_follow %>
                   <%# フォロー中だが相手が新規フォロワーを受け付けていない %>
-                  <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー<br>受付停止中です。<br>再度フォローできなくなりますが、<br>フォローをやめますか？" } do %>
+                  <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
                     フォロー中
                   <% end %>
                 <% else %>

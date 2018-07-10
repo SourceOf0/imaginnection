@@ -32,11 +32,6 @@
   </div>
 
   <div class="field form-group">
-    <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i>
-    <%= f.password_field :current_password, autocomplete: "off", class: 'form-control' %>
-  </div>
-
-  <div class="field form-group">
     <%= f.check_box :is_disable_follow %>
     <%= f.label :is_disable_follow %>
   </div>
@@ -44,6 +39,11 @@
   <div class="field form-group">
     <%= f.check_box :is_hide_edges %>
     <%= f.label :is_hide_edges %>
+  </div>
+  
+  <div class="field form-group">
+    <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i>
+    <%= f.password_field :current_password, autocomplete: "off", class: 'form-control', required: true %>
   </div>
 
   <div class="actions form-group">

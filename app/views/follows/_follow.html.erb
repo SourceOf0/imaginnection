@@ -6,7 +6,12 @@
     参考: https://railsguides.jp/working_with_javascript_in_rails.html
 %>
 <% if user %>
-  <%= link_to follows_path(id: user.id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
-    フォローする
+  <% if !user.is_disable_follow %>
+    <span id="follow-form-<%= user.id %>">
+      <%# フォローしてない %>
+      <%= link_to follows_path(id: user.id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
+        フォローする
+      <% end %>
+    </span>
   <% end %>
 <% end %>
