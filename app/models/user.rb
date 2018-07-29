@@ -39,7 +39,7 @@ class User < ApplicationRecord
   # デフォルト値設定
   before_validation do
     self.ref_id = SecureRandom::urlsafe_base64(30) if self.ref_id.nil?
-    self.is_disable_follow = true if self.is_disable_follow.nil?
+    self.is_disable_follow = false if self.is_disable_follow.nil?
     self.is_hide_edges = false if self.is_hide_edges.nil?
     self.notified_at = Date.current.in_time_zone if self.notified_at.nil?
     self.empathy_button_kind = 0 if self.empathy_button_kind.nil?
