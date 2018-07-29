@@ -47,58 +47,18 @@ imaginnection.three.addNode = function( name, edge_count ) {
 	imaginnection.threeData.scene.add(node.particle);
 	imaginnection.three.Node.list[name] = node;
 	
-	let index = node.index;
-	let $container = $("#nodes-index");
-	let temp = "";
-	temp += "<div id='from-node-index-" + index + "' class='panel panel-default'>";
-	temp += "<a class='btn btn-default btn-block panel-heading' role='button' data-toggle='collapse' data-parent='#nodes-index' href='#from-node-list-" + index + "' aria-expanded='false' aria-controls='from-node-list-" + index + "'>";
-	temp += "<h4 class='panel-title'>";
-	temp += "<span class='name'>" + name + "</span>";
-	temp += "<span class='badge pull-right'>0</span>";
-	temp += "</h4>";
-	temp += "</a>";
-	temp += "<div id='from-node-list-" + index + "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='from-node-index-" + index + "'>";
-	temp += "<div class='list-group'>";
-	temp += "</div>";
-	temp += "</div>";
-	temp += "</div>";
-	$container.append(temp);
-	
-	$container.find("#from-node-index-" + index).click( imaginnection.three.setFocusEvent );
-
+	imaginnection.three.addNodeList( node );
 	return node;
 };
 
-
-imaginnection.three.addEdgeList = function( edge ) {
-	let from_node = edge.from_node;
-	let to_node = edge.to_node;
-	let $container = $( "#from-node-index-" + from_node.index );
-	let $to_node_num = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index + " .badge" );
+imaginnection.three.removeNode = function( node ) {
+	imaginnection.threeData.scene.remove(node.particle);
+	delete imaginnection.three.Node.list[node.name];
 	
-	let sum = 0;
-	for( let key in from_node.to_edges ) {
-		sum += from_node.to_edges[key].count;
-	}
-	
-	$container.find(".panel-title .badge").text(sum);
-
-	if( $to_node_num.length > 0 ) {
-		$to_node_num.text(edge.count);
-	} else {
-		let temp = "";
-		temp += "<a id='to-node-index-" + from_node.index + "-" + to_node.index + "' class='list-group-item' href='" + encodeURIComponent(from_node.name) + "/" + encodeURIComponent(to_node.name) +"'>";
-		temp += "<span class='name'>" + to_node.name + "</span>";
-		temp += "<span class='badge pull-right'>" + edge.count + "</span>";
-		temp += "</a>";
-		$container.find(".list-group").append(temp);
-		
-		$container.find( "#to-node-index-" + from_node.index + "-" + to_node.index ).click( imaginnection.three.onClickEdgeEvent );
-	}
+	imaginnection.three.removeNodeList( node );
 };
 
-
-imaginnection.three.addEdge = function( user_id, from_node_name, to_node_name ) {
+imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
 	let data = imaginnection.threeData;
 	let from_node = imaginnection.three.Node.list[from_node_name];
 	let to_node = imaginnection.three.Node.list[to_node_name];
@@ -122,9 +82,41 @@ imaginnection.three.addEdge = function( user_id, from_node_name, to_node_name ) 
 	}
 	if( is_owner ) edge.setOwner();
 	edge.addCount();
-	imaginnection.three.addEdgeList( edge );
+	imaginnection.three.addEdgeList( is_owner, edge );
 };
 
+imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
+	let data = imaginnection.threeData;
+	let from_node = imaginnection.three.Node.list[from_node_name];
+	let to_node = imaginnection.three.Node.list[to_node_name];
+	let is_owner = ( user_id === imaginnection.current_id );
+
+	if( from_node && to_node ) {
+		let edge = from_node.getToEdge( to_node );
+		if( edge ) {
+			if( is_owner ) edge.resetOwner();
+			edge.decCount();
+			imaginnection.three.removeEdgeList( is_owner, edge );
+			if( edge.count == 0 ) {
+				data.scene.remove( edge.line );
+				delete imaginnection.three.Edge.list[edge.line.uuid];
+				from_node.removeToEdge( edge );
+				to_node.removeFromEdge( edge );
+			}
+		}
+	}
+
+	if( from_node && from_node.edge_count == 0 ) {
+		imaginnection.three.removeNode(from_node);
+		if( data.focusNode == from_node ) data.focusNode = null;
+	}
+	if( to_node && to_node.edge_count == 0  ) {
+		imaginnection.three.removeNode(to_node);
+		if( data.focusNode == to_node ) data.focusNode = null;
+	}
+	
+	console.log("remove call");
+};
 
 imaginnection.three.setControlTarget = function() {
 	let data = imaginnection.threeData;
@@ -239,12 +231,17 @@ imaginnection.three.render = function() {
 		node.update();
 		if( count >= node_label_list.length ) continue;
 		let node_label = node_label_list[count];
-		if( node == imaginnection.threeData.focusNode ) {
-			node_label_list[0].update(node, data.camera, view.clientWidth, view.clientHeight);
-		} else if( node_label.update(node, data.camera, view.clientWidth, view.clientHeight) ) {
+		if( node_label.update(node, data.camera, view.clientWidth, view.clientHeight) ) {
 			count++;
 		}
 	}
+	
+	if( imaginnection.threeData.focusNode) {
+		node_label_list[0].update(imaginnection.threeData.focusNode, data.camera, view.clientWidth, view.clientHeight);
+	} else {
+		node_label_list[0].update(null, data.camera, view.clientWidth, view.clientHeight);
+	}
+	
 	for( ; count < node_label_list.length; count++ ) {
 		node_label_list[count].update(null, data.camera, view.clientWidth, view.clientHeight);
 	}

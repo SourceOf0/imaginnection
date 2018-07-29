@@ -1,2 +1,7 @@
 
-
+<% if @from_node.valid? && @to_node.valid? %>
+  <%# エッジを削除する %>
+  val edge = imaginnection.createEdgeData("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
+  if( imaginnection.removeEdge( edge ) ) {
+  }
+<% end %>

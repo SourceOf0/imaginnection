@@ -1,11 +1,11 @@
 
 <% if @from_node.valid? && @to_node.valid? %>
-
   <%# エッジを投稿する %>
-  imaginnection.createEdge("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
-  
-  <%# エッジ一覧を表示するためハッシュを変える %>
-  window.location.hash = "";
-
-	imaginnection.three.setFocusNode( "<%= @from_node.name %>" );
+  var edge = imaginnection.createEdgeData("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
+  if( imaginnection.createEdge( edge ) ) {
+    <%# エッジ一覧を表示するためハッシュを変える %>
+    window.location.hash = "";
+    <%# 該当エッジにフォーカスを合わせる %>
+  	imaginnection.three.setFocusNode( edge.from_node );
+  }
 <% end %>

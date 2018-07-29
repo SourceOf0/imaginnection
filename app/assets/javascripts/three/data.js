@@ -103,7 +103,7 @@ imaginnection.three.Node = {
 		let color = imaginnection.threeData.normalColor;
 		let particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: color, program: this.programStroke } ) );
 		particle.position.copy(pos);
-		particle.scale.x = particle.scale.y = 10;
+		particle.scale.x = particle.scale.y = 0;
 		particle.name = name;
 		
 		this.total_count++;
@@ -131,12 +131,18 @@ imaginnection.three.Node = {
 			addFromEdge: function( edge ) {
 				if( !edge ) return;
 				this.from_edges[edge.line.uuid] = edge;
-				return edge;
+			},
+			removeFromEdge: function( edge ) {
+				if( !edge ) return;
+				delete this.from_edges[edge.line.uuid];
 			},
 			addToEdge: function( edge ) {
 				if( !edge ) return;
 				this.to_edges[edge.line.uuid] = edge;
-				return edge;
+			},
+			removeToEdge: function( edge ) {
+				if( !edge ) return;
+				delete this.to_edges[edge.line.uuid];
 			},
 			setTargetStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programFill;
@@ -164,23 +170,28 @@ imaginnection.three.Node = {
 				}
 				if( !to_node ) return;
 				to_node.setOwner( null );
-				for( let key in this.to_edges ) {
-					let edge = this.to_edges[key];
-				  if( edge.to_node.name == to_node.name ) edge.setOwner();
-				}
 			},
 			resetOwner: function( to_node ) {
-				if( this.is_owner ) {
-					this.is_owner = false;
-					let color = imaginnection.threeData.normalColor;
-					this.particle.material.color.set(color);
+				let owner_edge_num = 0;
+				for( let key in this.from_edges ) {
+					let edge = this.from_edges[key];
+				  if( edge.is_owner ) {
+				  	owner_edge_num++;
+				  }
 				}
-				if( !to_node ) return;
-				to_node.resetOwner( null );
-				for( let key in this.to_edges ) {
-					let edge = this.to_edges[key];
-				  if( edge.to_node.name == to_node.name ) edge.resetOwner();
+				if( to_node ) {
+					for( let key in this.to_edges ) {
+						let edge = this.to_edges[key];
+					  if( (edge.to_node.name != to_node.name) && edge.is_owner ) {
+					  	owner_edge_num++;
+					  }
+					}
+					to_node.resetOwner( null );
 				}
+				if( owner_edge_num > 0 ) return;
+				this.is_owner = false;
+				let color = imaginnection.threeData.normalColor;
+				this.particle.material.color.set(color);
 			},
 		};
 	}
@@ -224,6 +235,11 @@ imaginnection.three.Edge = {
 				this.from_node.edge_count++;
 				this.to_node.edge_count++;
 			},
+			decCount: function() {
+				this.count--;
+				this.from_node.edge_count--;
+				this.to_node.edge_count--;
+			},
 			setTargetStyle: function() {
 				line.material.linewidth = 10;
 				line.material.opacity = 1;
@@ -251,7 +267,7 @@ imaginnection.three.Edge = {
 				this.is_owner = false;
 				let color = imaginnection.threeData.normalColor;
 				line.material.color.set(color);
-				from_node.setOwner( to_node );
+				from_node.resetOwner( to_node );
 			},
 		};
 	}

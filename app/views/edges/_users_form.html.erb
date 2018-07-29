@@ -1,4 +1,6 @@
 <%# 共感者一覧 %>
+<%# @param from_node: ノード %>
+<%# @param to_node: ノード %>
 <%# @param users: リスト表示するユーザのモデルインスタンス %>
 <%# @param count: 総人数 %>
 
@@ -19,9 +21,9 @@
       </ul>
       
       <h3 class="text-center">
-        <p>「<%= @from_node.name %>」</p>
+        <p>「<%= from_node.name %>」</p>
         <p class="glyphicon glyphicon-arrow-down"></p>
-        <p>「<%= @to_node.name %>」</p>
+        <p>「<%= to_node.name %>」</p>
       </h3>
         
       <% if !!count %>
@@ -71,17 +73,17 @@
         </ul>
       </div>
       
-      <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
+      <%= form_for(to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
         
         <%# エラーメッセージをレンダリング %>
         <%# render 'layouts/error_messages', model: f.object %>
         
-        <%= hidden_field_tag :from_node_name, @from_node.name %>
-        <%= f.hidden_field :name, value: @to_node.name %>
+        <%= hidden_field_tag :from_node_name, from_node.name %>
+        <%= f.hidden_field :name, value: to_node.name %>
   
         <div class="text-center">
           <div class="form-group check-hide-user">
-            <%= check_box_tag :is_hide_user %>
+            <%= check_box_tag :is_hide_user, is_hide_user %>
             <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
           </div>
 

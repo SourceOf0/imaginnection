@@ -16,13 +16,10 @@ if( !firebase.apps.length ) {
 }
 
 
-/** 
- * 共通
- */
-
 var imaginnection = imaginnection || {};
 
 imaginnection.dbdata = {};
+
 
 // DB初期化
 imaginnection.initDB = function() {
@@ -36,31 +33,23 @@ imaginnection.initDB = function() {
   imaginnection.dbdata.users = {};
   imaginnection.view_ids.forEach( function(id) {
     let usersSnapshot = firebase.database().ref("users/" + id);
-    usersSnapshot.off("value");
-    usersSnapshot.on("value", function(usersSnapshot) {
-      imaginnection.dbdata.users[id] = usersSnapshot.val();
-    });
+    usersSnapshot.off("value", imaginnection.changeUsersDB);
+    usersSnapshot.on("value", imaginnection.changeUsersDB);
   });
   
   // edges
   imaginnection.dbdata.edges = {};
   let edgesSnapshot = firebase.database().ref("edges");
-  edgesSnapshot.off("value");
-  edgesSnapshot.on("value", function(edgesSnapshot) {
-    imaginnection.dbdata.edges = edgesSnapshot.val();
-  });
+  edgesSnapshot.off("value", imaginnection.changeEdgesDB);
+  edgesSnapshot.on("value", imaginnection.changeEdgesDB);
   
-  // 追加イベント監視
   imaginnection.view_ids.forEach( function(user_id) {
     let edgeRef = firebase.database().ref("users/" + user_id + "/edges").orderByChild("created_at");
-    edgeRef.off("child_added");
-    edgeRef.on("child_added", function(childSnapshot, prevChildKey) {
-      let edge = childSnapshot.val();
-      if( imaginnection.three ) {
-        imaginnection.three.addEdge(user_id, edge.from_node, edge.to_node);
-      } else {
-        imaginnection.addEdgeList(user_id, edge.from_node, edge.to_node);
-      }
-    });
+    // 追加イベント監視
+    edgeRef.off("child_added", imaginnection.childAddedUsersDB);
+    edgeRef.on("child_added", imaginnection.childAddedUsersDB);
+    // 削除イベント監視
+    edgeRef.off("child_removed", imaginnection.childRemovedUsersDB);
+    edgeRef.on("child_removed", imaginnection.childRemovedUsersDB);
   });
 };
