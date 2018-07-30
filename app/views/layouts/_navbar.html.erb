@@ -63,13 +63,13 @@
         
         <ul class="height-centering col-xs-6 text-left" >
           <li class="<%= 'active' if current_page?(new_user_registration_path) %>">
-            <%= link_to('新規登録', new_user_registration_path, class: 'btn btn-default') %>
+            <%= link_to(t('devise.registrations.new.sign_up'), new_user_registration_path, class: 'btn btn-default') %>
           </li>
         </ul><!-- .col-xs-6 -->
         
         <ul class="height-centering col-xs-6 text-right">
           <li class="<%= 'active' if current_page?(new_user_session_path) %>">
-            <%= link_to('ログイン', new_user_session_path, class: 'text-link') %>
+            <%= link_to(t('devise.sessions.new.sign_in'), new_user_session_path, class: 'text-link') %>
           </li>
         </ul><!-- .col-xs-6 -->
   
@@ -119,7 +119,7 @@
         
         <div class="centering">
           <li>
-            <%= link_to('エッジ作成', '', class: 'btn btn-default') %>
+            <%# link_to('エッジ作成', '', class: 'btn btn-default') %>
           </li>
         </div><!-- .centering -->
 

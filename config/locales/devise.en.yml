@@ -30,6 +30,8 @@ en:
         updated_at: Updated at
     models:
       user: User
+  system:
+    sign_up: Sign up
   devise:
     confirmations:
       confirmed: Your email address has been successfully confirmed.
