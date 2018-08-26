@@ -11,6 +11,7 @@ en:
         current_sign_in_ip: Current sign in IP
         email: Email
         encrypted_password: Encrypted password
+        empathy_button_kind: Characters displayed on empathy button
         failed_attempts: Failed attempts
         is_disable_follow: Do not accept new followers
         is_hide_edges: Hide my map (posted content list) from other users

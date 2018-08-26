@@ -15,8 +15,8 @@ class ApplicationController < ActionController::Base
   
   # deviseのstring parameter
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :is_disable_follow, :is_hide_edges])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :is_disable_follow, :is_hide_edges])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :empathy_button_kind, :is_disable_follow, :is_hide_edges])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :empathy_button_kind, :is_disable_follow, :is_hide_edges])
   end
 
 end

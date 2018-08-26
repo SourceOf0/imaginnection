@@ -204,6 +204,7 @@ imaginnection.three.animate = function() {
 
 imaginnection.three.render = function() {
 	let data = imaginnection.threeData;
+	
 	if( data.is_camera_targeting && data.focusNode ) {
 		let target_pos = data.focusNode.particle.position;
 		data.delta.subVectors( target_pos, data.controls.target ).multiplyScalar( 0.05 );
@@ -226,9 +227,13 @@ imaginnection.three.render = function() {
 	let view = document.getElementById('edges-index');
 	let node_list = imaginnection.three.Node.list;
 	let node_label_list = imaginnection.three.NodeLabel.list;
+	
+	data.context.clearRect(0, 0, view.clientWidth, view.clientHeight);
+
 	for( let key in node_list ) {
 		let node = node_list[key];
 		node.update();
+		if( node == imaginnection.threeData.focusNode ) continue;
 		if( count >= node_label_list.length ) continue;
 		let node_label = node_label_list[count];
 		if( node_label.update(node, data.camera, view.clientWidth, view.clientHeight) ) {
@@ -236,7 +241,7 @@ imaginnection.three.render = function() {
 		}
 	}
 	
-	if( imaginnection.threeData.focusNode) {
+	if( imaginnection.threeData.focusNode ) {
 		node_label_list[0].update(imaginnection.threeData.focusNode, data.camera, view.clientWidth, view.clientHeight);
 	} else {
 		node_label_list[0].update(null, data.camera, view.clientWidth, view.clientHeight);
@@ -251,6 +256,9 @@ imaginnection.three.render = function() {
 		edge_list[key].update();
 	}
 	
+  data.context.shadowColor = "#fff";
+  data.context.shadowBlur = 10;
+  
 	data.renderer.render( data.scene, data.camera );
 };
 

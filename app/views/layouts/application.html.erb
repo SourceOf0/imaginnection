@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <title>Imaginnection</title>
+    
     <%= csrf_meta_tags %>
-
+    
+    <%= favicon_link_tag %>
+    
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
@@ -24,11 +27,13 @@
     <!-- Firebase JavaScript-->
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
     
+    <link href="https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css" rel="stylesheet" />    
+    
   </head>
   <body>
     <%= render 'layouts/navbar' %>
     
-    <main>
+    <main class="<%= 'egdes-main' if params[:controller] == 'edges' %>">
       
       <%= render 'layouts/flash_messages' %>
         

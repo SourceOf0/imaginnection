@@ -9,4 +9,13 @@ class HomeController < ApplicationController
     end
   end
   
+  def terms
+  end
+  
+  def policy
+  end
+  
+  def inquiry
+  end
+  
 end

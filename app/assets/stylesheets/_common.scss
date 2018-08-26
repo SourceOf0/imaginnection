@@ -1,19 +1,21 @@
 
-$backgroundColor: #666666;
+$backgroundColor1: #252846;
+$backgroundColor2: #404378;
+$backgroundColor3: #574a76;
 
-$baseColor: #f8f8f8;
-$accentColor: #777777;
-$subColor: #aaaaaa;
+$baseColor: #23293a;
+$subColor: #b1e9ff;
+$accentColor: #ffd688;
 
-$ownNodeColor: #aaaaff;
+$textColor: #ffffff;
+$subTextColor: $baseColor;
 
 $colorBlack: #000000;
 $colorWhite: #ffffff;
 
 $defaultFontSize: 14px;
 
-$logoWidth: 120px;
-$logoHeight: 18px;
+$ownNodeColor: $subColor;
 
 $navZIndex: 1030;
 $navHeight: 50px;
@@ -22,8 +24,43 @@ $navBorderSize: 2px;
 $navBorderMarginLeft: $navSize*0.45;
 $navBorderMarginTop: $navBorderMarginLeft + $navBorderSize;
 
-@mixin height-centering {
-    content: "";
-    display: inline-block;
-    vertical-align: middle;
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin main-background {
+  background: $baseColor;
+  color: $textColor;
+}
+
+@mixin main-background-active {
+  background: lighten($baseColor, 20%);
+  color: $textColor;
+}
+
+@mixin main-background-overlay {
+  background: rgba($backgroundColor2, 0.9);
+  color: $textColor;
+}
+
+@mixin sub-background {
+  background: $subColor;
+  color: $subTextColor;
+}
+
+@mixin sub-background-active {
+  background: darken($subColor, 10%);
+  color: $subTextColor;
+}
+
+@mixin mono-background {
+  background: $colorWhite;
+  color: $colorBlack;
+}
+
+@mixin inv-mono-background {
+  background: $colorBlack;
+  color: $colorWhite;
 }

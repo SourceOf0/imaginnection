@@ -9,8 +9,8 @@ imaginnection.three.addNodeList = function( node ) {
 	let index = node.index;
 	let $container = $("#nodes-index");
 	let temp = "";
-	temp += "<div id='from-node-index-" + index + "' class='panel panel-default'>";
-	temp += "<a class='btn btn-default btn-block panel-heading' role='button' data-toggle='collapse' data-parent='#nodes-index' href='#from-node-list-" + index + "' aria-expanded='false' aria-controls='from-node-list-" + index + "'>";
+	temp += "<div id='from-node-index-" + index + "' class='panel panel-primary" + ((node.is_gaze)? ' gaze':'') + "'>";
+	temp += "<a class='btn btn-primary btn-block panel-heading' role='button' data-toggle='collapse' data-parent='#nodes-index' href='#from-node-list-" + index + "' aria-expanded='false' aria-controls='from-node-list-" + index + "'>";
 	temp += "<h4 class='panel-title'>";
 	temp += "<span class='name'>" + node.name + "</span>";
 	temp += "<span class='badge pull-right'>0</span>";
@@ -53,6 +53,7 @@ imaginnection.three.addEdgeList = function( is_owner, edge ) {
 		temp += "</a>";
 		$container.find(".list-group").append(temp);
 		
+		$to_node = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index );
 		$to_node.click( imaginnection.three.onClickEdgeEvent );
 	}
 };

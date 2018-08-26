@@ -23,6 +23,7 @@ imaginnection.three.NodeLabel = {
 			node: null,
 			position: new THREE.Vector3(0, 0, 0),
 			hide: function() {
+				this.resetTarget();
 				this.element.style.display = "none";
 			},
 			setTarget: function() {
@@ -31,25 +32,30 @@ imaginnection.three.NodeLabel = {
 			resetTarget: function() {
 				div.classList.remove("target-node");
 			},
+			setOwner: function() {
+				div.classList.add("owner");
+			},
+			resetOwner: function() {
+				div.classList.remove("owner");
+			},
 			update: function( node, camera, viewWidth, viewHeight ) {
 				if( node == null ) {
-					this.resetTarget();
 					this.hide();
 					return false;
 				}
-	
+				
 				this.position.copy(node.particle.position);
 				let vector = this.position.project(camera);
 				
-				let z_min = Math.min(0.001 * node.edge_count + 0.996, 1.0);
+				let z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
 				if( imaginnection.threeData.focusNode != node ) {
-					if( (vector.z > z_min) || ((vector.x < -0.5 || vector.x > 0.5) || (vector.y < -0.9 || vector.y > 0.9)) ) {
-						this.resetTarget();
+					if( (vector.z > z_min) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						this.hide();
 						return false;
 					}
+					this.resetTarget();
 				} else {
-					if( (vector.z < -1.0) || ((vector.x < -0.5 || vector.x > 0.5) || (vector.y < -0.9 || vector.y > 0.9)) ) {
+					if( (vector.z < -1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						this.hide();
 						return false;
 					}
@@ -58,7 +64,13 @@ imaginnection.three.NodeLabel = {
 	
 				this.node = node;
 				if( this.element.innerHTML != node.name ) this.element.innerHTML = node.name;
-	
+				
+				if( node.is_owner ) {
+					this.setOwner();
+				} else {
+					this.resetOwner();
+				}
+
 				vector.x = (vector.x + 1)/2 * viewWidth - this.width/2;
 				vector.y = -(vector.y - 1)/2 * viewHeight - this.height/2;
 	
@@ -81,15 +93,14 @@ imaginnection.three.Node = {
 	org2: new THREE.Vector3(0, 0, 1),
 	
 	programFill: function( context ) {
-		context.lineWidth = 0.05;
+		context.lineWidth = imaginnection.threeData.nodeLineWidth;
 		context.beginPath();
 		context.arc( 0, 0, 0.5, 0, PI2, true );
 		context.fill();
 	},
 	
 	programStroke: function( context ) {
-		//context.globalAlpha = 0.5;
-		context.lineWidth = 0.05;
+		context.lineWidth = imaginnection.threeData.nodeLineWidth;
 		context.beginPath();
 		context.arc( 0, 0, 0.5, 0, PI2, true );
 		context.stroke();
@@ -99,13 +110,15 @@ imaginnection.three.Node = {
 		let pos = new THREE.Vector3( ((this.total_count % 6 / 6) * 20 + 4) * 30 + 30, 0, 0);
 		pos.applyAxisAngle( this.org1, (this.total_count % 50 / 50) * PI2 );
 		pos.applyAxisAngle( this.org2, (this.total_count % 7 / 7) * PI2/2 );
-	
+		
 		let color = imaginnection.threeData.normalColor;
 		let particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: color, program: this.programStroke } ) );
 		particle.position.copy(pos);
 		particle.scale.x = particle.scale.y = 0;
 		particle.name = name;
-		
+		// TODO
+		let is_gaze = false;
+		//if( this.total_count == 0 ) is_gaze = true;
 		this.total_count++;
 		
 		return {
@@ -113,6 +126,7 @@ imaginnection.three.Node = {
 			particle: particle,
 			name: name,
 			is_owner: false,
+			is_gaze: is_gaze,
 			from_edges: {},
 			to_edges: {},
 			edge_count: 0,
@@ -147,10 +161,10 @@ imaginnection.three.Node = {
 			setTargetStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programFill;
 				for( let key in this.to_edges ) {
-				  this.to_edges[key].setTargetStyle();
+					this.to_edges[key].setTargetStyle();
 				}
 				for( let key in this.from_edges ) {
-				  this.from_edges[key].setSubTargetStyle();
+					this.from_edges[key].setSubTargetStyle();
 				}
 			},
 			setDefaultStyle: function() {
@@ -162,11 +176,29 @@ imaginnection.three.Node = {
 					this.from_edges[key].setDefaultStyle();
 				}
 			},
+			setColor: function() {
+				let color = imaginnection.threeData.normalColor;
+				if( this.is_gaze ) {
+					color = imaginnection.threeData.gazeColor;
+				} else if( this.is_owner ) {
+					color = imaginnection.threeData.ownerColor;
+				}
+				this.particle.material.color.set(color);
+			},
+			setGaze: function() {
+				if( this.is_gaze ) return;
+				this.is_gaze = true;
+				this.setColor();
+			},
+			resetGaze: function() {
+				if( !this.is_gaze ) return;
+				this.is_gaze = false;
+				this.setColor();
+			},
 			setOwner: function( to_node ) {
 				if( !this.is_owner ) {
 					this.is_owner = true;
-					let color = imaginnection.threeData.ownerColor;
-					this.particle.material.color.set(color);
+					this.setColor();
 				}
 				if( !to_node ) return;
 				to_node.setOwner( null );
@@ -175,23 +207,22 @@ imaginnection.three.Node = {
 				let owner_edge_num = 0;
 				for( let key in this.from_edges ) {
 					let edge = this.from_edges[key];
-				  if( edge.is_owner ) {
-				  	owner_edge_num++;
-				  }
+					if( edge.is_owner ) {
+						owner_edge_num++;
+					}
 				}
 				if( to_node ) {
 					for( let key in this.to_edges ) {
 						let edge = this.to_edges[key];
-					  if( (edge.to_node.name != to_node.name) && edge.is_owner ) {
-					  	owner_edge_num++;
-					  }
+						if( (edge.to_node.name != to_node.name) && edge.is_owner ) {
+							owner_edge_num++;
+						}
 					}
 					to_node.resetOwner( null );
 				}
 				if( owner_edge_num > 0 ) return;
 				this.is_owner = false;
-				let color = imaginnection.threeData.normalColor;
-				this.particle.material.color.set(color);
+				this.setColor();
 			},
 		};
 	}
@@ -206,7 +237,7 @@ imaginnection.three.Edge = {
 		
 		let color = imaginnection.threeData.normalColor;
 		let geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
-		let line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: color, opacity: 0.5, linewidth: 1 } ) );
+		let line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: color, opacity: 0.5, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
 		
 		line.name = from_node.name + " -> " + to_node.name;
 
@@ -220,7 +251,7 @@ imaginnection.three.Edge = {
 			update: function() {
 				if( this.click_time > 0 ) {
 					let ratio = 1 - this.click_time / 20;
-					line.material.linewidth = 10 * ratio;
+					line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth * ratio;
 					this.click_time--;
 				}
 			},
@@ -228,7 +259,7 @@ imaginnection.three.Edge = {
 				if( this.click_time > 0 ) return;
 				imaginnection.viewUserList(this.from_node.name, this.to_node.name);
 				this.click_time = 20;
-				line.material.linewidth = 1;
+				line.material.linewidth = imaginnection.threeData.edgeDefaultLineWidth;
 			},
 			addCount: function() {
 				this.count++;
@@ -241,17 +272,17 @@ imaginnection.three.Edge = {
 				this.to_node.edge_count--;
 			},
 			setTargetStyle: function() {
-				line.material.linewidth = 10;
+				line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth;
 				line.material.opacity = 1;
 				this.click_time = 0;
 			},
 			setSubTargetStyle: function() {
-				line.material.linewidth = 10;
+				line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth;
 				line.material.opacity = 0.2;
 				this.click_time = 0;
 			},
 			setDefaultStyle: function() {
-				line.material.linewidth = 1;
+				line.material.linewidth = imaginnection.threeData.edgeDefaultLineWidth;
 				line.material.opacity = 0.5;
 				this.click_time = 0;
 			},

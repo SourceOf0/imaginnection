@@ -2,14 +2,15 @@
 <header>
   
   <section id="top-nav">
-    <nav class="row">
+    
+    <% if user_signed_in? %>
       
-      <% if user_signed_in? %>
-        
-        <ul class="height-centering col-xs-6 text-left">
+      <nav class="signed_in">
+      
+        <ul class="height-centering position-left">
           <li>
             <div class="btn-group icon-bar">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar-top"></span>
                 <span class="icon-bar-middle"></span>
@@ -43,89 +44,88 @@
               <span class="glyphicon glyphicon-bell"></span>
             <% end %>
           </li>
-        </ul><!-- .col-xs-6 -->
+        </ul><!-- .position-left -->
             
-        <ul class="height-centering col-xs-6 text-right">
+        <ul class="height-centering position-right">
           <li>
             <%= link_to("#", class: 'icon button', id: 'tour-icon') do %>
               <span><strong>？</strong></span>
             <% end %>
           </li>
-        </ul><!-- .col-xs-6 -->
+        </ul><!-- .position-right -->
         
-        <div class="centering">
+        <div class="position-center logo">
           <%= link_to(edges_path) do %>
-            <%= image_tag('logo_120_18.png') %>
+            <%= render 'layouts/logo' %>
           <% end %>
-        </div><!-- .centering -->
+        </div><!-- .position-center -->
         
-      <% else %>
+      </nav>
+      
+    <% else %>
+    
+      <nav class="signed_out">
         
-        <ul class="height-centering col-xs-6 text-left" >
+        <ul class="height-centering position-left" >
           <li class="<%= 'active' if current_page?(new_user_registration_path) %>">
-            <%= link_to(t('devise.registrations.new.sign_up'), new_user_registration_path, class: 'btn btn-default') %>
+            <%= link_to(t('devise.registrations.new.sign_up'), new_user_registration_path, class: 'text-link') %>
           </li>
-        </ul><!-- .col-xs-6 -->
+        </ul><!-- .position-left -->
         
-        <ul class="height-centering col-xs-6 text-right">
+        <ul class="height-centering position-right">
           <li class="<%= 'active' if current_page?(new_user_session_path) %>">
             <%= link_to(t('devise.sessions.new.sign_in'), new_user_session_path, class: 'text-link') %>
           </li>
-        </ul><!-- .col-xs-6 -->
+        </ul><!-- .position-right -->
   
-        <div class="centering">
+        <div class="position-center logo">
           <%= link_to(root_path) do %>
-            <%= image_tag('logo_120_18.png') %>
+            <%= render 'layouts/logo' %>
           <% end %>
-        </div><!-- .centering -->
+        </div><!-- .position-center -->
+        
+      </nav>
     
-      <% end %>
+    <% end %>
       
-    </nav>
   </section><!-- .top-nav -->
 
 
-  <% if user_signed_in? %>
+  <% if user_signed_in? && params[:controller] == 'edges' %>
 
-    <section id="bottom-nav">
-      <nav class="row">
-        
-        <ul class="height-centering col-xs-6 text-left">
-          <li>
-            <% if params[:controller] == 'edges' %>
-              <%= link_to("#node-new", class: 'icon button', id: 'new-node-icon') do %>
-                <span class="glyphicon glyphicon-plus"></span>
-              <% end %>
-            <% else %>
-              <%= link_to(edges_path + "#node-new", class: 'icon button', id: 'new-node-icon') do %>
-                <span class="glyphicon glyphicon-plus"></span>
-              <% end %>
-            <% end %>
-          </li>
-        </ul><!-- .col-xs-6 -->
-        
-        <ul class="height-centering col-xs-6 text-right" >
-          <li>
-            <div class="btn-group zoom-button" role="group" aria-label="zoom">
-              <button type="button" class="zoom-out-button btn btn-default">
-                <span class="glyphicon glyphicon-zoom-out"></span>
-              </button>
-              <button type="button" class="zoom-in-button btn btn-default">
-                <span class="glyphicon glyphicon-zoom-in"></span>
-              </button>
-            </div>
-          </li>
-        </ul><!-- .col-xs-6 -->
-        
-        <div class="centering">
-          <li>
-            <%# link_to('エッジ作成', '', class: 'btn btn-default') %>
-          </li>
-        </div><!-- .centering -->
-
-      </nav>
-    </section><!-- .bottom-nav -->
+      <section id="bottom-nav">
+        <nav class="signed_in">
+          
+          <ul class="height-centering position-left">
+            <li>
+                <%= link_to("#node-new", class: 'icon button', id: 'new-node-icon') do %>
+                  <span class="glyphicon glyphicon-plus"></span>
+                <% end %>
+            </li>
+          </ul><!-- .position-left -->
+          
+          <ul class="height-centering position-right" >
+            <li>
+              <div class="btn-group zoom-button" role="group" aria-label="zoom">
+                <button type="button" class="zoom-out-button btn">
+                  <span class="glyphicon glyphicon-zoom-out"></span>
+                </button>
+                <button type="button" class="zoom-in-button btn">
+                  <span class="glyphicon glyphicon-zoom-in"></span>
+                </button>
+              </div>
+            </li>
+          </ul><!-- .position-right -->
+          
+          <div class="position-center">
+            <li>
+              <%= link_to('連想する', '', id: 'associating', class: 'btn btn-primary') %>
+            </li>
+          </div><!-- .position-center -->
   
+        </nav>
+      </section><!-- .bottom-nav -->
+    
   <% end %>
 
 </header>

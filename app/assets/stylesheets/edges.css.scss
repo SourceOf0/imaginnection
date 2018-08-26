@@ -1,5 +1,12 @@
 
+@charset "utf-8";
 @import 'common';
+
+.egdes-main {
+  height: 100%;
+  overflow: hidden;
+  margin: $navHeight 0;
+}
 
 .edge-temp {
   display: none;
@@ -9,51 +16,63 @@
   display: block;
   position: relative;
   overflow: hidden;
-  //background: linear-gradient(to bottom, #171925 10%, #343259 60%, #8c77a0 100%);
-  background: linear-gradient(to bottom, $backgroundColor 0%, #61636e 30%, #616175 95%, #717585 100%);
+  
   h1 {
-    color: $colorWhite;
+    font-family: 'Rounded Mplus 1c';
+    color: $accentColor;
     margin: 0.5em;
     position: absolute;
+    letter-spacing: -0.1em;
+  }
+  
+  .text-label {
+    display: none;
+    height: 16px;
+    text-align: center;
+    text-shadow: 0 0 5px $colorBlack;
+    pointer-events: none;
+    width: 300px;
   }
 }
 
 #empathy-user-list {
-  min-height: 50%;
+  @include main-background;
+  padding: 0;
   overflow-y: scroll;
 }
 
-.text-label {
-  color: #fff;
-  display: none;
-  height: 16px;
-  text-align: center;
-  text-shadow: 0 0 5px #000;
-  font-weight: bold;
-  pointer-events: none;
-  width: 300px;
-}
-
-.node-circle {
-  background: $ownNodeColor;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  position: relative;
-  width: 70%;
-  height: 70%;
-  padding: 35%;
-  margin: 1em auto;
-  .node-name {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    margin: -1.3em -5% 0;
-    width: 110%;
-    text-align: center;
+.modal {
+  .close {
+    color: $textColor;
+    opacity: .5;
   }
-  #from-node-label {
-    margin-top: -.7em;
+  
+  .modal-content {
+    @include main-background-overlay;
+  }
+  
+  .node-circle {
+    background: $ownNodeColor;
+    border-radius: 50%;
+    position: relative;
+    width: 70%;
+    height: 70%;
+    padding: 35%;
+    margin: 1em auto;
+    
+    .node-name {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      margin: -1.3em -15% 0;
+      width: 130%;
+      text-align: center;
+    }
+    
+    #from-node-label {
+      margin-top: -.7em;
+      text-shadow: 0 0 4px $colorBlack;
+    }
   }
 }
 
@@ -66,7 +85,7 @@
     position: absolute;
     width: 50%;
   }
-  .col-xs-4 {
+  .edge-form-node {
     padding-top: 11.5%;
   }
 }
@@ -75,7 +94,25 @@
   .edge-order {
     text-align: center;
     width: 45%;
+
+    a {
+      @include main-background;
+      
+      &:focus, &:active:focus, &:active:hover {
+        @include main-background;
+      }
+      &:hover, &:active {
+        @include main-background-active;
+      }
+    }
   }
+  .edge-order.active>a {
+    background-color: transparent;
+  }
+  .nav-tabs {
+    border: none;
+  }
+  
   .check-hide-user {
     white-space: nowrap;
     &:before {
@@ -87,6 +124,101 @@
     label {
       white-space: normal;
       vertical-align: middle;
+    }
+  }
+}
+
+
+#drawer {
+  $openerWidth: 26px;
+  
+  background: rgba($backgroundColor1, 0.5);
+  display: block;
+  height: 100%;
+  max-width: 100%;
+  padding: $navHeight 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  overflow: hidden;
+  
+  .drawer-open {
+    @include flex-center;
+    background-color: $baseColor;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: $openerWidth;
+    cursor: pointer;
+    
+    span {
+      display: inline-block;
+    }
+  }
+  
+  .drawer-title {
+    width: 100%;
+    margin: 30px 0 20px -50%;
+  }
+  
+  .drawer-body {
+    display: block;
+    left: $openerWidth;
+    padding: 0 $openerWidth 0 0;
+    position: relative;
+    height: 100%;
+    white-space: nowrap;
+    width: 0;
+    transition: .3s all ease-in-out;
+    overflow: auto;
+
+    .drawer-content {
+      padding: 0 20px;
+    }
+  }
+  
+  .drawer-body.in {
+    max-width: 100%;
+    width: 400px;
+  }
+  
+  .panel {
+    background: $baseColor;
+    border-color: $backgroundColor1;
+    
+    >.panel-heading {
+      background: $backgroundColor2;
+      border-color: $backgroundColor1;
+      text-align: left;
+      
+      .badge {
+        @include mono-background;
+      }
+    }
+    
+    .button-primary {
+      border-color: $backgroundColor1;
+    }
+    
+    .list-group-item {
+      background: $backgroundColor3;
+      border: 1px solid $backgroundColor1;
+      color: $textColor;
+      
+      .badge {
+        @include main-background;
+      }
+    }
+    
+    .panel-heading+.panel-collapse>.list-group, .panel-heading+.panel-collapse>.panel-body {
+      border-top: 1px solid $backgroundColor1;
+    }
+  }
+  
+  .panel.gaze {
+    >.panel-heading {
+      color: $accentColor;
     }
   }
 }

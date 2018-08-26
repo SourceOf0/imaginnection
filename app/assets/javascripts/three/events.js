@@ -7,6 +7,7 @@ imaginnection.three = imaginnection.three || {};
 
 imaginnection.three.setFocusEvent = function( event ) {
 	imaginnection.three.setFocusNode($(this).find(".panel-title .name").text());
+	$("#associating").show();
 };
 
 imaginnection.three.onClickEdgeEvent = function( event ) {
@@ -17,4 +18,3 @@ imaginnection.three.onClickEdgeEvent = function( event ) {
   edge.onClick();
   return false;
 };
-

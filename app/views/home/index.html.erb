@@ -1,6 +1,108 @@
 
-<div class="center jumbotron">
-  <div class="text-center">
-    <%= link_to t('devise.registrations.new.sign_up'), new_user_registration_path, class: 'btn btn-lg btn-primary' %>
-  </div> 
+<div id="top">
+	<canvas id="top-canvas"></canvas>
 </div>
+
+<div class="text-center">
+	<%= link_to '新規登録する', new_user_registration_path, class: 'btn btn-lg btn-primary' %>
+</div>
+<div class="text-center">
+	<%= link_to 'ログインはこちら', new_user_session_path %>
+</div>
+
+<div class="page-head linkage-size-big">
+	<h3 class="page-head-title">使い方は人それぞれ</h3>
+</div>
+
+<div class="section-box linkage-size">
+	<svg class="bg-img" version="1.1"
+		 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+		 x="0px" y="0px" width="139.5px" height="100px" viewBox="0 0 139.5 100"
+		 xml:space="preserve">
+		<g>
+			<circle class="st1" cx="32" cy="24" r="19"/>
+			<path class="st1" d="M5,95V67c0-6.6,5.4-12,12-12h30c6.6,0,12,5.4,12,12v28H5z"/>
+			<circle class="st1" cx="107.5" cy="24" r="19"/>
+			<path class="st1" d="M80.5,95V67c0-6.6,5.4-12,12-12h30c6.6,0,12,5.4,12,12v28H80.5z"/>
+		</g>
+	</svg>
+	<h4 class="section-box-title">趣味嗜好が似た人を見つけたい</h4>
+	<span class="section-box-body content-center">
+		<p>
+			同じ言葉を紐づけした人（共感者）を<br>
+			見つけてフォローしよう
+		</p>
+		<small>
+			※名前を出さないようにもできます<br>
+			（人数にカウントだけされます）
+		</small>
+	</span>
+</div>
+
+<div class="section-box linkage-size">
+	<svg class="bg-img" version="1.1"
+			 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+			 x="0px" y="0px" width="129.6px" height="83.7px" viewBox="0 0 129.6 83.7" style="enable-background:new 0 0 129.6 83.7;"
+			 xml:space="preserve">
+		<g>
+			<circle cx="64.2" cy="42.6" r="14"/>
+			<path class="st0" d="M35.9,60.6c-4-5.7-5.4-11.6-5.4-19.1c0-6.4,1.7-12.4,4.7-17.5"/>
+			<path class="st0" d="M17.8,77.3C9.8,67.2,5,54.5,5,40.6C5,27.8,9,16,15.9,6.4"/>
+			<path class="st0" d="M92.6,23.8c4.3,6,5.8,11.4,5.8,19.4c0,6.8-1.8,13.2-5,18.7"/>
+			<path class="st0" d="M110.9,5c8.6,10.8,13.7,22.4,13.7,37.3c0,13.6-4.3,26.2-11.6,36.5"/>
+		</g>
+	</svg>
+	<h4 class="section-box-title">自分の考え方を発信したい</h4>
+	<span class="section-box-body content-center">
+		<p>
+			自分が作った言葉のマップを<br>
+			twitterに共有しよう
+		</p>
+		<small>
+			※非公開にもできます
+		</small>
+	</span>
+</div>
+
+<div class="section-box linkage-size">
+	<svg class="bg-img" version="1.1"
+		 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+		 x="0px" y="0px" width="114.5px" height="114.5px" viewBox="0 0 114.5 114.5" style="enable-background:new 0 0 114.5 114.5;"
+		 xml:space="preserve">
+		<g>
+			<g>
+				<path d="M41.5,10C58.9,10,73,24.1,73,41.5S58.9,73,41.5,73S10,58.9,10,41.5S24.1,10,41.5,10 M41.5,0C18.6,0,0,18.6,0,41.5
+					S18.6,83,41.5,83C64.4,83,83,64.4,83,41.5S64.4,0,41.5,0L41.5,0z"/>
+			</g>
+			<g>
+				<path d="M110.1,112.1l2-2c3.3-3.3,3.3-8.7,0-12L94,80c-3.3-3.3-8.7-3.3-12,0l-2,2c-3.3,3.3-3.3,8.7,0,12l18,18
+					C101.4,115.4,106.8,115.4,110.1,112.1z"/>
+			</g>
+			<line class="st0" x1="70.5" y1="70" x2="89.5" y2="89"/>
+		</g>
+	</svg>
+	<h4 class="section-box-title">個人的に自分探しをしたい</h4>
+	<span class="section-box-body content-center">
+		<p>
+			自分のマップを非公開・フォロワーを<br>
+			受け付けないようにもできます
+		</p>
+		<small>
+			※名前だけを公開したり<br>
+			フォローだけをすることもできます
+		</small>
+	</span>
+</div>
+
+<div class="text-center">
+	<%= link_to '新規登録する', new_user_registration_path, class: 'btn btn-lg btn-primary' %>
+</div>
+
+<canvas id="bg"></canvas>
+
+<% content_for :script do %>
+
+	<%= javascript_include_tag 'common/bg.js' %>
+	<%= javascript_include_tag 'common/top.js' %>
+	
+<% end %>

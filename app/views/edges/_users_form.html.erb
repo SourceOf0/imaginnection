@@ -33,44 +33,7 @@
       <% end %>
       
       <div class="well" id="empathy-user-list">
-        <ul class="media-list">
-          <% users.each do |user| %>
-            <li>
-              <span>
-                <% if (current_user == user) || user.is_hide_edges %>
-                  <%= user.name %>
-                <% else %>
-                  <%= link_to(user.name, edge_path(user.ref_id)) %>
-                <% end %>
-              </span>
-              <span>
-                <% if current_user != user %>
-                  <% if current_user.following?(user) %>
-                    <span id="follow-form-<%= user.id %>">
-                      <% if user.is_disable_follow %>
-                        <%# フォロー中だが相手が新規フォロワーを受け付けていない %>
-                        <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
-                          フォロー中
-                        <% end %>
-                      <% else %>
-                        <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active' do %>
-                          フォロー中
-                        <% end %>
-                      <% end %>
-                    </span>
-                  <% elsif !user.is_disable_follow %>
-                    <span id="follow-form-<%= user.id %>">
-                      <%# フォローしてない %>
-                      <%= link_to follows_path(id: user.id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
-                        フォローする
-                      <% end %>
-                    </span>
-                  <% end %>
-                <% end %>
-              </span>
-            </li>
-          <% end %>
-        </ul>
+        <%= render 'follows/users', users: users %>
       </div>
       
       <%= form_for(to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
@@ -88,7 +51,7 @@
           </div>
 
           <div class="form-group">
-            <%= f.submit empathy_button_name(), class: 'btn btn-primary', name: nil %>
+            <%= f.submit empathy_button_name(), class: 'btn btn-default', name: nil %>
           </div>
         </div>
         

@@ -1,41 +1,64 @@
 
+@charset "utf-8";
 @import 'common';
 
 html {
   display: block;
   height: 100%;
   width: 100%;
+  font-size: 12px;
 }
 
 body {
-  background-color: $backgroundColor;
+  display: flex;
+  height: 100%;
+  background: linear-gradient(to bottom, $backgroundColor1 0%, $backgroundColor2 50%, $backgroundColor3 100%);
+  background-attachment: fixed;
+  flex-direction: column;
+  color: $textColor;
+  overflow-x: hidden;
 }
 
 main {
   display: block;
-  height: 100%;
-  margin: $navHeight 0;
-  overflow: hidden;
   width: 100%;
+  flex: 1;
+  margin: $navHeight 0 0;
+}
+
+a {
+  color: $subColor;
+  
+  &:hover, &:focus {
+    color: darken($subColor, 40%);
+    text-decoration: none;
+  }
 }
 
 .container {
   padding: 20px 15px;
 }
 
+.a {
+  @media (min-width: 641px) {
+    width: 640px;
+  } // min-width: 641px
+}
+
 .alert {
   left: 0;
   margin: 10px auto;
-  position: absolute;
+  position: fixed;
   right: 0;
   width: 50%;
+  min-width: 300px;
   z-index: 10;
 	transform-origin:center top;
-	animation: show 0.5s both;
+	animation: show .5s both;
 }
 @keyframes show {
 	0% {
-		transform: translate(0,-2em);
+		transform: translate(0, -2em);
 		opacity: 0;
 	}
 	100% {
@@ -44,63 +67,271 @@ main {
 	}
 }
 
-form input {
-  max-width: 400px;
-}
-
-.background-sub {
-  background-color: $subColor;
-}
-
-#drawer {
-  background-color: rgba($baseColor, 0.5);
-  display: block;
-  height: 100%;
-  max-width: 100%;
-  padding: $navHeight 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  overflow: hidden;
-  .drawer-open {
-    background-color: $baseColor;
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 20px;
-    &:before {
-      @include height-centering;
-      height: 100%;
-    }
-    span {
-      display: inline-block;
-    }
+form {
+  margin-bottom: 40px;
+  
+  input[type="checkbox"], input[type="radio"] {
+    vertical-align: middle;
+    margin: 0 0.2em 0 0;
+  }  
+  
+  .inline-label {
+    display: inline;
+    vertical-align: middle;
   }
-  .drawer-body {
+}
+
+.page-head {
+  position: relative;
+  @include flex-center;
+  padding: 5px 0;
+  margin: 30px 0 20px -50vw;
+  font-size: 2rem;
+  width: 100vw;
+  left: 50%;
+  
+  &:before, &:after {
     display: block;
-    left: 20px;
-    padding: 0 20px 0 0;
     position: relative;
-    height: 100%;
-    white-space: nowrap;
-    width: 0;
-    transition: .3s all ease-in-out;
-    overflow: auto;
-    .drawer-title {
-      color: $colorWhite;
-      background-color: $accentColor;
-      padding: 5px 10px;
-      margin: 30px 0 20px;
-      width: 100%;
-    }
-    .drawer-content {
-      padding: 0 20px;
-    }
+    content: "";
+    width: 50%;
+    height: 0;
+    top: -.05em;
+    border-top: .25em solid $colorWhite;
+    border-radius: .5em;
   }
-  .drawer-body.in {
-    max-width: 100%;
-    width: 400px;
+  &:before {
+    border-radius: 0 .5em .5em 0;
+  }
+  &:after {
+    border-radius: .5em 0 0 .5em;
+  }
+
+  .page-head-title {
+    white-space: nowrap;
+    position: relative;
+    font-weight: bold;
+    font-size: 1em;
+    margin: 0;
+    padding: 0 0.6em;
+
+    &:before, &:after {
+      position: absolute;
+      content: "";
+      width: 1em;
+      height: 1em;
+      border: .2em solid $colorWhite;
+      vertical-align: middle;
+    }
+    &:before {
+      left: -.55em;
+      border-radius: .5em;
+    }
+    &:after {
+      right: -.55em;
+      border-radius: .5em;
+    }
   }
 }
 
+.section-box {
+  position: relative;
+  background: rgba($baseColor, 0.5);
+  border-radius: 1em;
+  padding: 1em 1.6em;
+  font-size: 1rem;
+  margin: 2em auto;
+  max-width: 960px;
+  
+  .section-box-title {
+    white-space: nowrap;
+    color: $accentColor;
+    font-size: 1.3em;
+    text-align: center;
+    position: relative;
+    border-bottom: .1em solid $colorWhite;
+    padding-bottom: .8em;
+    
+    &:before, &:after {
+      position: absolute;
+      content: "";
+      width: .8em;
+      height: .8em;
+      bottom: -.45em;
+      background: $colorWhite;
+      vertical-align: middle;
+    }
+    &:before {
+      left: -.5em;
+      border-radius: .5em;
+    }
+    &:after {
+      right: -.5em;
+      border-radius: .5em;
+    }
+  }
+  
+  .section-box-body {
+    display: block;
+    position: relative;
+    padding: .5em .4em 1em;
+
+    p {
+      margin-bottom: .5em;
+      line-height: 1.4em;
+    }
+  }
+  .content-center {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 70%;
+  }
+
+  .bg-img {
+    position: absolute;
+    right: 2%;
+    bottom: 10%;
+    width: 50%;
+    height: 50%;
+    opacity: .5;
+    
+  	.st0, .st1 {
+  	  stroke: $colorBlack;
+  	  stroke-width: 10;
+  	  stroke-linecap: round;
+  	  stroke-miterlimit: 10;
+  	}
+  	.st0 {
+  	  fill: rgba(0, 0, 0, 0);
+  	}
+  	.st1 {
+  	  fill: $colorBlack;
+  	}
+  }
+}
+
+
+.linkage-size-big {
+  font-size: 6vw;
+  margin: 3em 0 2em -50vw;
+  
+  @media (min-width: 641px) {
+    font-size: 3vw;
+  } // min-width: 641px
+}
+
+.linkage-size {
+  font-size: 4vw;
+  
+  @media (min-width: 641px) {
+    font-size: 2vw;
+    width: 50vw;
+    height: 30vw;
+  } // min-width: 641px
+}
+
+.btn.btn-danger {
+  font-weight: bold;
+  border: none;
+  border-radius: 1em;
+  padding: 0.5em 1.5em;
+}
+
+.btn.btn-default {
+  background: linear-gradient(to bottom, $colorWhite, $subColor);
+  color: $subTextColor;
+  text-shadow: 0 1px 0 $colorWhite;
+  font-weight: bold;
+  border: none;
+  border-radius: 1em;
+  padding: 0.5em 1.5em;
+  
+  &:focus, &:active:focus, &:active:hover {
+    background: linear-gradient(to bottom, $colorWhite, $subColor);
+    color: $subTextColor;
+    border: none;
+  }
+  &:hover, &:active {
+    background: linear-gradient(to bottom, lighten($subColor, 10%), darken($subColor, 20%));
+    color: $subTextColor;
+    border: none;
+  }
+}
+
+.btn.btn-primary.btn-lg {
+  background: linear-gradient(to bottom, $colorWhite, $accentColor);
+  color: $subTextColor;
+  text-shadow: 0 1px 0 $colorWhite;
+  margin: 20px;
+  width: 200px;
+  font-weight: bold;
+  border: none;
+  border-radius: 1em;
+  padding: 0.5em 1.5em;
+
+  &:focus, &:active:focus, &:active:hover {
+    background: linear-gradient(to bottom, $colorWhite, $accentColor);
+    color: $subTextColor;
+    border: none;
+  }
+  &:hover, &:active {
+    background: linear-gradient(to bottom, lighten($accentColor, 10%), darken($accentColor, 20%));
+    color: $subTextColor;
+    border: none;
+  }
+}
+
+.single-link {
+  display: block;
+  margin: 16px;
+}
+
+.media-list {
+  margin: 0;
+  padding: 0 12px;
+  min-height: 50%;
+
+  li {
+    display: flex;
+    border-bottom: 1px solid $textColor;
+    margin: 4px 0;
+    padding: 4px 6px 6px;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  .follow-btns {
+    width: 7em;
+    
+    .btn {
+      padding: 0.5em 0;
+      width: 7em;
+    }
+    .btn.active {
+      background: $accentColor;
+    }
+  }
+  
+  .user-name {
+    padding: 0.3em 0;
+  }
+}
+
+.tour, .popover-title {
+  @include main-background-overlay;
+}
+.popover.left>.arrow:after {
+  border-left-color: rgba($backgroundColor2, 0.9);
+}
+.popover.right>.arrow:after {
+  border-right-color: rgba($backgroundColor2, 0.9);
+}
+.popover.top>.arrow:after {
+  border-top-color: rgba($backgroundColor2, 0.9);
+}
+.popover.bottom>.arrow:after {
+  border-bottom-color: rgba($backgroundColor2, 0.9);
+}

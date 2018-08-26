@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   # トップページ
   root to: "home#index"
-  
+
   # ユーザ
   devise_for :users, controllers: {
     sessions: 'users/sessions'
@@ -31,4 +31,9 @@ Rails.application.routes.draw do
     end
   end
 
+  # その他ページ
+  get 'terms', to: 'home#terms'
+  get 'policy', to: 'home#policy'
+  get 'inquiry', to: 'home#inquiry'
+  
 end

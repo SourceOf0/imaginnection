@@ -13,6 +13,7 @@ imaginnection.three = imaginnection.three || {};
 imaginnection.threeData = {
 	scene: null,
 	container: null,
+	context: null,
 	camera: null,
 	renderer: null,
 	controls: null,
@@ -31,7 +32,12 @@ imaginnection.threeData = {
 	is_camera_targeting: false,
 
 	normalColor: 0xffffff,
-	ownerColor: 0x9999ff,
+	ownerColor: 0xb1e9ff,
+	gazeColor: 0xffd688,
+	
+	nodeLineWidth: 0.1,
+	edgeDefaultLineWidth: 2,
+	edgeTargetLineWidth: 10,
 };
 
 
@@ -42,18 +48,19 @@ imaginnection.three.init = function() {
 	data.container = document.getElementById('edges-index');
 	data.container.style.height = (window.innerHeight - 100) + "px";
 
-	data.camera = new THREE.PerspectiveCamera( 45, data.container.clientWidth / data.container.clientHeight, 1, 1500 );
+	data.camera = new THREE.PerspectiveCamera( 45, data.container.clientWidth / data.container.clientHeight, 1, window.innerWidth * 6 );
 	data.camera.position.set( 0, 300, 500 );
 	
 	data.scene = new THREE.Scene();
-	//data.scene.background = new THREE.Color( 0x666666 );
-	
+
 	data.raycaster = new THREE.Raycaster();
 	data.mouse = new THREE.Vector2();
 	data.renderer = new THREE.CanvasRenderer({ alpha: true });
 	data.renderer.setPixelRatio( window.devicePixelRatio );
 	data.renderer.setSize( data.container.clientWidth, data.container.clientHeight );
-  data.container.appendChild( data.renderer.domElement );
+	data.container.appendChild( data.renderer.domElement );
+	
+	data.context = data.renderer.domElement.getContext("2d");
 	
 	for( let i = 0; i < 20; i++ ) {
 		let nodeLabel = imaginnection.three.NodeLabel.create();

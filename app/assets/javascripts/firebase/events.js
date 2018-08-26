@@ -59,6 +59,13 @@ $(document).ready(function() {
   	imaginnection.tour.restart();
   });
   
+  $("#associating").on("click", function() {
+    if( imaginnection.threeData.focusNode ) {
+      window.location.hash = "edge-new-" + encodeURIComponent( imaginnection.threeData.focusNode.name );
+    }
+    return false;
+  });  
+  
   $("#node-new").on("shown.bs.modal", function() {
     imaginnection.setTour(3);
     $("#node-new .node-name").focus();
@@ -72,8 +79,7 @@ $(document).ready(function() {
   }).on("hide.bs.modal", function() {
     window.location.hash = "";
   });
-  
-  
+
 	$("#drawer .drawer-open").click(function() {
 		let $div = $("#drawer .drawer-body");
 		let $icon = $("#drawer .drawer-open span");
