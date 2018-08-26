@@ -15,7 +15,7 @@
     
     <div class="field form-group">
       <%= f.label :email %>
-      <%= f.email_field :email, autocomplete: "email", class: 'form-control', required: true %>
+      <%= f.email_field :email, autocomplete: 'email', class: 'form-control', required: true %>
     </div>
   
     <div class="field form-group">
@@ -23,12 +23,12 @@
       <% if @minimum_password_length %>
       <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
       <% end %>
-      <%= f.password_field :password, autocomplete: "off", class: 'form-control', required: true %>
+      <%= f.password_field :password, autocomplete: 'off', class: 'form-control', required: true %>
     </div>
   
     <div class="field form-group">
       <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', required: true %>
+      <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', required: true %>
     </div>
   
     <div class="section-box">

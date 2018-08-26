@@ -10,12 +10,11 @@ class HomeController < ApplicationController
   end
   
   def terms
+    # do nothing.
   end
   
   def policy
+    # do nothing.
   end
-  
-  def inquiry
-  end
-  
+
 end

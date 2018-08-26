@@ -31,9 +31,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # 問い合わせ
+  get 'inquiry', to: 'inquiry#index'
+  post 'confirm', to: 'inquiry#confirm'
+  post 'send', to: 'inquiry#send_mail'
+  
   # その他ページ
   get 'terms', to: 'home#terms'
   get 'policy', to: 'home#policy'
-  get 'inquiry', to: 'home#inquiry'
   
 end
