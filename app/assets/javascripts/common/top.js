@@ -18,7 +18,7 @@ $(document).ready(function() {
   var width = canvas.clientWidth;
   var height = canvas.clientHeight;
 
-  var time = 0;
+  var fadeTime = 0;
 
   var img = new Image();
   img.src = "logo.png";
@@ -60,7 +60,7 @@ $(document).ready(function() {
     var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     var border = canvas.clientHeight + 50;
     if( (scrollTop < border) && (oldScrollTop > border) ) {
-      time = 0;
+      fadeTime = 0;
       for(var i = 0; i < animeCount.length; i++) {
         animeCount[i] = 0;
       }
@@ -88,6 +88,7 @@ $(document).ready(function() {
   }
   
   /* 描画処理 */
+  var timeCount = new Date().getTime();
   (function draw() {
     if(!canvas.parentNode) {
       return cancelAnimationFrame(draw);
@@ -126,7 +127,7 @@ $(document).ready(function() {
     //setFont("Imaginnection", 0, height * 0.5, 177, 233, 255, animeCount[10]);
     
     context.font = "700 " + height * 0.07 + "px 'Rounded Mplus 1c'";
-    setFont("い　ま　じ　ね　く　し　ょ　ん", 0, height * 0.2, 177, 233, 255, animeCount[11]);
+    setFont("い  ま  じ  ね  く  し  ょ  ん", 0, height * 0.2, 177, 233, 255, animeCount[11]);
     
     context.font = "700 " + height * 0.06 + "px 'Rounded Mplus 1c'";
     setFont("イメージを 連ねて 繋がろう", 0, height * 0.8, 177, 233, 255, animeCount[11]);
@@ -140,8 +141,8 @@ $(document).ready(function() {
     }
     
     if(animeCount[9] > 0) {
-      time = (time + 1) % 300;
-      var blur = Math.abs(time - 150) + 1;
+      fadeTime = (fadeTime + 1) % 300;
+      var blur = Math.abs(fadeTime - 150) + 1;
       context.shadowColor = "#b1e9ff";
       context.shadowBlur = blur * 0.2;
     }
@@ -150,7 +151,9 @@ $(document).ready(function() {
     
     for(var i = 0; i < animeCount.length; i++) {
       if(animeCount[i] < 1.0) {
-        animeCount[i] = Math.min(animeCount[i] + 0.02, 1.0);
+        var nowTimeCount = new Date().getTime();
+        animeCount[i] = Math.min(animeCount[i] + (nowTimeCount - timeCount) * 0.001, 1.0);
+        timeCount = nowTimeCount;
         break;
       }
     }
