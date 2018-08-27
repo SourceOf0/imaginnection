@@ -78,10 +78,10 @@ $(document).ready(function() {
   function loadedFont() {
     let message = "テスト test てすと";
     
-    context.font = "700 100px 'Rounded Mplus 1c', 'sans-serif'";
+    context.font = "700 100px 'Rounded Mplus 1c', '游ゴシック'";
     let mainWidth = context.measureText(message).width;
     
-    context.font = "700 100px 'sans-serif'";
+    context.font = "700 100px '游ゴシック'";
     let subWidth = context.measureText(message).width;
 
     return mainWidth != subWidth;
@@ -104,7 +104,7 @@ $(document).ready(function() {
     context.arc(70, 70, 60, 0, Math.PI*2, false);
     context.stroke();
     */
-    context.font = "700 " + height * 0.1 + "px 'Rounded Mplus 1c', 'sans-serif'";
+    context.font = "700 " + height * 0.1 + "px 'Rounded Mplus 1c', '游ゴシック'";
     
     let ratio = 0.15;
     setFont("イメージを", 0, height * ratio, 255, 255, 255, animeCount[0] - animeCount[7]);
