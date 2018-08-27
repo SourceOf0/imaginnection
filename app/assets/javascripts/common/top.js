@@ -3,17 +3,17 @@
 /* global Image */
 
 $(document).ready(function() {
-  const canvas = document.getElementById("top-canvas");
+  let canvas = document.getElementById("top-canvas");
   if(canvas.parentNode === null) return;
   
-  const requestAnimationFrame = window.requestAnimationFrame ||
+  let requestAnimationFrame = window.requestAnimationFrame ||
                               window.mozRequestAnimationFrame ||
                               window.webkitRequestAnimationFrame ||
                               window.msRequestAnimationFrame;
-  const cancelAnimationFrame = window.cancelAnimationFrame ||
+  let cancelAnimationFrame = window.cancelAnimationFrame ||
                               window.mozCancelAnimationFrame;
   
-  const context = canvas.getContext("2d");
+  let context = canvas.getContext("2d");
 
   let width = canvas.clientWidth;
   let height = canvas.clientHeight;
@@ -23,7 +23,7 @@ $(document).ready(function() {
   let img = new Image();
   img.src = "logo.png";
   
-  const animeCount = [];
+  let animeCount = [];
   for(let i = 0; i < 12; i++) {
     animeCount.push(0);
   }
@@ -57,8 +57,8 @@ $(document).ready(function() {
   /* スクロールイベント */
   let oldScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   window.addEventListener("scroll", function() {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    const border = canvas.clientHeight + 50;
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let border = canvas.clientHeight + 50;
     if( (scrollTop < border) && (oldScrollTop > border) ) {
       time = 0;
       for(let i = 0; i < animeCount.length; i++) {

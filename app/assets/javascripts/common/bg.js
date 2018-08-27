@@ -2,15 +2,15 @@
 /* global $ */
 
 $(document).ready(function() {
-  const canvas = document.getElementById("bg");
+  let canvas = document.getElementById("bg");
   if(canvas.parentNode === null) return;
   
-  const rand = () => Math.random();
-  const requestAnimationFrame = window.requestAnimationFrame ||
+  let rand = () => Math.random();
+  let requestAnimationFrame = window.requestAnimationFrame ||
                               window.mozRequestAnimationFrame ||
                               window.webkitRequestAnimationFrame ||
                               window.msRequestAnimationFrame;
-  const cancelAnimationFrame = window.cancelAnimationFrame ||
+  let cancelAnimationFrame = window.cancelAnimationFrame ||
                               window.mozCancelAnimationFrame;
   
   let width = document.documentElement.clientWidth;
@@ -19,18 +19,18 @@ $(document).ready(function() {
   canvas.width = width;
   canvas.height = height;
   
-  const context = canvas.getContext("2d");
-  const nodeCount = Math.floor((width + height) * 0.005 + 10);
-  const nodes = [];
+  let context = canvas.getContext("2d");
+  let nodeCount = Math.floor((width + height) * 0.005 + 10);
+  let nodes = [];
   for(let i = 0; i < nodeCount; i++) {
-    const x = rand() * width;
-    const y = rand() * height;
-    const radius = 5 + i * i * 0.1;
-    const angle = rand() * Math.PI * 2;
+    let x = rand() * width;
+    let y = rand() * height;
+    let radius = 5 + i * i * 0.1;
+    let angle = rand() * Math.PI * 2;
     
-    const v = radius * 0.002;
-    const lineWidth = radius * 0.2 + 1;
-    const alpha = Math.min(radius / 150 + 0.01, 1);
+    let v = radius * 0.002;
+    let lineWidth = radius * 0.2 + 1;
+    let alpha = Math.min(radius / 150 + 0.01, 1);
 
     nodes.push({
       x: x,
@@ -60,8 +60,8 @@ $(document).ready(function() {
   /* スクロールイベント */
   let oldScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   window.addEventListener("scroll", function() {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    const distance = oldScrollTop - scrollTop;
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let distance = oldScrollTop - scrollTop;
     nodes.forEach(node => {
       node.y += distance * node.radius / 100;
     });
@@ -75,8 +75,7 @@ $(document).ready(function() {
     }
     requestAnimationFrame(draw);
     
-    //const gradient = context.createLinearGradient(0, height, width, height);
-    const gradient = context.createLinearGradient(width, 0, width, height);
+    let gradient = context.createLinearGradient(width, 0, width, height);
     gradient.addColorStop(0, "#252846");
     gradient.addColorStop(0.5, "#404378");
     gradient.addColorStop(1, "#574a76");
