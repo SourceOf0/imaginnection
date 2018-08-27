@@ -19,17 +19,17 @@ $(document).ready(function() {
   canvas.height = height;
   
   var context = canvas.getContext("2d");
-  var nodeCount = Math.floor((width + height) * .005 + 10);
+  var nodeCount = Math.floor((width + height) * 0.005 + 10);
   var nodes = [];
   for(var i = 0; i < nodeCount; i++) {
     var x = Math.random() * width;
     var y = Math.random() * height;
-    var radius = 5 + i * i * .1;
+    var radius = 5 + i * i * 0.1;
     var angle = Math.random() * Math.PI * 2;
     
-    var v = radius * .002;
-    var lineWidth = radius * .2 + 1;
-    var alpha = Math.min(radius / 150 + .01, 1);
+    var v = radius * 0.002;
+    var lineWidth = radius * 0.2 + 1;
+    var alpha = Math.min(radius / 150 + 0.01, 1);
 
     nodes.push({
       x: x,
@@ -76,7 +76,7 @@ $(document).ready(function() {
     
     var gradient = context.createLinearGradient(width, 0, width, height);
     gradient.addColorStop(0, "#252846");
-    gradient.addColorStop(.5, "#404378");
+    gradient.addColorStop(0.5, "#404378");
     gradient.addColorStop(1, "#574a76");
     
     context.shadowColor = "#fff";
@@ -91,7 +91,7 @@ $(document).ready(function() {
       context.beginPath();
       context.arc(node.x, node.y, node.radius - node.lineWidth, 0, Math.PI * 2);
       context.lineWidth = node.lineWidth;
-      context.strokeStyle = `rgba(177, 233, 255, ${node.alpha})`;
+      context.strokeStyle = "rgba(177, 233, 255, " + node.alpha + ")";
       context.stroke();
       
       node.x += Math.cos(node.angle) * node.v;
