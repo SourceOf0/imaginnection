@@ -21,7 +21,7 @@ $(document).ready(function() {
   let time = 0;
 
   let img = new Image();
-  img.src = "assets/logo.png";
+  img.src = "logo.png";
   
   const animeCount = [];
   for(let i = 0; i < 12; i++) {
