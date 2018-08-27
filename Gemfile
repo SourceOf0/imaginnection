@@ -97,5 +97,5 @@ end
 
 group :production do 
   # for heroku
-  #gem 'pg', '0.21.0'
+  gem 'pg', '0.21.0'
 end
