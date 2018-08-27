@@ -44,9 +44,6 @@
         <div class="modal-body">
           <%= form_for(@from_node, method: :get, url: new_edge_path, html: {id: "node-new-form"}, remote: true) do |f| %>
             
-            <%# エラーメッセージをレンダリング %>
-            <%= render 'layouts/error_messages', model: f.object %>
-            
             <div class="form-group node-circle text-center">
               <%= f.label :name, 'ノード名', class: 'sr-only' %>
               <%= f.text_field :name, class: 'form-control node-name', autocomplete: "off", placeholder: "単語を入力", required: true %>
@@ -75,9 +72,6 @@
         
         <div class="modal-body">
           <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
-            
-            <%# エラーメッセージをレンダリング %>
-            <%# render 'layouts/error_messages', model: f.object %>
             
             <%= hidden_field_tag :from_node_name, "" %>
             

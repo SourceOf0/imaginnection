@@ -8,7 +8,6 @@ var imaginnection = imaginnection || {};
 
 // edgeのバリデーション
 imaginnection.validateEdge = function( edge ) {
-  // TODO
   if( edge.from_node == edge.to_node ) return "前後で同じ名前の単語は使用できません";
   return null;
 };
@@ -17,7 +16,6 @@ imaginnection.validateEdge = function( edge ) {
 // userが持つedgeを作成
 // @return: 追加したedgeのkey
 imaginnection.createUserEdge = function( edge ) {
-  // TODO: 重複チェック
   let ref = firebase.database().ref().child( "users/" + edge["user_id"] + "/edges" ).push({
     from_node: edge["from_node"],
     to_node: edge["to_node"],

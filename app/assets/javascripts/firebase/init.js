@@ -15,6 +15,13 @@ if( !firebase.apps.length ) {
   firebase.initializeApp(config);
 }
 
+firebase.auth().onAuthStateChanged(function(user) {
+  if( !user ) {
+    firebase.auth().signInAnonymously().catch(function(error) {
+      console.error("ログインエラー", error);
+    });
+  }
+});
 
 var imaginnection = imaginnection || {};
 

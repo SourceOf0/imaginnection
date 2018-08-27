@@ -5,5 +5,9 @@
   
   <%# フォームを表示するためにハッシュを変える %>
   window.location.hash = "edge-new-" + encodeURIComponent("<%= @from_node.name %>");
+
+<% else %>
+  
+  $("#info-modal").html("<%=j render 'layouts/error_messages', model: @from_node %>").modal("show");
   
 <% end %>

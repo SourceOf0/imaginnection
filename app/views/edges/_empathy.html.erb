@@ -1,0 +1,22 @@
+<%# 共感するリンクを作る %>
+<%# @params from_node: 対象fromノード %>
+<%# @params to_node: 対象toノード %>
+<%# @params is_hide_user: 名前非公開か %>
+
+<%= form_for(to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
+  
+  <%= hidden_field_tag :from_node_name, from_node.name %>
+  <%= f.hidden_field :name, value: to_node.name %>
+
+  <div class="text-center">
+    <div class="form-group check-hide-user">
+      <%= check_box_tag :is_hide_user, is_hide_user %>
+      <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit empathy_button_name(), class: 'btn btn-default', name: nil %>
+    </div>
+  </div>
+  
+<% end %>

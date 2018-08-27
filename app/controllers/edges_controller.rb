@@ -30,6 +30,7 @@ class EdgesController < ApplicationController
     @is_hide_user = !!params[:is_hide_user]
     @users = User.where(ref_id: params[:content])
     @count = params[:count];
+    @is_owner = !!params[:content].include?(current_user.ref_id);
   end
 
   def new
@@ -45,8 +46,8 @@ class EdgesController < ApplicationController
   
   
   def destroy
-    @from_node = params[:from_node_name]
-    @to_node = params[:to_node_name]
+    @from_node = Node.new(name: params[:from_node_name])
+    @to_node = Node.new(node_params)
   end
   
   

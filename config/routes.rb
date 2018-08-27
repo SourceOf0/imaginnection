@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   end
   
   # ノード
-  resources :nodes, only: [:show]
+  #resources :nodes, only: [:show]
   
   # フォロー
   resources :follows, only: [:create, :destroy] do

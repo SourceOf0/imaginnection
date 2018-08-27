@@ -51,6 +51,7 @@ a {
   position: fixed;
   right: 0;
   width: 50%;
+  max-width: 600px;
   min-width: 300px;
   z-index: 10;
 	transform-origin:center top;
@@ -252,8 +253,8 @@ form {
     color: $subTextColor;
     border: none;
   }
-  &:hover, &:active {
-    background: linear-gradient(to bottom, lighten($subColor, 10%), darken($subColor, 20%));
+  &.active, &:hover, &:active {
+    background: linear-gradient(to top, lighten($subColor, 10%), darken($subColor, 20%));
     color: $subTextColor;
     border: none;
   }
@@ -275,8 +276,8 @@ form {
     color: $subTextColor;
     border: none;
   }
-  &:hover, &:active {
-    background: linear-gradient(to bottom, lighten($accentColor, 10%), darken($accentColor, 20%));
+  &.active, &:hover, &:active {
+    background: linear-gradient(to top, lighten($accentColor, 10%), darken($accentColor, 20%));
     color: $subTextColor;
     border: none;
   }

@@ -6,7 +6,6 @@
 
 <div class="modal-dialog">
   <div class="modal-content">
-    
     <div class="modal-body">
       
       <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
@@ -36,27 +35,20 @@
         <%= render 'follows/users', users: users %>
       </div>
       
-      <%= form_for(to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
+      <div id="empathy-button">
+        <% if @is_owner %>
         
-        <%# エラーメッセージをレンダリング %>
-        <%# render 'layouts/error_messages', model: f.object %>
-        
-        <%= hidden_field_tag :from_node_name, from_node.name %>
-        <%= f.hidden_field :name, value: to_node.name %>
+          <%# 共感削除ボタンを表示 %>
+          <%= render 'unempathy', from_node: from_node, to_node: to_node, is_hide_user: is_hide_user %>
   
-        <div class="text-center">
-          <div class="form-group check-hide-user">
-            <%= check_box_tag :is_hide_user, is_hide_user %>
-            <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
-          </div>
-
-          <div class="form-group">
-            <%= f.submit empathy_button_name(), class: 'btn btn-default', name: nil %>
-          </div>
-        </div>
-        
-      <% end %>
-
+        <% else %>
+    
+          <%# 共感するボタンを表示 %>
+          <%= render 'empathy', from_node: from_node, to_node: to_node, is_hide_user: is_hide_user %>
+  
+        <% end %>
+      </div>
+      
     </div>
   </div>
 </div>

@@ -1,11 +1,24 @@
 
-<% if @from_node.valid? && @to_node.valid? %>
+<% if !@from_node.valid? %>
+
+  $("#info-modal").html("<%=j render 'layouts/error_messages', model: @from_node %>").modal("show");
+
+<% elsif !@to_node.valid? %>
+
+  $("#info-modal").html("<%=j render 'layouts/error_messages', model: @to_node %>").modal("show");
+  
+<% else %>
+  
   <%# エッジを投稿する %>
   var edge = imaginnection.createEdgeData("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
   if( imaginnection.createEdge( edge ) ) {
     <%# エッジ一覧を表示するためハッシュを変える %>
     window.location.hash = "";
     <%# 該当エッジにフォーカスを合わせる %>
-  	imaginnection.three.setFocusNode( edge.from_node );
+  	imaginnection.three.setFocusNode( edge.from_node, true );
+  	
+    <%# 共感者一覧のボタンを切り替える %>
+    $("#empathy-button").html("<%=j render 'unempathy', from_node: @from_node, to_node: @to_node, is_hide_user: @is_hide_user %>");
   }
+
 <% end %>
