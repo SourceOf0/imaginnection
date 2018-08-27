@@ -25,7 +25,7 @@
     <div class="field form-group">
       <%= f.label :password %>
       <% if @minimum_password_length %>
-        <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+        <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
       <% end %>
       <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i>
       <%= f.password_field :password, autocomplete: 'off', class: 'form-control' %>

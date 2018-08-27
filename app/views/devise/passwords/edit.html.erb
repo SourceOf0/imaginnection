@@ -12,7 +12,7 @@
     <div class="field form-group">
       <%= f.label :password, t('.new_password') %>
       <% if @minimum_password_length %>
-        <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+        <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
       <% end %>
       <%= f.password_field :password, autofocus: true, autocomplete: 'off', class: 'form-control', required: true %>
     </div>
