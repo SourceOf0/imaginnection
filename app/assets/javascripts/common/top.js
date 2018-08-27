@@ -3,28 +3,28 @@
 /* global Image */
 
 $(document).ready(function() {
-  let canvas = document.getElementById("top-canvas");
+  var canvas = document.getElementById("top-canvas");
   if(canvas.parentNode === null) return;
   
-  let requestAnimationFrame = window.requestAnimationFrame ||
+  var requestAnimationFrame = window.requestAnimationFrame ||
                               window.mozRequestAnimationFrame ||
                               window.webkitRequestAnimationFrame ||
                               window.msRequestAnimationFrame;
-  let cancelAnimationFrame = window.cancelAnimationFrame ||
+  var cancelAnimationFrame = window.cancelAnimationFrame ||
                               window.mozCancelAnimationFrame;
   
-  let context = canvas.getContext("2d");
+  var context = canvas.getContext("2d");
 
-  let width = canvas.clientWidth;
-  let height = canvas.clientHeight;
+  var width = canvas.clientWidth;
+  var height = canvas.clientHeight;
 
-  let time = 0;
+  var time = 0;
 
-  let img = new Image();
+  var img = new Image();
   img.src = "logo.png";
   
-  let animeCount = [];
-  for(let i = 0; i < 12; i++) {
+  var animeCount = [];
+  for(var i = 0; i < 12; i++) {
     animeCount.push(0);
   }
   
@@ -55,13 +55,13 @@ $(document).ready(function() {
   });
   
   /* スクロールイベント */
-  let oldScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  var oldScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   window.addEventListener("scroll", function() {
-    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    let border = canvas.clientHeight + 50;
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var border = canvas.clientHeight + 50;
     if( (scrollTop < border) && (oldScrollTop > border) ) {
       time = 0;
-      for(let i = 0; i < animeCount.length; i++) {
+      for(var i = 0; i < animeCount.length; i++) {
         animeCount[i] = 0;
       }
     }
@@ -76,13 +76,13 @@ $(document).ready(function() {
 
   /* フォントロードチェック */
   function loadedFont() {
-    let message = "テスト test てすと";
+    var message = "テスト test てすと";
     
     context.font = "700 100px 'Rounded Mplus 1c', '游ゴシック'";
-    let mainWidth = context.measureText(message).width;
+    var mainWidth = context.measureText(message).width;
     
     context.font = "700 100px '游ゴシック'";
-    let subWidth = context.measureText(message).width;
+    var subWidth = context.measureText(message).width;
 
     return mainWidth != subWidth;
   }
@@ -106,7 +106,7 @@ $(document).ready(function() {
     */
     context.font = "700 " + height * 0.1 + "px 'Rounded Mplus 1c', '游ゴシック'";
     
-    let ratio = 0.15;
+    var ratio = 0.15;
     setFont("イメージを", 0, height * ratio, 255, 255, 255, animeCount[0] - animeCount[7]);
     ratio += 0.25;
     setFont("連ねて"    , 0, height * ratio, 255, 255, 255, animeCount[1] - animeCount[7]);
@@ -141,14 +141,14 @@ $(document).ready(function() {
     
     if(animeCount[9] > 0) {
       time = (time + 1) % 300;
-      let blur = Math.abs(time - 150) + 1;
+      var blur = Math.abs(time - 150) + 1;
       context.shadowColor = "#b1e9ff";
       context.shadowBlur = blur * 0.2;
     }
     
     context.globalCompositeOperation = "lighter";
     
-    for(let i = 0; i < animeCount.length; i++) {
+    for(var i = 0; i < animeCount.length; i++) {
       if(animeCount[i] < 1.0) {
         animeCount[i] = Math.min(animeCount[i] + 0.02, 1.0);
         break;

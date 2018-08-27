@@ -2,35 +2,35 @@
 /* global $ */
 
 $(document).ready(function() {
-  let canvas = document.getElementById("bg");
+  var canvas = document.getElementById("bg");
   if(canvas.parentNode === null) return;
   
-  let rand = () => Math.random();
-  let requestAnimationFrame = window.requestAnimationFrame ||
+  var rand = () => Math.random();
+  var requestAnimationFrame = window.requestAnimationFrame ||
                               window.mozRequestAnimationFrame ||
                               window.webkitRequestAnimationFrame ||
                               window.msRequestAnimationFrame;
-  let cancelAnimationFrame = window.cancelAnimationFrame ||
+  var cancelAnimationFrame = window.cancelAnimationFrame ||
                               window.mozCancelAnimationFrame;
   
-  let width = document.documentElement.clientWidth;
-  let height = document.documentElement.clientHeight;
+  var width = document.documentElement.clientWidth;
+  var height = document.documentElement.clientHeight;
   canvas.setAttribute("style", "position:fixed;z-index:-1;left:0;top:0;width:100vw;height:100vh;");
   canvas.width = width;
   canvas.height = height;
   
-  let context = canvas.getContext("2d");
-  let nodeCount = Math.floor((width + height) * 0.005 + 10);
-  let nodes = [];
-  for(let i = 0; i < nodeCount; i++) {
-    let x = rand() * width;
-    let y = rand() * height;
-    let radius = 5 + i * i * 0.1;
-    let angle = rand() * Math.PI * 2;
+  var context = canvas.getContext("2d");
+  var nodeCount = Math.floor((width + height) * 0.005 + 10);
+  var nodes = [];
+  for(var i = 0; i < nodeCount; i++) {
+    var x = rand() * width;
+    var y = rand() * height;
+    var radius = 5 + i * i * 0.1;
+    var angle = rand() * Math.PI * 2;
     
-    let v = radius * 0.002;
-    let lineWidth = radius * 0.2 + 1;
-    let alpha = Math.min(radius / 150 + 0.01, 1);
+    var v = radius * 0.002;
+    var lineWidth = radius * 0.2 + 1;
+    var alpha = Math.min(radius / 150 + 0.01, 1);
 
     nodes.push({
       x: x,
@@ -58,10 +58,10 @@ $(document).ready(function() {
   });
   
   /* スクロールイベント */
-  let oldScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+  var oldScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
   window.addEventListener("scroll", function() {
-    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    let distance = oldScrollTop - scrollTop;
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var distance = oldScrollTop - scrollTop;
     nodes.forEach(node => {
       node.y += distance * node.radius / 100;
     });
@@ -75,7 +75,7 @@ $(document).ready(function() {
     }
     requestAnimationFrame(draw);
     
-    let gradient = context.createLinearGradient(width, 0, width, height);
+    var gradient = context.createLinearGradient(width, 0, width, height);
     gradient.addColorStop(0, "#252846");
     gradient.addColorStop(0.5, "#404378");
     gradient.addColorStop(1, "#574a76");
