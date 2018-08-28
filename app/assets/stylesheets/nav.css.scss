@@ -98,9 +98,7 @@ header {
   }
 
   .position-center {
-    position: absolute;
     display: flex;
-    width: 100%;
     height: $navHeight;
     justify-content: center;
     align-items: center;

@@ -45,7 +45,13 @@
             <% end %>
           </li>
         </ul><!-- .position-left -->
-            
+        
+        <div class="position-center logo">
+          <%= link_to(edges_path) do %>
+            <%= render 'layouts/logo' %>
+          <% end %>
+        </div><!-- .position-center -->
+        
         <ul class="height-centering position-right">
           <li>
             <%= link_to("#", class: 'icon button', id: 'tour-icon') do %>
@@ -53,12 +59,6 @@
             <% end %>
           </li>
         </ul><!-- .position-right -->
-        
-        <div class="position-center logo">
-          <%= link_to(edges_path) do %>
-            <%= render 'layouts/logo' %>
-          <% end %>
-        </div><!-- .position-center -->
         
       </nav>
       
@@ -72,18 +72,18 @@
           </li>
         </ul><!-- .position-left -->
         
-        <ul class="height-centering position-right">
-          <li class="<%= 'active' if current_page?(new_user_session_path) %>">
-            <%= link_to(t('devise.sessions.new.sign_in'), new_user_session_path, class: 'text-link') %>
-          </li>
-        </ul><!-- .position-right -->
-  
         <div class="position-center logo">
           <%= link_to(root_path) do %>
             <%= render 'layouts/logo' %>
           <% end %>
         </div><!-- .position-center -->
         
+        <ul class="height-centering position-right">
+          <li class="<%= 'active' if current_page?(new_user_session_path) %>">
+            <%= link_to(t('devise.sessions.new.sign_in'), new_user_session_path, class: 'text-link') %>
+          </li>
+        </ul><!-- .position-right -->
+  
       </nav>
     
     <% end %>
@@ -104,6 +104,12 @@
             </li>
           </ul><!-- .position-left -->
           
+          <div class="position-center">
+            <li>
+              <%= link_to('連想する', '', id: 'associating', class: 'btn btn-primary') %>
+            </li>
+          </div><!-- .position-center -->
+  
           <ul class="height-centering position-right" >
             <li>
               <div class="btn-group zoom-button" role="group" aria-label="zoom">
@@ -117,12 +123,6 @@
             </li>
           </ul><!-- .position-right -->
           
-          <div class="position-center">
-            <li>
-              <%= link_to('連想する', '', id: 'associating', class: 'btn btn-primary') %>
-            </li>
-          </div><!-- .position-center -->
-  
         </nav>
       </section><!-- .bottom-nav -->
     
