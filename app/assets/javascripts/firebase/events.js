@@ -23,7 +23,7 @@ imaginnection.changeContent = function() {
     return;
   }
   
-  if( hash.startsWith("edge-new-") ) {
+  if( hash.indexOf("edge-new-") === 0 ) {
     // フォームの中身を消す
     $("#edge-new-form")[0].reset();
     
