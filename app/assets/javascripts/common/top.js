@@ -140,8 +140,10 @@ $(document).ready(function() {
       context.drawImage(img, 0, 0, 0, 0);
     }
     
+    var nowTimeCount = new Date().getTime();
+    var diffCount = (nowTimeCount - timeCount);
     if(animeCount[9] > 0) {
-      fadeTime = (fadeTime + 1) % 300;
+      fadeTime = (fadeTime + diffCount * 0.1) % 300;
       var blur = Math.abs(fadeTime - 150) + 1;
       context.shadowColor = "#b1e9ff";
       context.shadowBlur = blur * 0.2;
@@ -151,13 +153,12 @@ $(document).ready(function() {
     
     for(var i = 0; i < animeCount.length; i++) {
       if(animeCount[i] < 1.0) {
-        var nowTimeCount = new Date().getTime();
-        animeCount[i] = Math.min(animeCount[i] + (nowTimeCount - timeCount) * 0.001, 1.0);
-        timeCount = nowTimeCount;
+        animeCount[i] = Math.min(animeCount[i] + diffCount * 0.001, 1.0);
         break;
       }
     }
-    
+    timeCount = nowTimeCount;
+  
   })();
   
 });
