@@ -48,6 +48,7 @@ class EdgesController < ApplicationController
   def destroy
     @from_node = Node.new(name: params[:from_node_name])
     @to_node = Node.new(node_params)
+    @is_hide_user = false
   end
   
   
