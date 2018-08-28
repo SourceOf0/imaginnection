@@ -11,7 +11,7 @@ html {
 
 body {
   display: flex;
-  height: 100%;
+  min-height: 100%;
   background: linear-gradient(to bottom, $backgroundColor1 0%, $backgroundColor2 50%, $backgroundColor3 100%);
   background-attachment: fixed;
   flex-direction: column;
