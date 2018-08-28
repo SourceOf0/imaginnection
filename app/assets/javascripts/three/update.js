@@ -256,8 +256,8 @@ imaginnection.three.render = function() {
 		edge_list[key].update();
 	}
 	
-  data.context.shadowColor = "#fff";
-  data.context.shadowBlur = 10;
+  //data.context.shadowColor = "#fff";
+  //data.context.shadowBlur = 10;
   
 	data.renderer.render( data.scene, data.camera );
 };
