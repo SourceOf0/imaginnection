@@ -9,14 +9,18 @@
   
 <% else %>
   
+  console.log("do delete");
   <%# エッジを削除する %>
-  var edge = imaginnection.createEdgeData("<%=j current_user.ref_id %>", "<%=j @from_node.name %>", "<%=j @to_node.name %>", <%=j @is_hide_user %>);
+  var edge = imaginnection.createEdgeData("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
+  console.log("set target edge");
   imaginnection.removeEdge( edge );
-  
+
   <%# ポップアップを閉じる %>
   $("#users-modal").modal("hide");
+  console.log("hide modal");
   
   <%# 連想ボタンを消す %>
 	$("#associating").hide();
+  console.log("hide button");
 
 <% end %>
