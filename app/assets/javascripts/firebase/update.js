@@ -136,6 +136,7 @@ imaginnection.createEdge = function( edge ) {
 
 // edge削除
 imaginnection.removeEdge = function( edge ) {
+  console.log("call remove");
   if( imaginnection.updateEdge(edge, true) ) {
     console.log("delete edge: " + edge.from_node + " -> " + edge.to_node);
   } else {
