@@ -1,29 +1,22 @@
 
-console.log("call");
 <% if !@from_node.valid? %>
 
-  console.log("pending");
   $("#info-modal").html("<%=j render 'layouts/error_messages', model: @from_node %>").modal("show");
 
 <% elsif !@to_node.valid? %>
 
-  console.log("pending");
   $("#info-modal").html("<%=j render 'layouts/error_messages', model: @to_node %>").modal("show");
   
 <% else %>
   
-  console.log("do delete");
   <%# エッジを削除する %>
-  var edge = imaginnection.createEdgeData("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
-  console.log("set target edge");
-  imaginnection.removeEdge( edge );
-
+  //var edge = imaginnection.createEdgeData("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
+  //imaginnection.removeEdge( edge );
+  
   <%# ポップアップを閉じる %>
-  $("#users-modal").modal("hide");
-  console.log("hide modal");
+  //$("#users-modal").modal("hide");
   
   <%# 連想ボタンを消す %>
-	$("#associating").hide();
-  console.log("hide button");
+  //$("#associating").hide();
 
 <% end %>
