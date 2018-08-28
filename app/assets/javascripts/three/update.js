@@ -7,8 +7,8 @@ imaginnection.three = imaginnection.three || {};
 
 
 imaginnection.three.setFocusNode = function( node_name, isScroll ) {
-	let data = imaginnection.threeData;
-	let from_node = imaginnection.three.Node.list[node_name];
+	var data = imaginnection.threeData;
+	var from_node = imaginnection.three.Node.list[node_name];
 	if( !from_node ) return;
 	if( data.focusNode ) {
 		data.focusNode.setDefaultStyle();
@@ -16,7 +16,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 	data.focusNode = from_node;
 	data.focusNode.setTargetStyle();
 	data.is_camera_targeting = true;
-	let vector = data.focusNode.particle.position.clone().project(data.camera);
+	var vector = data.focusNode.particle.position.clone().project(data.camera);
 	if( vector.z > 1 ) {
 		data.zoom_pos.subVectors( data.focusNode.particle.position, data.camera.position );
 		data.zoom_pos = data.zoom_pos.normalize().negate().multiplyScalar(500).add(data.focusNode.particle.position);
@@ -31,11 +31,11 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 	
 	if( !isScroll ) return;
 	
-	let $box = $("#drawer .drawer-body");
-	let $target = $("#from-node-index-" + from_node.index);
-	let $list = $("#nodes-index");
-	let index = $list.children().index($target);
-	let pos = $box.scrollTop() + ($list.offset().top + $target.outerHeight(true) * index) - $box.offset().top - 10;
+	var $box = $("#drawer .drawer-body");
+	var $target = $("#from-node-index-" + from_node.index);
+	var $list = $("#nodes-index");
+	var index = $list.children().index($target);
+	var pos = $box.scrollTop() + ($list.offset().top + $target.outerHeight(true) * index) - $box.offset().top - 10;
 
 	$("#from-node-index-" + from_node.index + ">a").click();
 	$box.stop().animate({ scrollTop: pos }, 500, "swing");
@@ -43,7 +43,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 
 
 imaginnection.three.addNode = function( name, edge_count ) {
-	let node = imaginnection.three.Node.create( name, edge_count );
+	var node = imaginnection.three.Node.create( name, edge_count );
 	imaginnection.threeData.scene.add(node.particle);
 	imaginnection.three.Node.list[name] = node;
 	
@@ -59,10 +59,10 @@ imaginnection.three.removeNode = function( node ) {
 };
 
 imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
-	let data = imaginnection.threeData;
-	let from_node = imaginnection.three.Node.list[from_node_name];
-	let to_node = imaginnection.three.Node.list[to_node_name];
-	let is_owner = ( user_id === imaginnection.current_id );
+	var data = imaginnection.threeData;
+	var from_node = imaginnection.three.Node.list[from_node_name];
+	var to_node = imaginnection.three.Node.list[to_node_name];
+	var is_owner = ( user_id === imaginnection.current_id );
 
 	if( !from_node ) {
 		from_node = imaginnection.three.addNode(from_node_name, 0);
@@ -71,7 +71,7 @@ imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_nod
 		to_node = imaginnection.three.addNode(to_node_name, from_node.edge_count);
 	}
 	
-	let edge = from_node.getToEdge( to_node );
+	var edge = from_node.getToEdge( to_node );
 	if( !edge ) {
 		edge = imaginnection.three.Edge.create( from_node, to_node );
 		if( !edge ) return;
@@ -86,13 +86,13 @@ imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_nod
 };
 
 imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
-	let data = imaginnection.threeData;
-	let from_node = imaginnection.three.Node.list[from_node_name];
-	let to_node = imaginnection.three.Node.list[to_node_name];
-	let is_owner = ( user_id === imaginnection.current_id );
+	var data = imaginnection.threeData;
+	var from_node = imaginnection.three.Node.list[from_node_name];
+	var to_node = imaginnection.three.Node.list[to_node_name];
+	var is_owner = ( user_id === imaginnection.current_id );
 
 	if( from_node && to_node ) {
-		let edge = from_node.getToEdge( to_node );
+		var edge = from_node.getToEdge( to_node );
 		if( edge ) {
 			if( is_owner ) edge.resetOwner();
 			edge.decCount();
@@ -119,7 +119,7 @@ imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_
 };
 
 imaginnection.three.setControlTarget = function() {
-	let data = imaginnection.threeData;
+	var data = imaginnection.threeData;
 	data.is_mouse_down = false;
 	if ( data.is_drag ) {
 		data.is_drag = false;
@@ -127,13 +127,13 @@ imaginnection.three.setControlTarget = function() {
 	}
 	data.raycaster.setFromCamera( data.mouse, data.camera );
 	
-	let intersects = data.raycaster.intersectObjects( data.scene.children );
+	var intersects = data.raycaster.intersectObjects( data.scene.children );
 	if( intersects.length == 0 ) return;
 	
-	let node, to_edge, from_edge;
-	let focusNode = data.focusNode;
-	for( let key in intersects ) {
-		let obj = intersects[key].object;
+	var node, to_edge, from_edge;
+	var focusNode = data.focusNode;
+	for( var key in intersects ) {
+		var obj = intersects[key].object;
 		node = node || imaginnection.three.Node.list[obj.name];
 		if( focusNode ) {
 			from_edge = from_edge || focusNode.from_edges[obj.uuid];
@@ -155,8 +155,8 @@ imaginnection.three.setControlTarget = function() {
 
 
 imaginnection.three.moveControlTarget = function( pos ) {
-	let data = imaginnection.threeData;
-	let view = document.getElementById('edges-index');
+	var data = imaginnection.threeData;
+	var view = document.getElementById('edges-index');
 	data.mouse.x = ( pos.clientX / view.clientWidth ) * 2 - 1;
 	data.mouse.y = - ( (pos.clientY - 50) / view.clientHeight ) * 2 + 1;
 
@@ -168,7 +168,7 @@ imaginnection.three.moveControlTarget = function( pos ) {
 
 
 imaginnection.three.resetControlTarget = function() {
-	let data = imaginnection.threeData;
+	var data = imaginnection.threeData;
 	data.is_camera_targeting = false;
 	data.is_drag = false;
 	data.is_mouse_down = false;
@@ -176,8 +176,8 @@ imaginnection.three.resetControlTarget = function() {
 
 
 imaginnection.three.setZoom = function( ratio ) {
-	let data = imaginnection.threeData;
-	let target_pos = new THREE.Vector3(0, 0, 0);
+	var data = imaginnection.threeData;
+	var target_pos = new THREE.Vector3(0, 0, 0);
 	if( data.focusNode ) {
 		target_pos.copy( data.focusNode.particle.position );
 	} else {
@@ -203,10 +203,10 @@ imaginnection.three.animate = function() {
 
 
 imaginnection.three.render = function() {
-	let data = imaginnection.threeData;
+	var data = imaginnection.threeData;
 	
 	if( data.is_camera_targeting && data.focusNode ) {
-		let target_pos = data.focusNode.particle.position;
+		var target_pos = data.focusNode.particle.position;
 		data.delta.subVectors( target_pos, data.controls.target ).multiplyScalar( 0.05 );
 		data.controls.target.add( data.delta );
 		if( target_pos.distanceTo(data.controls.target) < 1 ) {
@@ -223,19 +223,19 @@ imaginnection.three.render = function() {
 		}
 	}
 
-	let count = 1;
-	let view = document.getElementById('edges-index');
-	let node_list = imaginnection.three.Node.list;
-	let node_label_list = imaginnection.three.NodeLabel.list;
+	var count = 1;
+	var view = document.getElementById('edges-index');
+	var node_list = imaginnection.three.Node.list;
+	var node_label_list = imaginnection.three.NodeLabel.list;
 	
 	data.context.clearRect(0, 0, view.clientWidth, view.clientHeight);
 
-	for( let key in node_list ) {
-		let node = node_list[key];
+	for( var key in node_list ) {
+		var node = node_list[key];
 		node.update();
 		if( node == imaginnection.threeData.focusNode ) continue;
 		if( count >= node_label_list.length ) continue;
-		let node_label = node_label_list[count];
+		var node_label = node_label_list[count];
 		if( node_label.update(node, data.camera, view.clientWidth, view.clientHeight) ) {
 			count++;
 		}
@@ -251,8 +251,8 @@ imaginnection.three.render = function() {
 		node_label_list[count].update(null, data.camera, view.clientWidth, view.clientHeight);
 	}
 	
-	let edge_list = imaginnection.three.Edge.list;
-	for( let key in edge_list ) {
+	var edge_list = imaginnection.three.Edge.list;
+	for( var key in edge_list ) {
 		edge_list[key].update();
 	}
 	

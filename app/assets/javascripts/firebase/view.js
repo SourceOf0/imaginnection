@@ -11,11 +11,11 @@ var imaginnection = imaginnection || {};
 
 // 共感者一覧表示
 imaginnection.viewUserList = function( from_node_name, to_node_name ) {
-  let users = imaginnection.dbdata.edges[from_node_name][to_node_name]["users"];
-  let post_data = [];
-  let count = 0;
-  let is_hide_user = true;
-  for( let key in users ) {
+  var users = imaginnection.dbdata.edges[from_node_name][to_node_name]["users"];
+  var post_data = [];
+  var count = 0;
+  var is_hide_user = true;
+  for( var key in users ) {
     count++;
     if( key == imaginnection.current_id ) is_hide_user = users[key].is_hide_user;
     if( !users[key].is_hide_user ) post_data.push(key);
@@ -32,7 +32,7 @@ imaginnection.viewUserList = function( from_node_name, to_node_name ) {
 // 追加表示
 imaginnection.addEdgeList = function( edge_id, user_id, from_node_name, to_node_name ) {
   
-  let $div = $("#debug-edges-index .edge-temp .table").clone();
+  var $div = $("#debug-edges-index .edge-temp .table").clone();
   $div.find(".from-node-name").text(from_node_name);
   $div.find(".to-node-name a").attr("href", encodeURIComponent(from_node_name) + "/" + encodeURIComponent(to_node_name)).text(to_node_name);
   $div.attr("id", "edge-" + edge_id);
@@ -41,9 +41,9 @@ imaginnection.addEdgeList = function( edge_id, user_id, from_node_name, to_node_
   }
   
   $div.find("a").click(function() {
-    let data = $(this).attr("href").split("/");
-    let from_node_name = decodeURIComponent(data[0]);
-    let to_node_name = decodeURIComponent(data[1]);
+    var data = $(this).attr("href").split("/");
+    var from_node_name = decodeURIComponent(data[0]);
+    var to_node_name = decodeURIComponent(data[1]);
     imaginnection.viewUserList(from_node_name, to_node_name);
     return false;
   });

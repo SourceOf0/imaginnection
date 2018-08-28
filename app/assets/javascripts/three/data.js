@@ -12,7 +12,7 @@ imaginnection.three.NodeLabel = {
 	list: [],
 	
 	create: function() {
-		let div = document.createElement('div');
+		var div = document.createElement('div');
 		div.className = 'text-label';
 		div.style.position = 'absolute';
 
@@ -45,9 +45,9 @@ imaginnection.three.NodeLabel = {
 				}
 				
 				this.position.copy(node.particle.position);
-				let vector = this.position.project(camera);
+				var vector = this.position.project(camera);
 				
-				let z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
+				var z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
 				if( imaginnection.threeData.focusNode != node ) {
 					if( (vector.z > z_min) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						this.hide();
@@ -107,17 +107,17 @@ imaginnection.three.Node = {
 	},
 	
 	create: function( name, index ) {
-		let pos = new THREE.Vector3( ((this.total_count % 6 / 6) * 20 + 4) * 30 + 30, 0, 0);
+		var pos = new THREE.Vector3( ((this.total_count % 6 / 6) * 20 + 4) * 30 + 30, 0, 0);
 		pos.applyAxisAngle( this.org1, (this.total_count % 50 / 50) * PI2 );
 		pos.applyAxisAngle( this.org2, (this.total_count % 7 / 7) * PI2/2 );
 		
-		let color = imaginnection.threeData.normalColor;
-		let particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: color, program: this.programStroke } ) );
+		var color = imaginnection.threeData.normalColor;
+		var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: color, program: this.programStroke } ) );
 		particle.position.copy(pos);
 		particle.scale.x = particle.scale.y = 0;
 		particle.name = name;
 		// TODO
-		let is_gaze = false;
+		var is_gaze = false;
 		//if( this.total_count == 0 ) is_gaze = true;
 		this.total_count++;
 		
@@ -131,13 +131,13 @@ imaginnection.three.Node = {
 			to_edges: {},
 			edge_count: 0,
 			update: function() {
-				let target_scale = this.edge_count * 5 + 10;
+				var target_scale = this.edge_count * 5 + 10;
 				this.particle.scale.x += (target_scale - this.particle.scale.x) * 0.1;
 				this.particle.scale.y += (target_scale - this.particle.scale.y) * 0.1;
 			},
 			getToEdge: function( to_node ) {
-				for( let key in this.to_edges ) {
-					let edge = this.to_edges[key];
+				for( var key in this.to_edges ) {
+					var edge = this.to_edges[key];
 					if( edge.to_node.name == to_node.name ) return edge;
 				}
 				return null;
@@ -160,24 +160,24 @@ imaginnection.three.Node = {
 			},
 			setTargetStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programFill;
-				for( let key in this.to_edges ) {
+				for( var key in this.to_edges ) {
 					this.to_edges[key].setTargetStyle();
 				}
-				for( let key in this.from_edges ) {
+				for( var key in this.from_edges ) {
 					this.from_edges[key].setSubTargetStyle();
 				}
 			},
 			setDefaultStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programStroke;
-				for( let key in this.to_edges ) {
+				for( var key in this.to_edges ) {
 					this.to_edges[key].setDefaultStyle();
 				}
-				for( let key in this.from_edges ) {
+				for( var key in this.from_edges ) {
 					this.from_edges[key].setDefaultStyle();
 				}
 			},
 			setColor: function() {
-				let color = imaginnection.threeData.normalColor;
+				var color = imaginnection.threeData.normalColor;
 				if( this.is_gaze ) {
 					color = imaginnection.threeData.gazeColor;
 				} else if( this.is_owner ) {
@@ -204,16 +204,16 @@ imaginnection.three.Node = {
 				to_node.setOwner( null );
 			},
 			resetOwner: function( to_node ) {
-				let owner_edge_num = 0;
-				for( let key in this.from_edges ) {
-					let edge = this.from_edges[key];
+				var owner_edge_num = 0;
+				for( var key in this.from_edges ) {
+					var edge = this.from_edges[key];
 					if( edge.is_owner ) {
 						owner_edge_num++;
 					}
 				}
 				if( to_node ) {
-					for( let key in this.to_edges ) {
-						let edge = this.to_edges[key];
+					for( var key in this.to_edges ) {
+						var edge = this.to_edges[key];
 						if( (edge.to_node.name != to_node.name) && edge.is_owner ) {
 							owner_edge_num++;
 						}
@@ -235,9 +235,9 @@ imaginnection.three.Edge = {
 	create: function( from_node, to_node ) {
 		if(!from_node || !to_node) return null;
 		
-		let color = imaginnection.threeData.normalColor;
-		let geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
-		let line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: color, opacity: 0.5, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
+		var color = imaginnection.threeData.normalColor;
+		var geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
+		var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: color, opacity: 0.5, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
 		
 		line.name = from_node.name + " -> " + to_node.name;
 
@@ -250,7 +250,7 @@ imaginnection.three.Edge = {
 			count: 0,
 			update: function() {
 				if( this.click_time > 0 ) {
-					let ratio = 1 - this.click_time / 20;
+					var ratio = 1 - this.click_time / 20;
 					line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth * ratio;
 					this.click_time--;
 				}
@@ -289,14 +289,14 @@ imaginnection.three.Edge = {
 			setOwner: function() {
 				if( this.is_owner == true ) return;
 				this.is_owner = true;
-				let color = imaginnection.threeData.ownerColor;
+				var color = imaginnection.threeData.ownerColor;
 				line.material.color.set(color);
 				from_node.setOwner( to_node );
 			},
 			resetOwner: function() {
 				if( this.is_owner == false ) return;
 				this.is_owner = false;
-				let color = imaginnection.threeData.normalColor;
+				var color = imaginnection.threeData.normalColor;
 				line.material.color.set(color);
 				from_node.resetOwner( to_node );
 			},

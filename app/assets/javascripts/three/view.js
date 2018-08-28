@@ -6,9 +6,9 @@ imaginnection.three = imaginnection.three || {};
 
 
 imaginnection.three.addNodeList = function( node ) {
-	let index = node.index;
-	let $container = $("#nodes-index");
-	let temp = "";
+	var index = node.index;
+	var $container = $("#nodes-index");
+	var temp = "";
 	temp += "<div id='from-node-index-" + index + "' class='panel panel-primary" + ((node.is_gaze)? ' gaze':'') + "'>";
 	temp += "<a class='btn btn-primary btn-block panel-heading' role='button' data-toggle='collapse' data-parent='#nodes-index' href='#from-node-list-" + index + "' aria-expanded='false' aria-controls='from-node-list-" + index + "'>";
 	temp += "<h4 class='panel-title'>";
@@ -31,13 +31,13 @@ imaginnection.three.removeNodeList = function( node ) {
 };
 
 imaginnection.three.addEdgeList = function( is_owner, edge ) {
-	let from_node = edge.from_node;
-	let to_node = edge.to_node;
-	let $container = $( "#from-node-index-" + from_node.index );
-	let $to_node = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index );
+	var from_node = edge.from_node;
+	var to_node = edge.to_node;
+	var $container = $( "#from-node-index-" + from_node.index );
+	var $to_node = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index );
 	
-	let sum = 0;
-	for( let key in from_node.to_edges ) {
+	var sum = 0;
+	for( var key in from_node.to_edges ) {
 		sum += from_node.to_edges[key].count;
 	}
 	
@@ -46,7 +46,7 @@ imaginnection.three.addEdgeList = function( is_owner, edge ) {
 	if( $to_node.find(".badge").length > 0 ) {
 		$to_node.find(".badge").text(edge.count);
 	} else {
-		let temp = "";
+		var temp = "";
 		temp += "<a id='to-node-index-" + from_node.index + "-" + to_node.index + "' class='list-group-item' href='" + encodeURIComponent(from_node.name) + "/" + encodeURIComponent(to_node.name) +"'>";
 		temp += "<span class='name'>" + to_node.name + "</span>";
 		temp += "<span class='badge pull-right'>" + edge.count + "</span>";
@@ -59,10 +59,10 @@ imaginnection.three.addEdgeList = function( is_owner, edge ) {
 };
 
 imaginnection.three.removeEdgeList = function( is_owner, edge ) {
-	let from_node = edge.from_node;
-	let to_node = edge.to_node;
-	let $container = $( "#from-node-index-" + from_node.index );
-	let $to_node = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index );
+	var from_node = edge.from_node;
+	var to_node = edge.to_node;
+	var $container = $( "#from-node-index-" + from_node.index );
+	var $to_node = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index );
 
 	if( edge.count > 0 && ($to_node.find(".badge").length > 0) ) {
 		$to_node.find(".badge").text(edge.count);

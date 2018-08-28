@@ -14,7 +14,7 @@ imaginnection.changeContent = function() {
     return;
   }
   
-  let hash = decodeURIComponent(window.location.hash.substring(1));
+  var hash = decodeURIComponent(window.location.hash.substring(1));
   
   if( hash === "node-new" ) {
     // フォームの中身を消す
@@ -28,7 +28,7 @@ imaginnection.changeContent = function() {
     $("#edge-new-form")[0].reset();
     
     // 指定されている名前を挿入
-    let name = decodeURIComponent(hash.replace(/^edge-new-/, ""));
+    var name = decodeURIComponent(hash.replace(/^edge-new-/, ""));
     $("#from-node-label").text(name);
     $("#from_node_name").attr("value", name);
     
@@ -81,8 +81,8 @@ $(document).ready(function() {
   });
 
 	$("#drawer .drawer-open").click(function() {
-		let $div = $("#drawer .drawer-body");
-		let $icon = $("#drawer .drawer-open span");
+		var $div = $("#drawer .drawer-body");
+		var $icon = $("#drawer .drawer-open span");
 		if($div.hasClass("in")) {
 			$div.removeClass("in");
 			$icon.addClass("glyphicon-triangle-left");

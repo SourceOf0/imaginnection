@@ -27,9 +27,9 @@ imaginnection.changeEdgesDB = function( snapshot ) {
 
 
 imaginnection.childAddedUsersDB = function( childSnapshot, prevChildKey ) {
-  let edge = childSnapshot.val();
-  let edge_id = childSnapshot.key;
-  let user_id = childSnapshot.ref.parent.parent.key;
+  var edge = childSnapshot.val();
+  var edge_id = childSnapshot.key;
+  var user_id = childSnapshot.ref.parent.parent.key;
   if( imaginnection.three ) {
     imaginnection.three.addEdge(edge_id, user_id, edge.from_node, edge.to_node);
   } else {
@@ -39,9 +39,9 @@ imaginnection.childAddedUsersDB = function( childSnapshot, prevChildKey ) {
 };
 
 imaginnection.childRemovedUsersDB = function( childSnapshot, prevChildKey ) {
-  let edge = childSnapshot.val();
-  let edge_id = childSnapshot.key;
-  let user_id = childSnapshot.ref.parent.parent.key;
+  var edge = childSnapshot.val();
+  var edge_id = childSnapshot.key;
+  var user_id = childSnapshot.ref.parent.parent.key;
   if( imaginnection.three ) {
     imaginnection.three.removeEdge(edge_id, user_id, edge.from_node, edge.to_node);
   } else {

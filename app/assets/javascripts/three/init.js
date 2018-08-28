@@ -43,7 +43,7 @@ imaginnection.threeData = {
 
 
 imaginnection.three.init = function() {
-	let data = imaginnection.threeData;
+	var data = imaginnection.threeData;
 	
 	data.container = document.getElementById('edges-index');
 	data.container.style.height = (window.innerHeight - 100) + "px";
@@ -62,8 +62,8 @@ imaginnection.three.init = function() {
 	
 	data.context = data.renderer.domElement.getContext("2d");
 	
-	for( let i = 0; i < 20; i++ ) {
-		let nodeLabel = imaginnection.three.NodeLabel.create();
+	for( var i = 0; i < 20; i++ ) {
+		var nodeLabel = imaginnection.three.NodeLabel.create();
 		data.container.appendChild(nodeLabel.element);
 		imaginnection.three.NodeLabel.list.push(nodeLabel);
 	}
@@ -103,8 +103,8 @@ imaginnection.three.init = function() {
 	});
 
 	function onWindowResize() {
-		let data = imaginnection.threeData;
-		let view = document.getElementById('edges-index');
+		var data = imaginnection.threeData;
+		var view = document.getElementById('edges-index');
 		view.style.height = (window.innerHeight - 100) + "px";
 		data.camera.aspect = view.clientWidth / view.clientHeight;
 		data.camera.updateProjectionMatrix();
@@ -124,7 +124,7 @@ imaginnection.three.init = function() {
 	}
 	
 	function onMouseDown( event ) {
-		let data = imaginnection.threeData;
+		var data = imaginnection.threeData;
 		if( event.button == 2 ) {
 			// 右ボタンの場合はカメラスライドのため補正しない
 			imaginnection.three.resetControlTarget();
@@ -139,7 +139,7 @@ imaginnection.three.init = function() {
 	}
 	
 	function onTouchStart( event ) {
-		let data = imaginnection.threeData;
+		var data = imaginnection.threeData;
 		if( !event.button && event.targetTouches.length > 1 ) {
 			// マルチタッチの場合はカメラスライドのため補正しない
 			imaginnection.three.resetControlTarget();

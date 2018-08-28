@@ -16,7 +16,7 @@ imaginnection.validateEdge = function( edge ) {
 // userが持つedgeを作成
 // @return: 追加したedgeのkey
 imaginnection.createUserEdge = function( edge ) {
-  let ref = firebase.database().ref().child( "users/" + edge["user_id"] + "/edges" ).push({
+  var ref = firebase.database().ref().child( "users/" + edge["user_id"] + "/edges" ).push({
     from_node: edge["from_node"],
     to_node: edge["to_node"],
     created_at: firebase.database.ServerValue.TIMESTAMP,
@@ -35,14 +35,14 @@ imaginnection.removeUserEdge = function( edge, edge_id ) {
 // edge更新
 // @return: 更新完了ならtrue, 新規追加ならfalse
 imaginnection.updateEdge = function( edge, is_remove ) {
-  let updates = {};
-  let timestamp = firebase.database.ServerValue.TIMESTAMP;
+  var updates = {};
+  var timestamp = firebase.database.ServerValue.TIMESTAMP;
   
   // パス定義
-  let path = "edges";
-  let from_node_path = path + "/" + edge["from_node"];
-  let to_node_path = from_node_path + "/" + edge["to_node"];
-  let user_path = to_node_path + "/users/" + edge["user_id"];
+  var path = "edges";
+  var from_node_path = path + "/" + edge["from_node"];
+  var to_node_path = from_node_path + "/" + edge["to_node"];
+  var user_path = to_node_path + "/users/" + edge["user_id"];
   
   // 更新情報セット
   updates[from_node_path + "/updated_at"] = timestamp;
@@ -54,7 +54,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
     updates[user_path + "/is_hide_user"] = edge["is_hide_user"];
   }
   
-  let edges = imaginnection.dbdata.edges;
+  var edges = imaginnection.dbdata.edges;
   if( !edges ) {
     // edges以下を作成して終了
     updates[from_node_path + "/created_at"] = timestamp;
@@ -67,7 +67,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
     return false;
   }
 
-  let from_node = edges[edge["from_node"]];
+  var from_node = edges[edge["from_node"]];
   if( !from_node ) {
     // from_node以下を作成して終了
     updates[from_node_path + "/created_at"] = timestamp;
@@ -80,7 +80,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
     return false;
   }
   
-  let to_node = from_node[edge["to_node"]];
+  var to_node = from_node[edge["to_node"]];
   if( !to_node ) {
     // to_node以下を作成して終了
     updates[to_node_path + "/created_at"] = timestamp;
@@ -92,8 +92,8 @@ imaginnection.updateEdge = function( edge, is_remove ) {
     return false;
   }
   
-  let users = to_node["users"];
-  let user = (users)? users[edge["user_id"]] : null;
+  var users = to_node["users"];
+  var user = (users)? users[edge["user_id"]] : null;
   
   if( !user && !is_remove ) {
     // user_id以下を作成して終了
@@ -118,7 +118,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
 imaginnection.createEdge = function( edge ) {
   
   // バリデーション
-  let checkResult = imaginnection.validateEdge(edge);
+  var checkResult = imaginnection.validateEdge(edge);
   if( checkResult ) {
     alert(checkResult);
     return false;
@@ -148,20 +148,20 @@ imaginnection.removeEdge = function( edge ) {
 
 /*
 setTimeout(function() {
-  let id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
-  let edge = imaginnection.createEdgeData(id, "test", "です", false);
+  var id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
+  var edge = imaginnection.createEdgeData(id, "test", "です", false);
   imaginnection.createEdge(edge);
   //imaginnection.removeEdge(edge);
 }, 3000);
 setTimeout(function() {
-  let id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
-  let edge = imaginnection.createEdgeData(imaginnection.current_id, "test", "です", false);
+  var id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
+  var edge = imaginnection.createEdgeData(imaginnection.current_id, "test", "です", false);
   //imaginnection.createEdge(edge);
   imaginnection.removeEdge(edge);
 }, 6000);
 setTimeout(function() {
-  let id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
-  let edge = imaginnection.createEdgeData(imaginnection.current_id, "test", "です", false);
+  var id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
+  var edge = imaginnection.createEdgeData(imaginnection.current_id, "test", "です", false);
   //imaginnection.createEdge(edge);
   imaginnection.removeEdge(edge);
 }, 9000);

@@ -11,10 +11,10 @@ imaginnection.three.setFocusEvent = function( event ) {
 };
 
 imaginnection.three.onClickEdgeEvent = function( event ) {
-  let data = $(this).attr("href").split("/");
-	let from_node = imaginnection.three.Node.list[decodeURIComponent(data[0])];
-	let to_node = imaginnection.three.Node.list[decodeURIComponent(data[1])];
-	let edge = from_node.getToEdge( to_node );
+  var data = $(this).attr("href").split("/");
+	var from_node = imaginnection.three.Node.list[decodeURIComponent(data[0])];
+	var to_node = imaginnection.three.Node.list[decodeURIComponent(data[1])];
+	var edge = from_node.getToEdge( to_node );
   edge.onClick();
   return false;
 };

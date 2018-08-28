@@ -11,7 +11,7 @@ var imaginnection = imaginnection || {};
  */
  
 imaginnection.setTour = function( index ) {
-  let current = imaginnection.tour.getCurrentStep();
+  var current = imaginnection.tour.getCurrentStep();
   if( !current || current == index ) return;
   imaginnection.tour.goTo(index);
 };
@@ -23,9 +23,9 @@ imaginnection.setTour = function( index ) {
  
 imaginnection.initTour = function() {
   
-  let can_tap = window.ontouchstart === null;
+  var can_tap = window.ontouchstart === null;
   
-  let temp = "";
+  var temp = "";
   temp += "<div class='popover tour' role='tooltip'>";
   temp += "  <div class='arrow'></div>";
   temp += "  <h3 class='popover-title'></h3>";
@@ -36,7 +36,7 @@ imaginnection.initTour = function() {
   temp += "  </div>";
   temp += "</div>";
   
-  let temp_def = "";
+  var temp_def = "";
   temp_def += "<div class='popover tour' role='tooltip'>";
   temp_def += "  <div class='arrow'></div>";
   temp_def += "  <h3 class='popover-title'></h3>";
@@ -47,7 +47,7 @@ imaginnection.initTour = function() {
   temp_def += "  </div>";
   temp_def += "</div>";
 
-  let temp_wait = "";
+  var temp_wait = "";
   temp_wait += "<div class='popover tour'>";
   temp_wait += "  <div class='arrow'></div>";
   temp_wait += "  <h3 class='popover-title'></h3>";
