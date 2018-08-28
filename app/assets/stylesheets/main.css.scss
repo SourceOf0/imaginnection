@@ -246,6 +246,7 @@ form {
   border: none;
   border-radius: 1em;
   padding: 0.5em 1.5em;
+  outline: none;
 }
 
 .btn.btn-default {
@@ -254,6 +255,7 @@ form {
   text-shadow: 0 1px 0 $colorWhite;
   font-weight: bold;
   border: none;
+  outline: none;
   border-radius: 1em;
   padding: 0.5em 1.5em;
   
@@ -261,11 +263,13 @@ form {
     background: linear-gradient(to bottom, $colorWhite, $subColor);
     color: $subTextColor;
     border: none;
+    outline: none;
   }
   &.active, &:hover, &:active {
     background: linear-gradient(to top, lighten($subColor, 10%), darken($subColor, 20%));
     color: $subTextColor;
     border: none;
+    outline: none;
   }
 }
 
@@ -277,6 +281,7 @@ form {
   width: 200px;
   font-weight: bold;
   border: none;
+  outline: none;
   border-radius: 1em;
   padding: 0.5em 1.5em;
 
@@ -284,11 +289,13 @@ form {
     background: linear-gradient(to bottom, $colorWhite, $accentColor);
     color: $subTextColor;
     border: none;
+    outline: none;
   }
   &.active, &:hover, &:active {
     background: linear-gradient(to top, lighten($accentColor, 10%), darken($accentColor, 20%));
     color: $subTextColor;
     border: none;
+    outline: none;
   }
 }
 
