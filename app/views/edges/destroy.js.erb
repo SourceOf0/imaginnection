@@ -1,10 +1,13 @@
 
+console.log("call");
 <% if !@from_node.valid? %>
 
+  console.log("pending");
   $("#info-modal").html("<%=j render 'layouts/error_messages', model: @from_node %>").modal("show");
 
 <% elsif !@to_node.valid? %>
 
+  console.log("pending");
   $("#info-modal").html("<%=j render 'layouts/error_messages', model: @to_node %>").modal("show");
   
 <% else %>
