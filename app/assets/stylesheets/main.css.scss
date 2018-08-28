@@ -102,12 +102,13 @@ form {
     display: block;
     position: relative;
     content: "";
-    width: 50%;
+    flex-grow: 1;
     height: .2em;
     top: -.05em;
     border-top: .1em solid $colorWhite;
     border-bottom: .1em solid $colorWhite;
     border-radius: .5em;
+    background: $colorWhite;
   }
   &:before {
     border-radius: 0 .5em .5em 0;
