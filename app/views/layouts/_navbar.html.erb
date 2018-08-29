@@ -5,7 +5,7 @@
     
     <% if user_signed_in? %>
       
-      <nav class="signed_in">
+      <nav>
       
         <ul class="height-centering position-left">
           <li>
@@ -64,7 +64,7 @@
       
     <% else %>
     
-      <nav class="signed_out">
+      <nav>
         
         <ul class="height-centering position-left" >
           <li class="<%= 'active' if current_page?(new_user_registration_path) %>">
@@ -91,20 +91,23 @@
   </section><!-- .top-nav -->
 
 
-  <% if user_signed_in? && params[:controller] == 'edges' %>
+  <% if params[:controller] == 'edges' %>
 
-      <section id="bottom-nav">
-        <nav class="signed_in">
-          
-          <ul class="height-centering position-left">
+    <section id="bottom-nav">
+      <nav>
+        
+        <ul class="height-centering position-left">
+          <% if user_signed_in? %>
             <li>
               <%= link_to('#node-new', class: 'icon button', id: 'new-node-icon') do %>
                 <span class="glyphicon glyphicon-plus"></span>
               <% end %>
             </li>
-          </ul><!-- .position-left -->
-          
-          <ul class="position-center" id="node-option">
+          <% end %>
+        </ul><!-- .position-left -->
+        
+        <ul class="position-center" id="node-option">
+          <% if user_signed_in? %>
             <% if !@is_hide_user %>
               <li>
                 <%= link_to('', class: 'icon button', id: 'twitter-icon') do %>
@@ -115,23 +118,24 @@
             <li>
               <%= link_to('連想する', '', id: 'associating', class: 'btn btn-primary') %>
             </li>
-          </ul><!-- .position-center -->
-  
-          <ul class="height-centering position-right" >
-            <li>
-              <div class="btn-group zoom-button" role="group" aria-label="zoom">
-                <button type="button" class="zoom-out-button btn">
-                  <span class="glyphicon glyphicon-zoom-out"></span>
-                </button>
-                <button type="button" class="zoom-in-button btn">
-                  <span class="glyphicon glyphicon-zoom-in"></span>
-                </button>
-              </div>
-            </li>
-          </ul><!-- .position-right -->
-          
-        </nav>
-      </section><!-- .bottom-nav -->
+          <% end %>
+        </ul><!-- .position-center -->
+
+        <ul class="height-centering position-right" >
+          <li>
+            <div class="btn-group zoom-button" role="group" aria-label="zoom">
+              <button type="button" class="zoom-out-button btn">
+                <span class="glyphicon glyphicon-zoom-out"></span>
+              </button>
+              <button type="button" class="zoom-in-button btn">
+                <span class="glyphicon glyphicon-zoom-in"></span>
+              </button>
+            </div>
+          </li>
+        </ul><!-- .position-right -->
+        
+      </nav>
+    </section><!-- .bottom-nav -->
     
   <% end %>
 

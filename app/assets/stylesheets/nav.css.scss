@@ -15,10 +15,8 @@ header {
     nav {
       display: flex;
       height: $navHeight;
-    }
-    
-    .signed_in {
       padding: 0 4px;
+      
       ul li {
         padding: 0 4px;
       }
