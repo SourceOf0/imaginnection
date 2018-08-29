@@ -7,6 +7,7 @@ class EdgesController < ApplicationController
   
   def index
     @view_ref_ids = current_user.followings.map(&:ref_id).push(current_user.ref_id)
+    @is_hide_user = current_user.is_hide_edges
     
     @from_node = Node.new
     @to_node = Node.new
@@ -14,8 +15,9 @@ class EdgesController < ApplicationController
 
   def show
     @target_user = User.find_by(ref_id: params[:id])
+    @is_hide_user = @target_user.is_hide_edges
 
-    if @target_user.is_hide_edges
+    if @is_hide_user
       return
     end
 
