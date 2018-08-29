@@ -79,8 +79,8 @@ $(document).ready(function() {
     gradient.addColorStop(0.5, "#404378");
     gradient.addColorStop(1, "#574a76");
     
-    context.shadowColor = "#fff";
-    context.shadowBlur = 14;
+    //context.shadowColor = "#fff";
+    //context.shadowBlur = 14;
 
     context.globalCompositeOperation = "source-over";
     context.fillStyle = gradient;
