@@ -125,6 +125,7 @@
       imaginnection.is_view_edges_list = true;
     <% end %>
     imaginnection.current_id = "<%= (user_signed_in?)? current_user.ref_id : '' %>";
+    imaginnection.map_user_id = "<%= (@target_user)? @target_user.ref_id : (user_signed_in?)? current_user.ref_id : '' %>";
     imaginnection.map_user_name = "<%= (@target_user)? @target_user.name : (user_signed_in?)? current_user.name : '' %>";
     imaginnection.view_ids = <%= @view_ref_ids.to_json.html_safe %>;
   </script>

@@ -76,7 +76,7 @@ $(document).ready(function() {
     if( imaginnection.threeData.focusNode ) {
       // 参考：http://twitter.com/share?url=[シェアするURL]&text=[ツイート内テキスト]&via=[ツイート内に含むユーザ名]&related=[ツイート後に表示されるユーザー]&hashtags=[ハッシュタグ]
       window.open().location.href = "http://twitter.com/share?url="
-        + encodeURIComponent( window.location + "#" + imaginnection.threeData.focusNode.name )
+        + encodeURIComponent( "https://imaginnection.herokuapp.com/" + imaginnection.map_user_id + "#" + imaginnection.threeData.focusNode.name )
         + "&text=" + encodeURIComponent( "「" + imaginnection.threeData.focusNode.name + "」から連想された単語のマップ（" + imaginnection.map_user_name + "さん視点）" )
         + "&related=imaginnection&hashtags=imaginnection";
     }
