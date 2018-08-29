@@ -39,11 +39,13 @@
               </ul>
             </div>
           </li>
+          <!--
           <li>
             <%= link_to('', class: 'icon button') do %>
               <span class="glyphicon glyphicon-bell"></span>
             <% end %>
           </li>
+          -->
         </ul><!-- .position-left -->
         
         <div class="position-center logo">
@@ -66,7 +68,7 @@
     
       <nav>
         
-        <ul class="height-centering position-left" >
+        <ul class="height-centering position-left">
           <li class="<%= 'active' if current_page?(new_user_registration_path) %>">
             <%= link_to(t('devise.registrations.new.sign_up'), new_user_registration_path, class: 'text-link') %>
           </li>
