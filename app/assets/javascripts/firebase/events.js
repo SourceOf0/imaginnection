@@ -1,5 +1,6 @@
 
 /* global $ */
+/* global firebase */
 
 
 var imaginnection = imaginnection || {};
@@ -44,15 +45,23 @@ imaginnection.changeContent = function() {
  */
  
 $(document).ready(function() {
-  imaginnection.initDB();
-  if( imaginnection.three ) {
-    imaginnection.initTour();
-    imaginnection.three.init();
-  } else {
-    imaginnection.clearEdges();
-  }
-  imaginnection.changeContent();
   
+  firebase.auth().onAuthStateChanged(function(user) {
+    if( user ) {
+      imaginnection.initDB();
+      if( imaginnection.three ) {
+        imaginnection.initTour();
+        imaginnection.three.init();
+      } else {
+        imaginnection.clearEdges();
+      }
+      imaginnection.changeContent();
+    } else {
+      firebase.auth().signInAnonymously().catch(function(error) {
+        console.error("ログインエラー", error);
+      });
+    }
+  });
   
   $("#tour-icon").on("click", function() {
   	imaginnection.setTour(0);
