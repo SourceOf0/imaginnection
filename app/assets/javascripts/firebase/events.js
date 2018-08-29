@@ -15,6 +15,8 @@ imaginnection.changeContent = function() {
     return;
   }
   
+  if( !imaginnection.current_id ) return;
+  
   var hash = decodeURIComponent(window.location.hash.substring(1));
   
   if( hash === "node-new" ) {
@@ -63,9 +65,22 @@ $(document).ready(function() {
     }
   });
   
+  if( !imaginnection.current_id ) return;
+  
   $("#tour-icon").on("click", function() {
   	imaginnection.setTour(0);
   	imaginnection.tour.restart();
+  });
+  
+  $("#twitter-icon").on("click", function() {
+    if( imaginnection.threeData.focusNode ) {
+      // 参考：http://twitter.com/share?url=[シェアするURL]&text=[ツイート内テキスト]&via=[ツイート内に含むユーザ名]&related=[ツイート後に表示されるユーザー]&hashtags=[ハッシュタグ]
+      window.open().location.href = "http://twitter.com/share?url="
+        + encodeURIComponent( window.location + "#" + imaginnection.threeData.focusNode.name )
+        + "&text=" + encodeURIComponent( "「" + imaginnection.threeData.focusNode.name + "」から連想された単語のマップ（" + imaginnection.map_user_name + "さん視点）" )
+        + "&related=imaginnection&hashtags=imaginnection";
+    }
+    return false;
   });
   
   $("#associating").on("click", function() {
@@ -73,7 +88,7 @@ $(document).ready(function() {
       window.location.hash = "edge-new-" + encodeURIComponent( imaginnection.threeData.focusNode.name );
     }
     return false;
-  });  
+  });
   
   $("#node-new").on("shown.bs.modal", function() {
     imaginnection.setTour(3);

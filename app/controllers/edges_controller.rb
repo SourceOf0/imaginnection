@@ -2,6 +2,9 @@ class EdgesController < ApplicationController
   
   #before_action :set_debug
   
+  # deviseでのログイン認証をスキップする
+  skip_before_action :authenticate_user!, only: [:show]
+  
   def index
     @view_ref_ids = current_user.followings.map(&:ref_id).push(current_user.ref_id)
     

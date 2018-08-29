@@ -219,8 +219,10 @@ header {
     font-size: 18px;
   }
     
-  #associating {
-    display: none;
+  #node-option {
+    li {
+      display: none;
+    }
   }
 }
 

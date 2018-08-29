@@ -98,17 +98,22 @@
           
           <ul class="height-centering position-left">
             <li>
-                <%= link_to("#node-new", class: 'icon button', id: 'new-node-icon') do %>
-                  <span class="glyphicon glyphicon-plus"></span>
-                <% end %>
+              <%= link_to('#node-new', class: 'icon button', id: 'new-node-icon') do %>
+                <span class="glyphicon glyphicon-plus"></span>
+              <% end %>
             </li>
           </ul><!-- .position-left -->
           
-          <div class="position-center">
+          <ul class="position-center" id="node-option">
+            <li>
+              <%= link_to('', class: 'icon button', id: 'twitter-icon') do %>
+                <%= render 'layouts/twitter' %>
+              <% end %>
+            </li>
             <li>
               <%= link_to('連想する', '', id: 'associating', class: 'btn btn-primary') %>
             </li>
-          </div><!-- .position-center -->
+          </ul><!-- .position-center -->
   
           <ul class="height-centering position-right" >
             <li>
