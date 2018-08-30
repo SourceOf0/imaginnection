@@ -4,6 +4,7 @@
   <div class="view" id="edges-index">
     <h1>
       <% if @target_user %>
+        <%= render 'follows/follow_form', user: @target_user %>
         <%= @target_user.name %>さんのマップ
       <% else %>
         マップ
