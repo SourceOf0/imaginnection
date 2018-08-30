@@ -78,7 +78,7 @@ $(document).ready(function() {
 			$icon.removeClass("glyphicon-triangle-left");
 			$icon.addClass("glyphicon-triangle-right");
       if( !imaginnection.current_id ) return;
-    	if( imaginnection.tour.getCurrentStep() == 7 ) {
+    	if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 7 ) {
     		setTimeout( function() {
     			imaginnection.setTour(8);
     		}, 500);
@@ -132,7 +132,7 @@ $(document).ready(function() {
 
   $("#users-modal").on("hidden.bs.modal", function() {
     if( !imaginnection.current_id ) return;
-  	if( imaginnection.tour.getCurrentStep() == 9 ) {
+  	if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 9 ) {
   		setTimeout( function() {
   			imaginnection.setTour(10);
   		}, 500);
