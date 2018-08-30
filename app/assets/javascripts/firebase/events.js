@@ -40,6 +40,13 @@ imaginnection.changeContent = function() {
     return;
   }
   
+  if( hash !== "" ) {
+    setTimeout(function() {
+      imaginnection.three.setFocusNode( decodeURIComponent(hash), true );
+      window.location.hash = "";
+    }, 3000);
+    return;
+  }
 };
 
 
