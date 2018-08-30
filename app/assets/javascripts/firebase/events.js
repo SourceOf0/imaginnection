@@ -16,6 +16,7 @@ imaginnection.changeContent = function() {
   }
   
   if( !imaginnection.current_id ) return;
+  // 以下ログイン時のみ
   
   var hash = decodeURIComponent(window.location.hash.substring(1));
   
@@ -76,6 +77,11 @@ $(document).ready(function() {
 			$div.addClass("in");
 			$icon.removeClass("glyphicon-triangle-left");
 			$icon.addClass("glyphicon-triangle-right");
+    	if( imaginnection.tour.getCurrentStep() == 7 ) {
+    		setTimeout( function() {
+    			imaginnection.setTour(8);
+    		}, 500);
+    	}
 		}
 	});
 	
@@ -123,6 +129,13 @@ $(document).ready(function() {
     window.location.hash = "";
   });
 
+  $("#users-modal").on("hidden.bs.modal", function() {
+  	if( imaginnection.tour.getCurrentStep() == 9 ) {
+  		setTimeout( function() {
+  			imaginnection.setTour(10);
+  		}, 500);
+  	}
+  });
 });
 
 // URLの#以降が変化したとき

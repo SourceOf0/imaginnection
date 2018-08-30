@@ -143,9 +143,15 @@ imaginnection.removeEdge = function( edge ) {
   }
 };
 
+// ツアー自動発動
+setTimeout(function() {
+  if( !imaginnection.dbdata.users[imaginnection.current_id] ) {
+  	imaginnection.setTour(0);
+  	imaginnection.tour.restart();
+  }
+}, 1000);
 
 // テスト用
-
 /*
 setTimeout(function() {
   var id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
@@ -153,16 +159,4 @@ setTimeout(function() {
   imaginnection.createEdge(edge);
   //imaginnection.removeEdge(edge);
 }, 3000);
-setTimeout(function() {
-  var id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
-  var edge = imaginnection.createEdgeData(imaginnection.current_id, "test", "です", false);
-  //imaginnection.createEdge(edge);
-  imaginnection.removeEdge(edge);
-}, 6000);
-setTimeout(function() {
-  var id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
-  var edge = imaginnection.createEdgeData(imaginnection.current_id, "test", "です", false);
-  //imaginnection.createEdge(edge);
-  imaginnection.removeEdge(edge);
-}, 9000);
 /**/

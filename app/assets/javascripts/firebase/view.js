@@ -26,6 +26,11 @@ imaginnection.viewUserList = function( from_node_name, to_node_name ) {
     data: {from_node: from_node_name, to_node: to_node_name, is_hide_user: is_hide_user, content: post_data, count: count},
     datatype: "html",
   });
+	if( imaginnection.tour.getCurrentStep() == 8 ) {
+		setTimeout( function() {
+			imaginnection.setTour(9);
+		}, 500);
+	}
 };
 
 

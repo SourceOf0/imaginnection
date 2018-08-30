@@ -48,6 +48,10 @@
     opacity: .5;
   }
   
+  .modal-dialog {
+    padding-top: 50px;
+  }
+  
   .modal-content {
     @include main-background-overlay;
   }
