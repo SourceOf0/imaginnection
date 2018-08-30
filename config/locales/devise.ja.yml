@@ -51,27 +51,27 @@ ja:
     mailer:
       confirmation_instructions:
         action: "本人確認"
-        greeting: "%{recipient}様"
-        instruction: "次のリンクでメールアドレスの確認が完了します。"
+        greeting: "こんにちは！%{recipient}様。"
+        instruction: "imaginnectionへのご登録ありがとうございます。次のリンクでメールアドレスの確認が完了します。"
         subject: "アカウントの有効化について"
       email_changed:
         greeting: 
         message: 
         subject: 
       password_change:
-        greeting: "%{recipient}様"
-        message: "パスワードが再設定されたことを通知します。"
+        greeting: "こんにちは！%{recipient}様。imaginnectionです。"
+        message: "パスワードが再設定されましたので、通知いたします。"
         subject: "パスワードの変更について"
       reset_password_instructions:
         action: "パスワード変更"
-        greeting: "%{recipient}様"
+        greeting: "こんにちは！%{recipient}様。imaginnectionです。"
         instruction: "パスワード再設定の依頼を受けたため、メールを送信しています。下のリンクからパスワードの再設定ができます。"
         instruction_2: "パスワード再設定の依頼をしていない場合、このメールを無視してください。"
         instruction_3: "パスワードの再設定は、上のリンクから新しいパスワードを登録するまで完了しません。"
         subject: "パスワードの再設定について"
       unlock_instructions:
         action: "アカウントのロック解除"
-        greeting: "%{recipient}様"
+        greeting: "こんにちは！%{recipient}様。imaginnectionです。"
         instruction: "アカウントのロックを解除するには下のリンクをクリックしてください。"
         message: "ログイン失敗が繰り返されたため、アカウントはロックされています。"
         subject: "アカウントの凍結解除について"
