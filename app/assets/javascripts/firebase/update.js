@@ -145,6 +145,7 @@ imaginnection.removeEdge = function( edge ) {
 
 // ツアー自動発動
 setTimeout(function() {
+  if( !imaginnection.current_id ) return;
   if( !imaginnection.dbdata.users[imaginnection.current_id] ) {
   	imaginnection.setTour(0);
   	imaginnection.tour.restart();
