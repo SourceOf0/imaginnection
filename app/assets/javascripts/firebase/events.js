@@ -130,6 +130,7 @@ $(document).ready(function() {
   });
 
   $("#users-modal").on("hidden.bs.modal", function() {
+    if( !imaginnection.current_id ) return;
   	if( imaginnection.tour.getCurrentStep() == 9 ) {
   		setTimeout( function() {
   			imaginnection.setTour(10);
