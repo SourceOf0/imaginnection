@@ -77,6 +77,7 @@ $(document).ready(function() {
 			$div.addClass("in");
 			$icon.removeClass("glyphicon-triangle-left");
 			$icon.addClass("glyphicon-triangle-right");
+      if( !imaginnection.current_id ) return;
     	if( imaginnection.tour.getCurrentStep() == 7 ) {
     		setTimeout( function() {
     			imaginnection.setTour(8);
