@@ -65,7 +65,26 @@ $(document).ready(function() {
     }
   });
   
+	$("#drawer .drawer-open").click(function() {
+		var $div = $("#drawer .drawer-body");
+		var $icon = $("#drawer .drawer-open span");
+		if($div.hasClass("in")) {
+			$div.removeClass("in");
+			$icon.addClass("glyphicon-triangle-left");
+			$icon.removeClass("glyphicon-triangle-right");
+		} else {
+			$div.addClass("in");
+			$icon.removeClass("glyphicon-triangle-left");
+			$icon.addClass("glyphicon-triangle-right");
+		}
+	});
+	
+	if( window.innerWidth > 1500 ) {
+	  $("#drawer .drawer-open").click();
+	}
+	
   if( !imaginnection.current_id ) return;
+	// 以下ログイン時のみ
   
   $("#tour-icon").on("click", function() {
   	imaginnection.setTour(0);
@@ -104,23 +123,6 @@ $(document).ready(function() {
     window.location.hash = "";
   });
 
-	$("#drawer .drawer-open").click(function() {
-		var $div = $("#drawer .drawer-body");
-		var $icon = $("#drawer .drawer-open span");
-		if($div.hasClass("in")) {
-			$div.removeClass("in");
-			$icon.addClass("glyphicon-triangle-left");
-			$icon.removeClass("glyphicon-triangle-right");
-		} else {
-			$div.addClass("in");
-			$icon.removeClass("glyphicon-triangle-left");
-			$icon.addClass("glyphicon-triangle-right");
-		}
-	});
-	
-	if( window.innerWidth > 1500 ) {
-	  $("#drawer .drawer-open").click();
-	}
 });
 
 // URLの#以降が変化したとき
