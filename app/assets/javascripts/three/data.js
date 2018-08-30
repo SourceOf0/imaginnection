@@ -237,7 +237,7 @@ imaginnection.three.Edge = {
 		
 		var color = imaginnection.threeData.normalColor;
 		var geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
-		var line = new THREE.Line( geometry, new THREE.LineDashedMaterial( { color: color, opacity: 0.5, dashSize: 10, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
+		var line = new THREE.Line( geometry, new THREE.LineDashedMaterial( { color: color, opacity: 0.5, dashSize: 10, gapSize: 20, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
 		
 		line.name = from_node.name + " -> " + to_node.name;
 
