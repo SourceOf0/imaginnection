@@ -83,6 +83,15 @@ imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_nod
 	if( is_owner ) edge.setOwner();
 	edge.addCount();
 	imaginnection.three.addEdgeList( is_owner, edge );
+	
+	var hash = decodeURIComponent(window.location.hash.substring(1));
+  if( hash == from_node_name ) {
+    imaginnection.three.setFocusNode( decodeURIComponent(from_node_name), true );
+    window.location.hash = "";
+  } else if( hash == to_node_name ) {
+    imaginnection.three.setFocusNode( decodeURIComponent(to_node_name), true );
+    window.location.hash = "";
+  }
 };
 
 imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_node_name ) {

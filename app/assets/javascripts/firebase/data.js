@@ -35,6 +35,7 @@ imaginnection.childAddedUsersDB = function( childSnapshot, prevChildKey ) {
   } else {
     imaginnection.addEdgeList(edge_id, user_id, edge.from_node, edge.to_node);
   }
+
   //console.log("GET : child_added : " + edge.from_node + " -> " + edge.to_node);
 };
 
