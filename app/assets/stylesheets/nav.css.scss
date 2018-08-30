@@ -221,6 +221,9 @@ header {
     li {
       display: none;
     }
+    li.active {
+      display: flex;
+    }
   }
 }
 

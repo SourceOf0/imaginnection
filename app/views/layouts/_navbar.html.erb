@@ -55,11 +55,13 @@
         </div><!-- .position-center -->
         
         <ul class="height-centering position-right">
-          <li>
-            <%= link_to("#", class: 'icon button', id: 'tour-icon') do %>
-              <span><strong>？</strong></span>
-            <% end %>
-          </li>
+          <% if params[:controller] == 'edges' %>
+            <li>
+              <%= link_to("#", class: 'icon button', id: 'tour-icon') do %>
+                <span><strong>？</strong></span>
+              <% end %>
+            </li>
+          <% end %>
         </ul><!-- .position-right -->
         
       </nav>
