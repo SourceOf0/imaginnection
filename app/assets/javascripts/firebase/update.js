@@ -149,7 +149,7 @@ setTimeout(function() {
   	imaginnection.setTour(0);
   	imaginnection.tour.restart();
   }
-}, 1000);
+}, 3000);
 
 // テスト用
 /*
