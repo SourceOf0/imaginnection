@@ -237,7 +237,7 @@ imaginnection.three.Edge = {
 		
 		var color = imaginnection.threeData.normalColor;
 		var geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
-		var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: color, opacity: 0.5, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
+		var line = new THREE.Line( geometry, new THREE.LineDashedMaterial( { color: color, opacity: 0.5, dashSize: 10, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
 		
 		line.name = from_node.name + " -> " + to_node.name;
 
@@ -291,6 +291,7 @@ imaginnection.three.Edge = {
 				this.is_owner = true;
 				var color = imaginnection.threeData.ownerColor;
 				line.material.color.set(color);
+				line.material.gapSize = 1;
 				from_node.setOwner( to_node );
 			},
 			resetOwner: function() {
@@ -298,6 +299,7 @@ imaginnection.three.Edge = {
 				this.is_owner = false;
 				var color = imaginnection.threeData.normalColor;
 				line.material.color.set(color);
+				line.material.gapSize = 20;
 				from_node.resetOwner( to_node );
 			},
 		};
