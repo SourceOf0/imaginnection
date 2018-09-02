@@ -97,27 +97,12 @@
 
 #users-modal {
   .edge-order {
-    text-align: center;
     width: 45%;
-
-    a {
-      @include main-background;
-      
-      &:focus, &:active:focus, &:active:hover {
-        @include main-background;
-      }
-      &:hover, &:active {
-        @include main-background-active;
-      }
-    }
   }
   .edge-order.active>a {
-    background-color: transparent;
+    background: transparent;
   }
-  .nav-tabs {
-    border: none;
-  }
-  
+
   .check-hide-user {
     white-space: nowrap;
     &:before {

@@ -145,8 +145,8 @@ form {
 }
 
 .section-box {
-  position: relative;
   background: rgba($baseColor, 0.5);
+  position: relative;
   border-radius: 1em;
   padding: 1em 1.6em;
   font-size: 1rem;
@@ -352,3 +352,38 @@ form {
 .popover.bottom>.arrow:after {
   border-bottom-color: rgba($backgroundColor2, 0.9);
 }
+
+.nav.nav-tabs, .nav.nav-tabs.nav-justified {
+  border: none;
+  
+  >li {
+    text-align: center;
+
+    >a {
+      background: $baseColor;
+      border: none;
+
+      &:focus, &:active:focus, &:active:hover {
+        background: $baseColor;
+        border: none;
+      }
+      &:hover, &:active {
+        background: $baseColor;
+        border: none;
+      }
+    }
+  }
+  >li.active>a {
+    background: rgba($baseColor, 0.5);
+    color: $colorWhite;
+    border: 1px solid $colorWhite;
+    border-bottom: none;
+  }
+  
+  +.section-box {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+

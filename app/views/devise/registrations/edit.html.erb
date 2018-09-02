@@ -8,57 +8,79 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
     <%= devise_error_messages! %>
   
-    <div class="field form-group">
-      <%= f.label :name%>
-      <%= f.text_field :name, autofocus: true, class: 'form-control'  %>
-    </div>
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+      <li role="presentation" class="active"><a href="#account-settings" aria-controls="account-settings" role="tab" data-toggle="tab">アカウント情報</a></li>
+      <li role="presentation"><a href="#password-settings" aria-controls="password-settings" role="tab" data-toggle="tab">パスワード変更</a></li>
+      <li role="presentation"><a href="#option-settings" aria-controls="option-settings" role="tab" data-toggle="tab">オプション</a></li>
+    </ul>
     
-    <div class="field form-group">
-      <%= f.label :email %>
-      <%= f.email_field :email, autocomplete: 'email', class: 'form-control' %>
-    </div>
+    <div class="section-box">
+      <div class="section-box-body">
+
+        <div class="tab-content">
+          
+          <div role="tabpanel" class="tab-pane active" id="account-settings">
+            <div class="field form-group">
+              <%= f.label :name%>
+              <%= f.text_field :name, autofocus: true, class: 'form-control'  %>
+            </div>
+            
+            <div class="field form-group">
+              <%= f.label :email %>
+              <%= f.email_field :email, autocomplete: 'email', class: 'form-control' %>
+            </div>
+          
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
+            <% end %>
+          </div><!-- #account-settings -->
+          
+          <div role="tabpanel" class="tab-pane" id="password-settings">
+            <div class="field form-group">
+              <%= f.label :password %>
+              <% if @minimum_password_length %>
+                <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
+              <% end %>
+              <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i>
+              <%= f.password_field :password, autocomplete: 'off', class: 'form-control' %>
+            </div>
+          
+            <div class="field form-group">
+              <%= f.label :password_confirmation %>
+              <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control' %>
+            </div>
+          </div><!-- #password-settings -->
+          
+          <div role="tabpanel" class="tab-pane" id="option-settings">
+            <div class="field form-group">
+              <%= f.label :empathy_button_kind %>
+              <%= f.select :empathy_button_kind, empathy_button_kind_hash(), {}, class: 'form-control' %>
+            </div>
+            
+            <div class="field form-group">
+              <%= f.check_box :is_disable_follow %>
+              <%= f.label :is_disable_follow, class: 'inline-label' %>
+            </div>
+          
+            <div class="field form-group">
+              <%= f.check_box :is_hide_edges %>
+              <%= f.label :is_hide_edges, class: 'inline-label' %>
+            </div>
+          </div><!-- #option-settings -->
+        
+        </div><!-- .tab-content -->
+        
+      </div><!-- .section-box-body -->
+    </div><!-- .section-box -->
   
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
-    <% end %>
-  
-    <div class="field form-group">
-      <%= f.label :password %>
-      <% if @minimum_password_length %>
-        <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
-      <% end %>
-      <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i>
-      <%= f.password_field :password, autocomplete: 'off', class: 'form-control' %>
-    </div>
-  
-    <div class="field form-group">
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control' %>
-    </div>
-  
-    <div class="field form-group">
-      <%= f.label :empathy_button_kind %>
-      <%= f.select :empathy_button_kind, empathy_button_kind_hash(), {}, class: 'form-control' %>
-    </div>
-    
-    <div class="field form-group">
-      <%= f.check_box :is_disable_follow %>
-      <%= f.label :is_disable_follow, class: 'inline-label' %>
-    </div>
-  
-    <div class="field form-group">
-      <%= f.check_box :is_hide_edges %>
-      <%= f.label :is_hide_edges, class: 'inline-label' %>
-    </div>
-    
     <div class="field form-group">
       <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i>
       <%= f.password_field :current_password, autocomplete: 'off', class: 'form-control', required: true %>
     </div>
-  
     <div class="actions form-group text-center">
       <%= f.submit t('.update'), class: 'btn btn-default' %>
     </div>
+    
   <% end %>
   
   <h4><%= t('.cancel_my_account') %></h4>
