@@ -33,40 +33,34 @@
   
     <div class="section-box">
       <h4 class="section-box-title">オプション</h4>
-      <span class="section-box-body content-center">
-        <p>
-          <div class="field form-group">
-            <%= f.label :empathy_button_kind %>
-            <%= f.select :empathy_button_kind, empathy_button_kind_hash(), {}, class: 'form-control' %>
-          </div>
-        </p>
-        <p>
-          <div class="field form-group">
-            <%= f.check_box :is_disable_follow %>
-            <%= f.label :is_disable_follow, class: 'inline-label' %>
-          </div>
-        </p>
-        <p>
-          <div class="field form-group">
-            <%= f.check_box :is_hide_edges %>
-            <%= f.label :is_hide_edges, class: 'inline-label' %>
-          </div>
-        </p>
-        <p>
+      <div class="section-box-body content-center">
+        <div class="field form-group">
+          <%= f.label :empathy_button_kind %>
+          <%= f.select :empathy_button_kind, empathy_button_kind_hash(), {}, class: 'form-control' %>
+        </div>
+        <div class="field form-group">
+          <%= f.check_box :is_disable_follow %>
+          <%= f.label :is_disable_follow, class: 'inline-label' %>
+        </div>
+        <div class="field form-group">
+          <%= f.check_box :is_hide_edges %>
+          <%= f.label :is_hide_edges, class: 'inline-label' %>
+        </div>
+        <p class="text-right">
           ※後で設定から変更できます
         </p>
-      </span>
+      </div>
     </div>
   
     <div class="form-group text-center">
-      <%= check_box_tag :accepted %>
+      <%= check_box_tag :accepted, false, false, autocomplete: 'off' %>
       <%= label_tag :accepted do %>
         <%= link_to '利用規約', terms_path %>に同意する
       <% end %>
     </div>
     
     <div class="actions form-group text-center">
-      <%= f.submit t('.sign_up'), class: 'btn btn-default disabled', id: 'sign-up-button' %>
+      <%= f.submit t('.sign_up'), class: 'btn btn-default', id: 'sign-up-button', disabled: true %>
     </div>
   <% end %>
   
