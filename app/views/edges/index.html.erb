@@ -134,7 +134,11 @@
   <%= javascript_include_tag 'vendor/bootstrap-tour.min.js' %>
   
   <%= javascript_include_tag 'firebase/data.js' %>
-  <%= javascript_include_tag 'firebase/init.js' %>
+  <% if ENV['BAAS_STAGING'] == 'true' %>
+    <%= javascript_include_tag 'firebase/init-stg.js' %>
+  <% else %>
+    <%= javascript_include_tag 'firebase/init.js' %>
+  <% end %>
   <%= javascript_include_tag 'firebase/view.js' %>
   <%= javascript_include_tag 'firebase/update.js' %>
   
