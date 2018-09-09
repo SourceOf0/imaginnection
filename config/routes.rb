@@ -4,9 +4,7 @@ Rails.application.routes.draw do
   root to: "home#index"
 
   # ユーザ
-  devise_for :users, controllers: {
-    sessions: 'users/sessions'
-  }
+  devise_for :users, module: :users
   
   # メールログ
   if Rails.env.development?

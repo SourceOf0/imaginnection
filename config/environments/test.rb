@@ -54,7 +54,7 @@ Rails.application.configure do
     :password => ENV['MAILER_PASSWORD'], #gmailパスワード
     :authentication => 'plain',
   }
-  #config.action_mailer.delivery_method = :letter_opener_web
+  config.action_mailer.delivery_method = :letter_opener_web
 
   config.after_initialize do
     

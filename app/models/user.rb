@@ -1,10 +1,11 @@
 class User < ApplicationRecord
-  
   validates :name, presence: true, length: { maximum: 20 }
 
-  validates :email, presence: true, length: { maximum: 255 },
+  validates :email, presence: true, length: { maximum: 255 }, uniqueness: true,
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
 
+  #validates :deleted_at
+  
   #validates :ref_id
   #validates :is_disable_follow
   #validates :is_hide_edges
@@ -48,6 +49,22 @@ class User < ApplicationRecord
     true
   end
 
+  # アカウントを削除する
+  def soft_delete
+    update(deleted_at: Time.now)
+  end
+  
+  # アカウントか有効かどうか
+  def active_for_authentication?
+    super && self.deleted_at.nil?
+  end
+  
+  # deviceメッセージのオーバーライド
+  def inactive_message
+    self.deleted_at.nil? ? super : :deleted_account
+  end
+  
+  
   # 通知日を現在に更新する
   def update_notified_at
     self.notified_at = Date.current.in_time_zone

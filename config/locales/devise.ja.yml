@@ -48,6 +48,7 @@ ja:
       timeout: "セッションがタイムアウトしました。もう一度ログインしてください。"
       unauthenticated: "アカウント登録もしくはログインしてください。"
       unconfirmed: "メールアドレスの本人確認が必要です。"
+      deleted_account: "そのアカウントは登録済みです。"
     mailer:
       confirmation_instructions:
         action: "本人確認"
