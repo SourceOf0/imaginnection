@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    attributes:
+      node:
+        name: "単語名"
+    models:
+      node: "単語"
+      edge: "紐付け"
