@@ -32,7 +32,7 @@ class EdgesController < ApplicationController
     @from_node = Node.new(name: params[:from_node])
     @to_node = Node.new(name: params[:to_node])
     @is_hide_user = !!params[:is_hide_user]
-    @users = User.where(ref_id: params[:content])
+    @users = User.where(ref_id: params[:content], deleted_at: nil)
     @count = params[:count];
     if user_signed_in?
       @is_owner = !!params[:content].include?(current_user.ref_id);

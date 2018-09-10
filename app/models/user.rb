@@ -24,11 +24,11 @@ class User < ApplicationRecord
   
   # followsを経由してto_userを取得するfollowingsを定義
   has_many :follows, class_name: 'Follow', foreign_key: 'from_user_id', dependent: :destroy
-  has_many :followings, through: :follows, source: :to_user
+  has_many :followings, ->(user) { where deleted_at: nil }, through: :follows, source: :to_user
   
   # reverses_of_followsを経由してfrom_userを取得するfollowersを定義
   has_many :reverses_of_follows, class_name: 'Follow', foreign_key: 'to_user_id', dependent: :destroy
-  has_many :followers, through: :reverses_of_follows, source: :from_user
+  has_many :followers, ->(user) { where deleted_at: nil }, through: :reverses_of_follows, source: :from_user
   
   
   # Include devise modules.
@@ -51,7 +51,10 @@ class User < ApplicationRecord
 
   # アカウントを削除する
   def soft_delete
-    update(deleted_at: Time.now)
+    self.is_disable_follow = true
+    self.is_hide_edges = true
+    self.deleted_at = Time.now
+    self.save
   end
   
   # アカウントか有効かどうか
@@ -86,7 +89,7 @@ class User < ApplicationRecord
   # @param target_user: 対象のユーザ
   # @return: フォロー可能ならtrue
   def can_follow?(target_user)
-    # TODO: 相手にブロックされてるかどうかのチェックも入れるならここ
+    # MEMO: 相手にブロックされてるかどうかのチェックも入れるならここ
     return !target_user.is_disable_follow && (self != target_user)
   end
   
