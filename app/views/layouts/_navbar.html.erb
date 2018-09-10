@@ -18,7 +18,7 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <%= link_to(edges_path, class: 'user') do %>
+                  <%= link_to(edge_path(current_user.ref_id), class: 'user') do %>
                     <p class="user-name"><%= current_user.name %></p>
                     <p class="user-email"><%= current_user.email %></p>
                   <% end %>

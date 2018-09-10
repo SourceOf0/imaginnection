@@ -4,10 +4,14 @@
   <div class="view" id="edges-index">
     <h1>
       <% if @target_user %>
-        <%= render 'follows/follow_form', user: @target_user %><br>
-        <%= @target_user.name %>さんのマップ
+        <% if current_user == @target_user %>
+          マイマップ
+        <% else %>
+          <%= render 'follows/follow_form', user: @target_user %><br>
+          <%= @target_user.name %>さんのマップ
+        <% end %>
       <% else %>
-        マイマップ
+        <%# 表示なし %>
       <% end %>
     </h1>
   </div>
