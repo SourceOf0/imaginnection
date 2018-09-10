@@ -28,12 +28,17 @@ class EdgesController < ApplicationController
   end
   
   def users
+    # 未ログインでも表示可能のため注意
     @from_node = Node.new(name: params[:from_node])
     @to_node = Node.new(name: params[:to_node])
     @is_hide_user = !!params[:is_hide_user]
     @users = User.where(ref_id: params[:content])
     @count = params[:count];
-    @is_owner = !!params[:content].include?(current_user.ref_id);
+    if user_signed_in?
+      @is_owner = !!params[:content].include?(current_user.ref_id);
+    else
+      @is_owner = false;
+    end
   end
 
   def new
