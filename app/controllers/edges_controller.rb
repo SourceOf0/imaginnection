@@ -18,7 +18,7 @@ class EdgesController < ApplicationController
     @is_hide_user = @target_user.is_hide_edges
 
     if !@is_hide_user || @target_user == current_user
-      @view_ref_ids = @target_user.followings.map(&:ref_id).push(@target_user.ref_id)
+      @view_ref_ids = [@target_user.ref_id]
       
       @from_node = Node.new
       @to_node = Node.new
