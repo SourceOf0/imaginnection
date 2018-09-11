@@ -6,6 +6,9 @@
       <% if @target_user %>
         <% if current_user == @target_user %>
           マイマップ
+          <% if @is_hide_user %>
+            （非公開中）
+          <% end %>
         <% else %>
           <%= render 'follows/follow_form', user: @target_user %><br>
           <%= @target_user.name %>さんのマップ
