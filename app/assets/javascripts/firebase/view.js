@@ -33,13 +33,13 @@ imaginnection.viewUserList = function( from_node_name, to_node_name ) {
     type: "GET",
     data: {from_node: from_node_name, to_node: to_node_name, is_hide_user: is_hide_user, content: post_data, count: count},
     datatype: "html",
+  }).done(function(data) {
+  	if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 8 ) {
+  		setTimeout( function() {
+  			imaginnection.setTour(9);
+  		}, 500);
+  	}
   });
-  
-	if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 8 ) {
-		setTimeout( function() {
-			imaginnection.setTour(9);
-		}, 500);
-	}
 };
 
 

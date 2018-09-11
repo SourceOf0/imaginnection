@@ -123,7 +123,11 @@ imaginnection.createEdge = function( edge ) {
   // バリデーション
   var checkResult = imaginnection.validateEdge(edge);
   if( checkResult ) {
-    alert(checkResult);
+    $("#info-modal").html(
+      "<div class='modal-dialog'><div class='modal-content'><div class='modal-body'>" + 
+      checkResult +
+      "</div></div></div>"
+      ).modal("show");
     return false;
   }
   

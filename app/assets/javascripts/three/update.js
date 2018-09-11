@@ -10,6 +10,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 	var data = imaginnection.threeData;
 	var from_node = imaginnection.three.Node.list[node_name];
 	if( !from_node ) return;
+	if( data.focusNode == from_node ) return;
 	if( data.focusNode ) {
 		data.focusNode.setDefaultStyle();
 	}
@@ -21,12 +22,6 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 		data.zoom_pos.subVectors( data.focusNode.particle.position, data.camera.position );
 		data.zoom_pos = data.zoom_pos.normalize().negate().multiplyScalar(500).add(data.focusNode.particle.position);
 		data.is_camera_zoom = true;
-	}
-	
-	if( imaginnection.tour.getCurrentStep() == 4 ) {
-		setTimeout( function() {
-			imaginnection.setTour(5);
-		}, 500);
 	}
 	
 	if( !isScroll ) return;
@@ -212,13 +207,23 @@ imaginnection.three.animate = function() {
 imaginnection.three.render = function() {
 	var data = imaginnection.threeData;
 	
-	if( data.is_camera_targeting && data.focusNode ) {
+	if( data.focusNode ) {
 		var target_pos = data.focusNode.particle.position;
-		data.delta.subVectors( target_pos, data.controls.target ).multiplyScalar( 0.05 );
-		data.controls.target.add( data.delta );
-		if( target_pos.distanceTo(data.controls.target) < 1 ) {
-			data.controls.target.copy(target_pos);
-			data.is_camera_targeting = false;
+		
+		if( data.is_camera_targeting ) {
+			data.delta.subVectors( target_pos, data.controls.target ).multiplyScalar( 0.05 );
+			data.controls.target.add( data.delta );
+			
+			if( target_pos.distanceTo(data.controls.target) < 1 ) {
+				data.controls.target.copy(target_pos);
+				data.is_camera_targeting = false;
+			}
+		}
+		
+		if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 4 ) {
+			if( window.location.hash.length < 1 && target_pos.distanceTo(data.controls.target) < 300 ) {
+				imaginnection.setTour(5);
+			}
 		}
 	}
 	

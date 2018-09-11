@@ -47,8 +47,10 @@ imaginnection.changeUsersDB = function( snapshot ) {
   // ログインユーザのデータがない
   
   // ツアー自動発動
-  imaginnection.setTour(0);
-  imaginnection.tour.restart();
+  if( imaginnection.tour ) {
+    imaginnection.setTour(0);
+    imaginnection.tour.restart();
+  }
 };
 
 imaginnection.changeEdgesDB = function( snapshot ) {

@@ -98,8 +98,10 @@ $(document).ready(function() {
 	// 以下ログイン時のみ
   
   $("#tour-icon").on("click", function() {
-  	imaginnection.setTour(0);
-  	imaginnection.tour.restart();
+    if( imaginnection.tour ) {
+    	imaginnection.setTour(0);
+    	imaginnection.tour.restart();
+    }
   });
   
   $("#twitter-icon").on("click", function() {
@@ -140,10 +142,8 @@ $(document).ready(function() {
 
   $("#users-modal").on("hidden.bs.modal", function() {
     if( !imaginnection.current_id ) return;
-  	if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 9 ) {
-  		setTimeout( function() {
-  			imaginnection.setTour(10);
-  		}, 500);
+  	if( imaginnection.tour && imaginnection.tour.getCurrentStep() >= 9 ) {
+			imaginnection.setTour(11);
   	}
   });
 });
