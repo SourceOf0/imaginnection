@@ -1,10 +1,8 @@
 
 <% if @from_node.valid? %>
-
-  $("#node-new").modal("hide");
   
   <%# フォームを表示するためにハッシュを変える %>
-  window.location.hash = "edge-new-" + encodeURIComponent("<%= @from_node.name %>");
+  window.location.hash = "edge-new-" + encodeURIComponent("<%=j @from_node.name.html_safe %>");
 
 <% else %>
   

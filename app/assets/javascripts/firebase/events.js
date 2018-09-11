@@ -9,7 +9,9 @@ var imaginnection = imaginnection || {};
 // 表示要素切り替え
 imaginnection.changeContent = function() {
   
-  if( window.location.hash.length == 0 ) {
+  var hash = decodeURIComponent(window.location.hash.substring(1));
+  
+  if( hash == 0 ) {
     // ポップアップ全部隠す
     $(".modal").modal("hide");
     return;
@@ -18,24 +20,27 @@ imaginnection.changeContent = function() {
   if( !imaginnection.current_id ) return;
   // 以下ログイン時のみ
   
-  var hash = decodeURIComponent(window.location.hash.substring(1));
-  
   if( hash === "node-new" ) {
+    $("#edge-new").modal("hide");
+    
     // フォームの中身を消す
     $("#node-new-form")[0].reset();
+    
     $("#node-new").modal("show");
     return;
   }
   
   if( hash.indexOf("edge-new-") === 0 ) {
+    $("#node-new").modal("hide");
+
     // フォームの中身を消す
     $("#edge-new-form")[0].reset();
-    
-    // 指定されている名前を挿入
+
+    // 指定されている名前をフォームに挿入
     var name = decodeURIComponent(hash.replace(/^edge-new-/, ""));
     $("#from-node-label").text(name);
     $("#from_node_name").attr("value", name);
-    
+
     $("#edge-new").modal("show");
     return;
   }
@@ -119,14 +124,18 @@ $(document).ready(function() {
     imaginnection.setTour(3);
     $("#node-new .node-name").focus();
   }).on("hide.bs.modal", function() {
-    window.location.hash = "";
+    if( window.location.hash.substring(1) === "node-new") {
+      window.location.hash = "";
+    }
   });
   
   $("#edge-new").on("shown.bs.modal", function() {
     imaginnection.setTour(4);
     $("#edge-new .node-name").focus();
   }).on("hide.bs.modal", function() {
-    window.location.hash = "";
+    if( window.location.hash.substring(1).indexOf("edge-new-") === 0 ) {
+      window.location.hash = "";
+    }
   });
 
   $("#users-modal").on("hidden.bs.modal", function() {

@@ -123,8 +123,6 @@ imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_
 		imaginnection.three.removeNode(to_node);
 		if( data.focusNode == to_node ) data.focusNode = null;
 	}
-	
-	console.log("remove call");
 };
 
 imaginnection.three.setControlTarget = function() {

@@ -10,7 +10,7 @@
 <% else %>
   
   <%# エッジを投稿する %>
-  var edge = imaginnection.createEdgeData("<%= current_user.ref_id %>", "<%= @from_node.name %>", "<%= @to_node.name %>", <%= @is_hide_user %>);
+  var edge = imaginnection.createEdgeData("<%=j current_user.ref_id %>", "<%=j @from_node.name.html_safe %>", "<%=j @to_node.name.html_safe %>", <%= @is_hide_user %>);
   if( imaginnection.createEdge( edge ) ) {
     <%# エッジ一覧を表示するためハッシュを変える %>
     window.location.hash = "";

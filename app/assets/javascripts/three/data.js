@@ -63,7 +63,7 @@ imaginnection.three.NodeLabel = {
 				}
 	
 				this.node = node;
-				if( this.element.innerHTML != node.name ) this.element.innerHTML = node.name;
+				if( this.element.textContent != node.name ) this.element.textContent = node.name;
 				
 				if( node.is_owner ) {
 					this.setOwner();
@@ -107,7 +107,7 @@ imaginnection.three.Node = {
 	},
 	
 	create: function( name, index ) {
-		var pos = new THREE.Vector3( ((this.total_count % 6 / 6) * 20 + 4) * 30 + 30, 0, 0);
+		var pos = new THREE.Vector3( ((this.total_count % 6 / 6) * 30 + this.total_count/6) * 20 + 10, 0, 0);
 		pos.applyAxisAngle( this.org1, (this.total_count % 50 / 50) * PI2 );
 		pos.applyAxisAngle( this.org2, (this.total_count % 7 / 7) * PI2/2 );
 		
@@ -207,22 +207,25 @@ imaginnection.three.Node = {
 				var owner_edge_num = 0;
 				for( var key in this.from_edges ) {
 					var edge = this.from_edges[key];
-					if( edge.is_owner ) {
-						owner_edge_num++;
-					}
+					if( !edge.is_owner ) continue;
+					if( !!to_node && (edge.to_node.name == to_node.name) ) continue;
+					// 今から削除されるノード以外にこのノードから伸びている所有エッジがある
+					owner_edge_num++;
 				}
-				if( to_node ) {
-					for( var key in this.to_edges ) {
-						var edge = this.to_edges[key];
-						if( (edge.to_node.name != to_node.name) && edge.is_owner ) {
-							owner_edge_num++;
-						}
-					}
+				for( var key in this.to_edges ) {
+					var edge = this.to_edges[key];
+					if( !edge.is_owner ) continue;
+					// このノードに向かっている所有エッジがある
+					owner_edge_num++;
+				}
+				if( owner_edge_num == 0 ) {
+					// 所有エッジなし
+					this.is_owner = false;
+					this.setColor();
+				}
+				if( !!to_node ) {
 					to_node.resetOwner( null );
 				}
-				if( owner_edge_num > 0 ) return;
-				this.is_owner = false;
-				this.setColor();
 			},
 		};
 	}

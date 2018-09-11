@@ -48,7 +48,7 @@ imaginnection.three.init = function() {
 	data.container = document.getElementById('edges-index');
 	data.container.style.height = (window.innerHeight - 100) + "px";
 
-	data.camera = new THREE.PerspectiveCamera( 45, data.container.clientWidth / data.container.clientHeight, 1, window.innerWidth * 6 );
+	data.camera = new THREE.PerspectiveCamera( 45, data.container.clientWidth / data.container.clientHeight, 1, Math.max(window.innerWidth, window.innerHeight) * 2 );
 	data.camera.position.set( 0, 300, 500 );
 	
 	data.scene = new THREE.Scene();

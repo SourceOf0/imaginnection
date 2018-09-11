@@ -8,10 +8,10 @@ var imaginnection = imaginnection || {};
 
 // edgeのバリデーション
 imaginnection.validateEdge = function( edge ) {
+  if( edge.user_id != imaginnection.current_id ) return "投稿に失敗しました";
   if( edge.from_node == edge.to_node ) return "前後で同じ名前の単語は使用できません";
   return null;
 };
-
 
 // userが持つedgeを作成
 // @return: 追加したedgeのkey
@@ -40,9 +40,12 @@ imaginnection.updateEdge = function( edge, is_remove ) {
   
   // パス定義
   var path = "edges";
-  var from_node_path = path + "/" + edge["from_node"];
-  var to_node_path = from_node_path + "/" + edge["to_node"];
+  var from_node_path = path + "/" + imaginnection.convertPathEntities(edge["from_node"], "encode");
+  var to_node_path = from_node_path + "/" + imaginnection.convertPathEntities(edge["to_node"], "encode");
   var user_path = to_node_path + "/users/" + edge["user_id"];
+  
+  //console.log("from_node_path: " + from_node_path);
+  //console.log("to_node_path: " + to_node_path);
   
   // 更新情報セット
   updates[from_node_path + "/updated_at"] = timestamp;
@@ -125,9 +128,9 @@ imaginnection.createEdge = function( edge ) {
   }
   
   if( imaginnection.updateEdge(edge) ) {
-    console.log("update edge: " + edge.from_node + " -> " + edge.to_node);
+    console.log("update: " + edge.from_node + " -> " + edge.to_node);
   } else {
-    console.log("create edge: " + edge.from_node + " -> " + edge.to_node);
+    console.log("create: " + edge.from_node + " -> " + edge.to_node);
   }
   
   return true;
@@ -137,27 +140,21 @@ imaginnection.createEdge = function( edge ) {
 // edge削除
 imaginnection.removeEdge = function( edge ) {
   if( imaginnection.updateEdge(edge, true) ) {
-    console.log("delete edge: " + edge.from_node + " -> " + edge.to_node);
+    console.log("delete: " + edge.from_node + " -> " + edge.to_node);
   } else {
-    console.log("not found edge: " + edge.from_node + " -> " + edge.to_node);
+    console.log("not found: " + edge.from_node + " -> " + edge.to_node);
   }
 };
-
-// ツアー自動発動
-setTimeout(function() {
-  if( !imaginnection.current_id ) return;
-  if( !imaginnection.dbdata.users[imaginnection.current_id] ) {
-  	imaginnection.setTour(0);
-  	imaginnection.tour.restart();
-  }
-}, 3000);
 
 // テスト用
 /*
 setTimeout(function() {
-  var id = "YX-Vd3h1H9DV_KXDw6kFWCwutK6KVbKf0sE5f-Ku";
-  var edge = imaginnection.createEdgeData(id, "test", "です", false);
-  imaginnection.createEdge(edge);
-  //imaginnection.removeEdge(edge);
+  var id = "vygUqlmpNU0Hz0zMqw7OydK2IA7MAGGsCre4VcYw";
+  //var id = "bVQDGbw07EKBThh-fwIqLuWLU8b1mZnPs6WaEaYA";
+  for( var i = 0; i < 300; i++ ) {
+    var edge = imaginnection.createEdgeData(id, i + "個目", (i+1) + "個目", false);
+    imaginnection.createEdge(edge);
+    //imaginnection.removeEdge(edge);
+  }
 }, 3000);
 /**/
