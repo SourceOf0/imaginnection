@@ -181,8 +181,7 @@
       background: $backgroundColor2;
       border-color: $backgroundColor1;
       text-align: left;
-      white-space: normal;
-      
+
       .badge {
         @include mono-background;
       }

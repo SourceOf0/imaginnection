@@ -11,6 +11,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 	var from_node = imaginnection.three.Node.list[node_name];
 	if( !from_node ) return;
 	if( data.focusNode == from_node ) return;
+	
 	if( data.focusNode ) {
 		data.focusNode.setDefaultStyle();
 	}
@@ -23,6 +24,8 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 		data.zoom_pos = data.zoom_pos.normalize().negate().multiplyScalar(500).add(data.focusNode.particle.position);
 		data.is_camera_zoom = true;
 	}
+	
+	$("#node-option li").addClass("active");
 	
 	if( !isScroll ) return;
 	

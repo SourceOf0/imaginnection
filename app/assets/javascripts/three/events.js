@@ -6,8 +6,7 @@ imaginnection.three = imaginnection.three || {};
 
 
 imaginnection.three.setFocusEvent = function( event ) {
-	imaginnection.three.setFocusNode($(this).find(".panel-title .name").text());
-	$("#node-option li").addClass("active");
+	imaginnection.three.setFocusNode( $(this).find(".panel-title .name").text(), false );
 };
 
 imaginnection.three.onClickEdgeEvent = function( event ) {
