@@ -96,10 +96,9 @@ imaginnection.initTour = function() {
       },
       {
         template: temp_def,
-        element: "#edges-index .target-node",
         title: "マップの操作",
         content: "単語はマップに反映されます。<br><small>　選択：円を" + (can_tap? "タップ":"右クリック" ) + "<br>　回転：" + (can_tap? "スライド":"右ドラッグ" ) + "<br>　移動：" + (can_tap? "指2本でスライド":"左ドラッグ" ) + "<br>　拡縮：" + (can_tap? "ピンチ":"マウスホイール回転" ) + "</small>",
-        placement: "auto top",
+        orphan: true,
       },
       {
         template: temp_def,
