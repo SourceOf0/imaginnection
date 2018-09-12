@@ -25,7 +25,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 		data.is_camera_zoom = true;
 	}
 	
-	$("#node-option li").addClass("active");
+	$("#associating-view").addClass("active");
 	
 	if( !isScroll ) return;
 	
@@ -120,6 +120,10 @@ imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_
 	if( to_node && to_node.edge_count == 0  ) {
 		imaginnection.three.removeNode(to_node);
 		if( data.focusNode == to_node ) data.focusNode = null;
+	}
+	
+	if( !data.focusNode ) {
+		$("#associating-view").removeClass("active");
 	}
 };
 

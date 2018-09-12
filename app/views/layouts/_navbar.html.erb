@@ -113,13 +113,13 @@
         <ul class="position-center" id="node-option">
           <% if user_signed_in? %>
             <% if !@is_hide_user %>
-              <li>
+              <li id="twitter-icon-view" class="active">
                 <%= link_to('', class: 'icon button', id: 'twitter-icon') do %>
                   <%= render 'layouts/twitter' %>
                 <% end %>
               </li>
             <% end %>
-            <li>
+            <li id="associating-view">
               <%= link_to('連想する', '', id: 'associating', class: 'btn btn-primary') %>
             </li>
           <% end %>
