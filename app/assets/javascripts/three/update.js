@@ -17,12 +17,12 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 	}
 	data.focusNode = from_node;
 	data.focusNode.setTargetStyle();
-	data.is_camera_targeting = true;
+	data.isCameraTargeting = true;
 	var vector = data.focusNode.particle.position.clone().project(data.camera);
 	if( vector.z > 1 ) {
-		data.zoom_pos.subVectors( data.focusNode.particle.position, data.camera.position );
-		data.zoom_pos = data.zoom_pos.normalize().negate().multiplyScalar(500).add(data.focusNode.particle.position);
-		data.is_camera_zoom = true;
+		data.zoomPos.subVectors( data.focusNode.particle.position, data.camera.position );
+		data.zoomPos = data.zoomPos.normalize().negate().multiplyScalar(500).add(data.focusNode.particle.position);
+		data.isCameraZoom = true;
 	}
 	
 	$("#associating-view").addClass("active");
@@ -129,9 +129,9 @@ imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_
 
 imaginnection.three.setControlTarget = function() {
 	var data = imaginnection.threeData;
-	data.is_mouse_down = false;
-	if ( data.is_drag ) {
-		data.is_drag = false;
+	data.isMouseDown = false;
+	if ( data.isDrag ) {
+		data.isDrag = false;
 		return;
 	}
 	data.raycaster.setFromCamera( data.mouse, data.camera );
@@ -169,18 +169,18 @@ imaginnection.three.moveControlTarget = function( pos ) {
 	data.mouse.x = ( pos.clientX / view.clientWidth ) * 2 - 1;
 	data.mouse.y = - ( (pos.clientY - 50) / view.clientHeight ) * 2 + 1;
 
-	if( data.is_mouse_down && !data.is_drag ) {
+	if( data.isMouseDown && !data.isDrag ) {
 		// ドラッグ判定、一定距離を離れた場合はドラッグとして扱う
-		data.is_drag = Math.sqrt(Math.pow(data.mouse_down_pos.x - pos.clientX, 2) + Math.pow(data.mouse_down_pos.y - pos.clientY, 2)) > 5;
+		data.isDrag = Math.sqrt(Math.pow(data.mouseDownPos.x - pos.clientX, 2) + Math.pow(data.mouseDownPos.y - pos.clientY, 2)) > 5;
 	}
 };
 
 
 imaginnection.three.resetControlTarget = function() {
 	var data = imaginnection.threeData;
-	data.is_camera_targeting = false;
-	data.is_drag = false;
-	data.is_mouse_down = false;
+	data.isCameraTargeting = false;
+	data.isDrag = false;
+	data.isMouseDown = false;
 };
 
 
@@ -192,15 +192,15 @@ imaginnection.three.setZoom = function( ratio ) {
 	} else {
 		target_pos = new THREE.Vector3(0, 0, 0);
 	}
-	data.zoom_pos.copy(data.camera.position);
+	data.zoomPos.copy(data.camera.position);
 	data.delta.subVectors( target_pos, data.camera.position ).multiplyScalar( ratio );
-	data.zoom_pos.add( data.delta );
-	data.is_camera_zoom = true;
+	data.zoomPos.add( data.delta );
+	data.isCameraZoom = true;
 };
 
 
 imaginnection.three.resetZoom = function() {
-	imaginnection.threeData.is_camera_zoom = false;
+	imaginnection.threeData.isCameraZoom = false;
 };
 
 
@@ -213,17 +213,19 @@ imaginnection.three.animate = function() {
 
 imaginnection.three.render = function() {
 	var data = imaginnection.threeData;
-	
+  var nowTime = new Date().getTime();
+  var diffCount = (nowTime - data.animeTimer) / 20;
+
 	if( data.focusNode ) {
 		var target_pos = data.focusNode.particle.position;
 		
-		if( data.is_camera_targeting ) {
-			data.delta.subVectors( target_pos, data.controls.target ).multiplyScalar( 0.05 );
+		if( data.isCameraTargeting ) {
+			data.delta.subVectors( target_pos, data.controls.target ).multiplyScalar( diffCount * 0.05 );
 			data.controls.target.add( data.delta );
 			
 			if( target_pos.distanceTo(data.controls.target) < 1 ) {
 				data.controls.target.copy(target_pos);
-				data.is_camera_targeting = false;
+				data.isCameraTargeting = false;
 			}
 		}
 		
@@ -234,32 +236,49 @@ imaginnection.three.render = function() {
 		}
 	}
 	
-	if( data.is_camera_zoom ) {
-		data.delta.subVectors( data.zoom_pos, data.camera.position ).multiplyScalar( 0.2 );
+	if( data.isCameraZoom ) {
+		data.delta.subVectors( data.zoomPos, data.camera.position ).multiplyScalar( diffCount * 0.2 );
 		data.camera.position.add( data.delta );
-		if( data.zoom_pos.distanceTo(data.camera.position) < 5 ) {
-			data.is_camera_zoom = false;
+		if( data.zoomPos.distanceTo(data.camera.position) < 5 ) {
+			data.isCameraZoom = false;
 		}
 	}
 
-	var count = 1;
 	var view = document.getElementById('edges-index');
 	var node_list = imaginnection.three.Node.list;
 	var node_label_list = imaginnection.three.NodeLabel.list;
-	
+	var view_node = [];
+
 	data.context.clearRect(0, 0, view.clientWidth, view.clientHeight);
 
 	for( var key in node_list ) {
 		var node = node_list[key];
 		node.update();
 		if( node == imaginnection.threeData.focusNode ) continue;
-		if( count >= node_label_list.length ) continue;
-		var node_label = node_label_list[count];
-		if( node_label.update(node, data.camera, view.clientWidth, view.clientHeight) ) {
-			count++;
+		
+		var view_pos = node.view_pos;
+		if( (view_pos.z < -1) || ((view_pos.x < -1 || view_pos.x > 1) || (view_pos.y < -1 || view_pos.y > 1)) ) {
+			continue;
+		}
+		if( view_node.length < node_label_list.length ) {
+			view_node.push(node);
+			continue;
+		}
+		for( var i = 0 ; i < view_node.length; i++ ) {
+			if( view_pos.distanceTo(data.labelViewTargetPos) > view_node[i].view_pos.distanceTo(data.labelViewTargetPos) ) continue;
+			view_node[i] = node;
+			break;
 		}
 	}
 	
+	var count = 1;
+	for( var i = 0 ; i < view_node.length; i++ ) {
+		if( node_label_list[count].update(view_node[i], data.camera, view.clientWidth, view.clientHeight) ) {
+			count++;
+		}
+		if( count >= node_label_list.length ) break;
+	}
+
 	if( imaginnection.threeData.focusNode ) {
 		node_label_list[0].update(imaginnection.threeData.focusNode, data.camera, view.clientWidth, view.clientHeight);
 	} else {
@@ -279,5 +298,6 @@ imaginnection.three.render = function() {
   //data.context.shadowBlur = 10;
   
 	data.renderer.render( data.scene, data.camera );
+  data.animeTimer = nowTime;
 };
 

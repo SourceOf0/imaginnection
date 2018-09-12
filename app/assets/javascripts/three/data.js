@@ -44,9 +44,7 @@ imaginnection.three.NodeLabel = {
 					return false;
 				}
 				
-				this.position.copy(node.particle.position);
-				var vector = this.position.project(camera);
-				
+				var vector = node.view_pos;
 				var z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
 				if( imaginnection.threeData.focusNode != node ) {
 					if( (vector.z > z_min) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
@@ -130,10 +128,12 @@ imaginnection.three.Node = {
 			from_edges: {},
 			to_edges: {},
 			edge_count: 0,
+			view_pos: new THREE.Vector3(0, 0, 0),
 			update: function() {
 				var target_scale = this.edge_count * 5 + 10;
 				this.particle.scale.x += (target_scale - this.particle.scale.x) * 0.1;
 				this.particle.scale.y += (target_scale - this.particle.scale.y) * 0.1;
+				this.view_pos = this.particle.position.clone().project(imaginnection.threeData.camera);
 			},
 			getToEdge: function( to_node ) {
 				for( var key in this.to_edges ) {

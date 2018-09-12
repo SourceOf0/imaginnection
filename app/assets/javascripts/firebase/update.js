@@ -174,12 +174,14 @@ setTimeout(function() {
     });
   });
 }, 3000);
+/**/
+/*
 setTimeout(function() {
-  var id = "mYAPf-2vS670r3pOLz9tM7GDFYuF2iFJIrWGj8xE";
-  //var id = "vygUqlmpNU0Hz0zMqw7OydK2IA7MAGGsCre4VcYw";
+  var id = "vygUqlmpNU0Hz0zMqw7OydK2IA7MAGGsCre4VcYw";
   //var id = "bVQDGbw07EKBThh-fwIqLuWLU8b1mZnPs6WaEaYA";
+  //var id = "mYAPf-2vS670r3pOLz9tM7GDFYuF2iFJIrWGj8xE";
   for( var i = 0; i < 100; i++ ) {
-    var edge = imaginnection.createEdgeData(id, i + "個目", (i+2) + "個目", false);
+    var edge = imaginnection.createEdgeData(id, i + "個目", (i+1) + "個目", false);
     imaginnection.createEdge(edge);
     //imaginnection.removeEdge(edge);
   }

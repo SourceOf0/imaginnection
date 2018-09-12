@@ -19,17 +19,18 @@ imaginnection.threeData = {
 	controls: null,
 	raycaster: null,
 	
-	is_drag: false,
-	is_mouse_down: false,
+	isDrag: false,
+	isMouseDown: false,
 	mouse: null,
-	mouse_down_pos: new THREE.Vector2(0, 0),
+	mouseDownPos: new THREE.Vector2(0, 0),
 	
-	is_camera_zoom: false,
-	zoom_pos: new THREE.Vector3(0, 0, 0),
+	isCameraZoom: false,
+	zoomPos: new THREE.Vector3(0, 0, 0),
 	delta: new THREE.Vector3(0, 0, 0),
+	labelViewTargetPos: new THREE.Vector3(0, 0, -10),
 	
 	focusNode: null,
-	is_camera_targeting: false,
+	isCameraTargeting: false,
 
 	normalColor: 0xffffff,
 	ownerColor: 0xb1e9ff,
@@ -38,6 +39,8 @@ imaginnection.threeData = {
 	nodeLineWidth: 0.1,
 	edgeDefaultLineWidth: 2,
 	edgeTargetLineWidth: 10,
+	
+	animeTimer: new Date().getTime(),
 };
 
 
@@ -62,7 +65,7 @@ imaginnection.three.init = function() {
 	
 	data.context = data.renderer.domElement.getContext("2d");
 	
-	for( var i = 0; i < 10; i++ ) {
+	for( var i = 0; i < 20; i++ ) {
 		var nodeLabel = imaginnection.three.NodeLabel.create();
 		data.container.appendChild(nodeLabel.element);
 		imaginnection.three.NodeLabel.list.push(nodeLabel);
@@ -114,7 +117,7 @@ imaginnection.three.init = function() {
 	function onMouseMove( event ) {
 		event.preventDefault();
 		imaginnection.three.moveControlTarget(event);
-		//console.log(is_drag + " onMouseMove:" + mouse.x + ":" + mouse.y);
+		//console.log(isDrag + " onMouseMove:" + mouse.x + ":" + mouse.y);
 	}
 	
 	function onTouchMove( event ) {
@@ -131,11 +134,11 @@ imaginnection.three.init = function() {
 			imaginnection.three.resetZoom();
 			return;
 		}
-		data.is_mouse_down = true;
-		data.mouse_down_pos.x = event.clientX;
-		data.mouse_down_pos.y = event.clientY;
+		data.isMouseDown = true;
+		data.mouseDownPos.x = event.clientX;
+		data.mouseDownPos.y = event.clientY;
 		imaginnection.three.moveControlTarget(event);
-		//console.log(is_drag + " onMouseDown:" + mouse_down_pos.x + ":" + mouse_down_pos.y);
+		//console.log(isDrag + " onMouseDown:" + mouseDownPos.x + ":" + mouseDownPos.y);
 	}
 	
 	function onTouchStart( event ) {
@@ -146,18 +149,18 @@ imaginnection.three.init = function() {
 			imaginnection.three.resetZoom();
 			return;
 		}
-		data.is_mouse_down = true;
-		data.mouse_down_pos.x = event.targetTouches[0].clientX;
-		data.mouse_down_pos.y = event.targetTouches[0].clientY;
+		data.isMouseDown = true;
+		data.mouseDownPos.x = event.targetTouches[0].clientX;
+		data.mouseDownPos.y = event.targetTouches[0].clientY;
 		imaginnection.three.moveControlTarget(event.targetTouches[0]);
-		//console.log("onTouchStart:" + mouse_down_pos.x + ":" + mouse_down_pos.y);
+		//console.log("onTouchStart:" + mouseDownPos.x + ":" + mouseDownPos.y);
 	}
 	
 	function onMouseUp( event ) {
 		if( event.button != 0 ) return;
 		// 左ボタンの場合のみ
 		imaginnection.three.setControlTarget();
-		//console.log(is_drag + " onMouseUp");
+		//console.log(isDrag + " onMouseUp");
 	}
 	
 	function onTouchEnd( event ) {
