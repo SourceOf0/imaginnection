@@ -40,7 +40,10 @@
 
 #empathy-user-list {
   @include main-background;
+  display: block;
   padding: 0;
+  min-height: 40px;
+  max-height: 120px;
   overflow-y: scroll;
 }
 
