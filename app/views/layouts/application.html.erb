@@ -43,8 +43,11 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
-      gtag('config', 'UA-124890972-1');
+      gtag('config', 'UA-124890972-1', {
+        <% if user_signed_in? %>
+          'dimension1': '<%= current_user.name %>: <%= current_user.ref_id %>'
+        <% end %>
+      });
     </script>
     
   </head>
