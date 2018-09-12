@@ -15,16 +15,23 @@ class EdgesController < ApplicationController
 
   def show
     @target_user = User.find_by(ref_id: params[:id])
-    @is_hide_user = @target_user.is_hide_edges
-
-    if !@is_hide_user || @target_user == current_user
-      @view_ref_ids = [@target_user.ref_id]
-      
-      @from_node = Node.new
-      @to_node = Node.new
+    @is_active_user = !!@target_user && @target_user.active_for_authentication?
+    
+    if @is_active_user
+      # 有効なユーザ
+      @is_hide_user = @target_user.is_hide_edges
   
-      render :index
+      if !@is_hide_user || @target_user == current_user
+        # マップが公開中、またはログインユーザ
+        @view_ref_ids = [@target_user.ref_id]
+        
+        @from_node = Node.new
+        @to_node = Node.new
+    
+        render :index
+      end
     end
+    
   end
   
   def users

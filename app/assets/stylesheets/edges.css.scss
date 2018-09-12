@@ -11,9 +11,11 @@
   h1 {
     font-family: 'Rounded Mplus 1c';
     color: $accentColor;
+    text-shadow: 0 0 5px $colorBlack;
     margin: 0.5em;
     position: absolute;
     font-size: 1.5em;
+    z-index: 5;
   }
 }
 
