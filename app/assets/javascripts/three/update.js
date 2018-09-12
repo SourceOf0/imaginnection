@@ -228,12 +228,6 @@ imaginnection.three.render = function() {
 				data.isCameraTargeting = false;
 			}
 		}
-		
-		if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 4 ) {
-			if( window.location.hash.length < 1 && target_pos.distanceTo(data.controls.target) < 300 ) {
-				imaginnection.setTour(5);
-			}
-		}
 	}
 	
 	if( data.isCameraZoom ) {
@@ -281,6 +275,12 @@ imaginnection.three.render = function() {
 
 	if( imaginnection.threeData.focusNode ) {
 		node_label_list[0].update(imaginnection.threeData.focusNode, data.camera, view.clientWidth, view.clientHeight);
+		
+		if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 4 ) {
+			if( window.location.hash.length <= 1 && target_pos.distanceTo(data.controls.target) < 300 ) {
+				imaginnection.setTour(5);
+			}
+		}
 	} else {
 		node_label_list[0].update(null, data.camera, view.clientWidth, view.clientHeight);
 	}

@@ -14,6 +14,13 @@ imaginnection.changeContent = function() {
   if( hash == 0 ) {
     // ポップアップ全部隠す
     $(".modal").modal("hide");
+    
+		if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 4 ) {
+			if( imaginnection.current_id != imaginnection.map_user_id ) {
+				imaginnection.setTour(6);
+			}
+		}
+		
     return;
   }
   

@@ -117,10 +117,9 @@ imaginnection.initTour = function() {
       },
       {
         template: temp_wait,
-        element: "#drawer .panel:last-child",
         title: "単語一覧",
         content: "単語を押すと、連想された単語の一覧が表示されます。<br>連想された単語を押すと、共感者の一覧が表示されます。",
-        placement: "auto top",
+        orphan: true,
       },
       {
         template: temp_def,
