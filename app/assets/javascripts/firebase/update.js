@@ -153,6 +153,28 @@ imaginnection.removeEdge = function( edge ) {
 // テスト用
 /*
 setTimeout(function() {
+  var edges = imaginnection.dbdata.edges;
+  var users = imaginnection.dbdata.users;
+  
+  Object.keys(users).forEach(function(id) {
+    var check = {};
+    Object.keys(users[id]["edges"]).forEach(function(key) {
+      var user = users[id]["edges"][key];
+      var from_node = user["from_node"];
+      var to_node = user["to_node"];
+      var edge = from_node + "->" + to_node;
+      if( !check[edge] ) {
+        check[edge] = true;
+      } else {
+        console.log("same user edge: ", id, key, users[id]["edges"][key]);
+      }
+      if( !edges[from_node][to_node] ) {
+        console.log("undefined edge: ", id, key, users[id]["edges"][key]);
+      }
+    });
+  });
+}, 3000);
+setTimeout(function() {
   var id = "mYAPf-2vS670r3pOLz9tM7GDFYuF2iFJIrWGj8xE";
   //var id = "vygUqlmpNU0Hz0zMqw7OydK2IA7MAGGsCre4VcYw";
   //var id = "bVQDGbw07EKBThh-fwIqLuWLU8b1mZnPs6WaEaYA";

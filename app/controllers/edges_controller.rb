@@ -41,7 +41,7 @@ class EdgesController < ApplicationController
     @is_hide_user = !!params[:is_hide_user]
     @users = User.where(ref_id: params[:content], deleted_at: nil)
     @count = params[:count];
-    if user_signed_in?
+    if user_signed_in? && params[:content]
       @is_owner = !!params[:content].include?(current_user.ref_id);
     else
       @is_owner = false;
