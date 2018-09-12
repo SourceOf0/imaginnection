@@ -62,7 +62,7 @@ imaginnection.three.init = function() {
 	
 	data.context = data.renderer.domElement.getContext("2d");
 	
-	for( var i = 0; i < 20; i++ ) {
+	for( var i = 0; i < 10; i++ ) {
 		var nodeLabel = imaginnection.three.NodeLabel.create();
 		data.container.appendChild(nodeLabel.element);
 		imaginnection.three.NodeLabel.list.push(nodeLabel);
