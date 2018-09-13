@@ -19,25 +19,28 @@
     
     <%= favicon_link_tag %>
     
-    <!-- Bootstrap CSS-->
+    <%# Bootstrap CSS %>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     
-    <!-- app/assets/stylesheets -->
+    <%# app/assets/stylesheets %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     
-    <!-- app/assets/javascripts-->
+    <%# app/assets/javascripts %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     
-    <!-- Bootstrap JavaScript-->
+    <%# common %>
+    <%= javascript_include_tag 'common/common.js' %>
+    
+    <%# Bootstrap JavaScript %>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     
-    <!-- Firebase JavaScript-->
+    <%# Firebase JavaScript %>
     <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
     
     <link href="https://fonts.googleapis.com/earlyaccess/roundedmplus1c.css" rel="stylesheet" />    
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <%# Global site tag (gtag.js) - Google Analytics %>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124890972-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -49,7 +52,6 @@
         <% end %>
       });
     </script>
-    
   </head>
   <body>
     <%= render 'layouts/navbar' %>

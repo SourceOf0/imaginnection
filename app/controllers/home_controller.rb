@@ -17,4 +17,8 @@ class HomeController < ApplicationController
     # do nothing.
   end
 
+  def logs
+    set_logger( 'home/log', params[:text] )
+  end
+  
 end

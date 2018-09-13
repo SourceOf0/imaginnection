@@ -73,11 +73,7 @@ imaginnection.childAddedUsersDB = function( childSnapshot, prevChildKey ) {
   var edge = childSnapshot.val();
   var edge_id = childSnapshot.key;
   var user_id = childSnapshot.ref.parent.parent.key;
-  if( imaginnection.three ) {
-    imaginnection.three.addEdge(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
-  } else {
-    imaginnection.addEdgeList(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
-  }
+  imaginnection.three.addEdge(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
 
   //console.log("GET : child_added : " + edge.from_node + " -> " + edge.to_node);
 };
@@ -86,10 +82,6 @@ imaginnection.childRemovedUsersDB = function( childSnapshot, prevChildKey ) {
   var edge = childSnapshot.val();
   var edge_id = childSnapshot.key;
   var user_id = childSnapshot.ref.parent.parent.key;
-  if( imaginnection.three ) {
-    imaginnection.three.removeEdge(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
-  } else {
-    imaginnection.removeEdgeList(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
-  }
+  imaginnection.three.removeEdge(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
   //console.log("GET : child_removed : " + edge.from_node + " -> " + edge.to_node);
 };

@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
   # ログ用
   before_action :print_info
 
+  def set_logger( name, text )
+    logger.info 'LOG[ ' + name + ' ] ' + text
+  end
+  
   def site_http_basic_authenticate_with
     authenticate_or_request_with_http_basic("Application") do |name, password|
       name == ENV['BASIC_USERNAME'] && password == ENV['BASIC_PASSWORD']
@@ -23,10 +27,10 @@ class ApplicationController < ActionController::Base
   
   def print_info
     if user_signed_in?
-      logger.info 'LOG[ login user accessed -> ' + request.path + ' ] ' + current_user.name + ' : ' + current_user.ref_id
+      set_logger( 'login user accessed -> ' + request.path, current_user.name + ' : ' + current_user.ref_id )
     end
   end
-  
+
   protected
   
   # deviseのstring parameter

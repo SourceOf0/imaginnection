@@ -132,9 +132,9 @@ imaginnection.createEdge = function( edge ) {
   }
   
   if( imaginnection.updateEdge(edge) ) {
-    console.log("update: " + edge.from_node + " -> " + edge.to_node);
+    //console.log("update: " + edge.from_node + " -> " + edge.to_node);
   } else {
-    console.log("create: " + edge.from_node + " -> " + edge.to_node);
+    //console.log("create: " + edge.from_node + " -> " + edge.to_node);
   }
   
   return true;
@@ -144,9 +144,9 @@ imaginnection.createEdge = function( edge ) {
 // edge削除
 imaginnection.removeEdge = function( edge ) {
   if( imaginnection.updateEdge(edge, true) ) {
-    console.log("delete: " + edge.from_node + " -> " + edge.to_node);
+    //console.log("delete: " + edge.from_node + " -> " + edge.to_node);
   } else {
-    console.log("not found: " + edge.from_node + " -> " + edge.to_node);
+    //console.log("not found: " + edge.from_node + " -> " + edge.to_node);
   }
 };
 

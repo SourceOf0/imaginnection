@@ -1,6 +1,6 @@
 class EdgesController < ApplicationController
   
-  #before_action :set_debug
+  before_action :set_debug_view if ENV['DEBUG_VIEW'] == 'true'
   
   # deviseでのログイン認証をスキップする
   skip_before_action :authenticate_user!, only: [:show]
@@ -12,7 +12,7 @@ class EdgesController < ApplicationController
     @from_node = Node.new
     @to_node = Node.new
     
-    logger.info 'LOG[ edge/index ] view ' + @view_ref_ids.to_json
+    set_logger( 'edge/index', @view_ref_ids.to_json )
   end
 
   def show
@@ -31,14 +31,13 @@ class EdgesController < ApplicationController
         @to_node = Node.new
     
         render :index
-        logger.info 'LOG[ edge/show ] view ' + @view_ref_ids.to_json
+        set_logger( 'edge/show', @view_ref_ids.to_json )
       else
-        logger.info 'LOG[ edge/show ] hide'
+        set_logger( 'edge/show', 'this user hide map' )
       end
     else
-      logger.info 'LOG[ edge/show ] failure'
+      set_logger( 'edge/show', 'user not found' )
     end
-  
   end
   
   def users
@@ -53,12 +52,12 @@ class EdgesController < ApplicationController
     else
       @is_owner = false;
     end
-    logger.info 'LOG[ edge/users ] ' + @from_node.name + ' -> ' + @to_node.name
+    set_logger( 'edge/users', @from_node.name + ' -> ' + @to_node.name )
   end
 
   def new
     @from_node = Node.new(node_params)
-    logger.info 'LOG[ edge/new ] ' + @from_node.name
+    set_logger( 'edge/new', @from_node.name )
   end
   
   
@@ -66,7 +65,7 @@ class EdgesController < ApplicationController
     @from_node = Node.new(name: params[:from_node_name])
     @to_node = Node.new(node_params)
     @is_hide_user = !!params[:is_hide_user]
-    logger.info 'LOG[ edge/create ] ' + @from_node.name + ' -> ' + @to_node.name
+    set_logger( 'edge/create', @from_node.name + ' -> ' + @to_node.name )
   end
   
   
@@ -74,7 +73,7 @@ class EdgesController < ApplicationController
     @from_node = Node.new(name: params[:from_node_name])
     @to_node = Node.new(node_params)
     @is_hide_user = false
-    logger.info 'LOG[ edge/destroy ] ' + @from_node.name + ' -> ' + @to_node.name
+    set_logger( 'edge/destroy', @from_node.name + ' -> ' + @to_node.name )
   end
   
   
@@ -85,7 +84,7 @@ class EdgesController < ApplicationController
     params.require(:node).permit(:name)
   end
 
-  def set_debug
-    @is_view_edges_list = true
+  def set_debug_view
+    @is_debug_view = true
   end
 end

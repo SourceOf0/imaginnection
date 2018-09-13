@@ -37,5 +37,6 @@ Rails.application.routes.draw do
   # その他ページ
   get 'terms', to: 'home#terms'
   get 'policy', to: 'home#policy'
-  
+  post 'logs', to: 'home#logs'
+
 end

@@ -1,18 +1,23 @@
 
-<div id="debug-edges-index">
+<div id="log-view" style="text-shadow: 0 0 5px #000000; white-space: normal;">
   
-  <div class="edge-temp">
-    <table class="table table-bordered background-sub">
-      <tr>
-        <th class="from-node-name"></th>
-      </tr>
-      <tr>
-        <td class="to-node-name"><a data-remote="true"></a></td>
-      </tr>
-    </table>
+  <div>
+    [(id)] <p><small><%= (user_signed_in?)? current_user.id : '' %></small></p>
+  </div>
+  <div>
+    [current_id] <p><small><%= (user_signed_in?)? current_user.ref_id : '' %></small></p>
+  </div>
+  <div>
+    [map_user_id] <p><small><%= (@target_user)? @target_user.ref_id : (user_signed_in?)? current_user.ref_id : '' %></small></p>
+  </div>
+  <div>
+    [map_user_name] <p><small><%= (@target_user)? @target_user.name.html_safe : (user_signed_in?)? current_user.name.html_safe : '' %></small></p>
+  </div>
+  <div>
+    [view_ids]
+    <% @view_ref_ids.each do |ref_id| %>
+      <p><small><%= ref_id %>, </small></p>
+    <% end %>
   </div>
   
-  <div class="edge-list">
-  </div>
-
 </div>

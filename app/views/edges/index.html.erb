@@ -23,6 +23,9 @@
       <span class="glyphicon glyphicon-triangle-left"></span>
     </div>
     <div class="drawer-body">
+      <% if @is_debug_view %>
+        <%= render 'edges/debug_index' %>
+      <% end %>
       <div class="drawer-title page-head">
         <h4 class="page-head-title">単語一覧</h4>
       </div>
@@ -33,11 +36,6 @@
     </div>
   </div>
 
-  
-  <% if @is_view_edges_list %>
-    <%= render 'edges/debug_index' %>
-  <% end %>
-  
   
   <div id="node-new" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -128,9 +126,6 @@
 
   <script>
     var imaginnection = imaginnection || {};
-    <% if @is_view_edges_list %>
-      imaginnection.is_view_edges_list = true;
-    <% end %>
     imaginnection.current_id = "<%=j (user_signed_in?)? current_user.ref_id : '' %>";
     imaginnection.map_user_id = "<%=j (@target_user)? @target_user.ref_id : (user_signed_in?)? current_user.ref_id : '' %>";
     imaginnection.map_user_name = "<%=j (@target_user)? @target_user.name.html_safe : (user_signed_in?)? current_user.name.html_safe : '' %>";
@@ -148,18 +143,16 @@
   <%= javascript_include_tag 'firebase/view.js' %>
   <%= javascript_include_tag 'firebase/update.js' %>
   
-  <% if !@is_view_edges_list %>
-    <%= javascript_include_tag 'common/tour.js' %>
-    <%= javascript_include_tag 'vendor/three/three.min.js' %>
-    <%= javascript_include_tag 'vendor/three/controls/TrackballControls.js' %>
-    <%= javascript_include_tag 'vendor/three/renderers/CanvasRenderer.js' %>
-    <%= javascript_include_tag 'vendor/three/renderers/Projector.js' %>
-    <%= javascript_include_tag 'three/view.js' %>
-    <%= javascript_include_tag 'three/events.js' %>
-    <%= javascript_include_tag 'three/data.js' %>
-    <%= javascript_include_tag 'three/update.js' %>
-    <%= javascript_include_tag 'three/init.js' %>
-  <% end %>
+  <%= javascript_include_tag 'common/tour.js' %>
+  <%= javascript_include_tag 'vendor/three/three.min.js' %>
+  <%= javascript_include_tag 'vendor/three/controls/TrackballControls.js' %>
+  <%= javascript_include_tag 'vendor/three/renderers/CanvasRenderer.js' %>
+  <%= javascript_include_tag 'vendor/three/renderers/Projector.js' %>
+  <%= javascript_include_tag 'three/view.js' %>
+  <%= javascript_include_tag 'three/events.js' %>
+  <%= javascript_include_tag 'three/data.js' %>
+  <%= javascript_include_tag 'three/update.js' %>
+  <%= javascript_include_tag 'three/init.js' %>
 
   <%= javascript_include_tag 'firebase/events.js' %>
   

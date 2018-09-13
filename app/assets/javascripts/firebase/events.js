@@ -63,12 +63,8 @@ $(document).ready(function() {
   firebase.auth().onAuthStateChanged(function(user) {
     if( user ) {
       imaginnection.initDB();
-      if( imaginnection.three ) {
-        imaginnection.initTour();
-        imaginnection.three.init();
-      } else {
-        imaginnection.clearEdges();
-      }
+      imaginnection.initTour();
+      imaginnection.three.init();
       imaginnection.changeContent();
     } else {
       firebase.auth().signInAnonymously().catch(function(error) {
