@@ -90,7 +90,7 @@ class User < ApplicationRecord
   # @return: フォロー可能ならtrue
   def can_follow?(target_user)
     # MEMO: 相手にブロックされてるかどうかのチェックも入れるならここ
-    return !target_user.is_disable_follow && (self != target_user)
+    return target_user.active_for_authentication? && !target_user.is_disable_follow && (self != target_user)
   end
   
   # フォローしているか
