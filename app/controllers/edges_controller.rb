@@ -11,6 +11,8 @@ class EdgesController < ApplicationController
     
     @from_node = Node.new
     @to_node = Node.new
+    
+    logger.info 'LOG[ edge/index ] view ' + @view_ref_ids.to_json
   end
 
   def show
@@ -29,9 +31,14 @@ class EdgesController < ApplicationController
         @to_node = Node.new
     
         render :index
+        logger.info 'LOG[ edge/show ] view ' + @view_ref_ids.to_json
+      else
+        logger.info 'LOG[ edge/show ] hide'
       end
+    else
+      logger.info 'LOG[ edge/show ] failure'
     end
-    
+  
   end
   
   def users
@@ -46,10 +53,12 @@ class EdgesController < ApplicationController
     else
       @is_owner = false;
     end
+    logger.info 'LOG[ edge/users ] ' + @from_node.name + ' -> ' + @to_node.name
   end
 
   def new
     @from_node = Node.new(node_params)
+    logger.info 'LOG[ edge/new ] ' + @from_node.name
   end
   
   
@@ -57,6 +66,7 @@ class EdgesController < ApplicationController
     @from_node = Node.new(name: params[:from_node_name])
     @to_node = Node.new(node_params)
     @is_hide_user = !!params[:is_hide_user]
+    logger.info 'LOG[ edge/create ] ' + @from_node.name + ' -> ' + @to_node.name
   end
   
   
@@ -64,6 +74,7 @@ class EdgesController < ApplicationController
     @from_node = Node.new(name: params[:from_node_name])
     @to_node = Node.new(node_params)
     @is_hide_user = false
+    logger.info 'LOG[ edge/destroy ] ' + @from_node.name + ' -> ' + @to_node.name
   end
   
   

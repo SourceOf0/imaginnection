@@ -12,10 +12,18 @@ class ApplicationController < ActionController::Base
   # deviseのstring parameter
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  # ログ用
+  before_action :print_info
 
   def site_http_basic_authenticate_with
     authenticate_or_request_with_http_basic("Application") do |name, password|
       name == ENV['BASIC_USERNAME'] && password == ENV['BASIC_PASSWORD']
+    end
+  end
+  
+  def print_info
+    if user_signed_in?
+      logger.info 'LOG[ login user accessed -> ' + request.path + ' ] ' + current_user.name + ' : ' + current_user.ref_id
     end
   end
   
