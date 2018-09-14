@@ -10,8 +10,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 	var data = imaginnection.threeData;
 	var from_node = imaginnection.three.Node.list[node_name];
 	if( !from_node ) return;
-	if( data.focusNode == from_node ) return;
-	
+
 	if( data.focusNode ) {
 		data.focusNode.setDefaultStyle();
 	}
