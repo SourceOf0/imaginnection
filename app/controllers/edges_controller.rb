@@ -30,8 +30,8 @@ class EdgesController < ApplicationController
         @from_node = Node.new
         @to_node = Node.new
     
+        set_logger( 'edge/show', @target_user.name + " : " + @target_user.ref_id )
         render :index
-        set_logger( 'edge/show', @view_ref_ids.to_json )
       else
         set_logger( 'edge/show', 'this user hide map' )
       end
