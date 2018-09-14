@@ -82,6 +82,6 @@ imaginnection.childRemovedUsersDB = function( childSnapshot, prevChildKey ) {
   var edge = childSnapshot.val();
   var edge_id = childSnapshot.key;
   var user_id = childSnapshot.ref.parent.parent.key;
-  imaginnection.three.removeEdge(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
+  imaginnection.three.removeEdge(edge_id, user_id, edge.from_node, edge.to_node);
   //console.log("GET : child_removed : " + edge.from_node + " -> " + edge.to_node);
 };

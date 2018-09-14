@@ -23,14 +23,14 @@ imaginnection.three.addNodeList = function( node ) {
 	temp += "</div>";
 	$container.append(temp).find("#from-node-index-" + index + " .name").text(node.name);
 	
-	$("#node-words").prepend("<option value='" + node.name + "'>");
+	$("#node-words").append("<option id='word-index-" + index + "'>").find("#word-index-" + index).attr("value", node.name);
 	
 	$container.find("#from-node-index-" + index).click( imaginnection.three.setFocusEvent );
 };
 
 imaginnection.three.removeNodeList = function( node ) {
 	$( "#from-node-index-" + node.index ).remove();
-	$("#node-words").find("[value='" + node.name + "']").remove();
+	$( "#word-index-" + node.index ).remove();
 };
 
 imaginnection.three.addEdgeList = function( is_owner, edge ) {

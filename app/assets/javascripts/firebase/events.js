@@ -44,7 +44,7 @@ imaginnection.changeContent = function() {
     $("#edge-new-form")[0].reset();
 
     // 指定されている名前をフォームに挿入
-    var name = decodeURIComponent(hash.replace(/^edge-new-/, ""));
+    var name = hash.replace(/^edge-new-/, "");
     $("#from-node-label").text(name);
     $("#from_node_name").attr("value", name);
 
