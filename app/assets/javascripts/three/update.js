@@ -45,8 +45,8 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 };
 
 
-imaginnection.three.addNode = function( name, edge_count ) {
-  var node = imaginnection.three.Node.create( name, edge_count );
+imaginnection.three.addNode = function( name, from_node ) {
+  var node = imaginnection.three.Node.create( name, from_node );
   imaginnection.threeData.scene.add(node.particle);
   imaginnection.three.Node.list[name] = node;
   
@@ -68,10 +68,10 @@ imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_nod
   var is_owner = ( user_id === imaginnection.current_id );
 
   if( !from_node ) {
-    from_node = imaginnection.three.addNode(from_node_name, 0);
+    from_node = imaginnection.three.addNode(from_node_name, null);
   }
   if( !to_node ) {
-    to_node = imaginnection.three.addNode(to_node_name, from_node.edge_count);
+    to_node = imaginnection.three.addNode(to_node_name, from_node);
   }
   
   var edge = from_node.getToEdge( to_node );
