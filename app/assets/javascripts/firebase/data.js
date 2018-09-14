@@ -30,7 +30,7 @@ imaginnection.createEdgeData = function( user_id, from_node_name, to_node_name, 
     user_id: user_id,
     from_node: from_node_name,
     to_node: to_node_name,
-    is_hide_user: !!is_hide_user,
+    is_hide_user: is_hide_user,
   };
 };
 

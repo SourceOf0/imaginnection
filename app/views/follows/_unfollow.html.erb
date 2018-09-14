@@ -8,11 +8,11 @@
 <% if user %>
   <% if user.is_disable_follow %>
     <%# フォロー中だが相手が新規フォロワーを受け付けていない %>
-    <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
+    <%= link_to follow_path(id: user.ref_id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
       フォロー中
     <% end %>
   <% else %>
-    <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active' do %>
+    <%= link_to follow_path(id: user.ref_id), method: :delete, remote: true, class: 'btn btn-default btn-xs active' do %>
       フォロー中
     <% end %>
   <% end %>

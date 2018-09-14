@@ -3,6 +3,8 @@
 <%# @param to_node: ノード %>
 <%# @param users: リスト表示するユーザのモデルインスタンス %>
 <%# @param count: 総人数 %>
+<%# @param is_owner: 所有ノードか %>
+<%# @param is_hide_user: ユーザを名前を非公開中として表示するか %>
 
 <div class="modal-dialog">
   <div class="modal-content">
@@ -34,11 +36,11 @@
       <% end %>
       
       <div class="well" id="empathy-user-list">
-        <%= render 'follows/users', users: users %>
+        <%= render 'follows/users', users: users, is_hide_current_user: is_hide_user %>
       </div>
       
       <div id="empathy-button">
-        <% if @is_owner %>
+        <% if is_owner %>
         
           <%# 共感削除ボタンを表示 %>
           <%= render 'unempathy', from_node: from_node, to_node: to_node, is_hide_user: is_hide_user %>

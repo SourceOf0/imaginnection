@@ -5,12 +5,12 @@
 
 <% if user_signed_in? && current_user != user %>
   <% if current_user.following?(user) %>
-    <span id="follow-form-<%= user.id %>">
+    <span id="follow-form-<%= user.ref_id %>">
       <%# フォロー中 %>
       <%= render "follows/unfollow", user: user %>
     </span>
   <% elsif !user.is_disable_follow %>
-    <span id="follow-form-<%= user.id %>">
+    <span id="follow-form-<%= user.ref_id %>">
       <%# フォローしてない %>
       <%= render "follows/follow", user: user %>
     </span>

@@ -17,14 +17,20 @@ imaginnection.viewUserList = function( from_node_name, to_node_name ) {
   var data = imaginnection.dbdata.edges[from_node_name][to_node_name];
   var post_data = [];
   var count = 0;
-  var is_hide_user = false;
+  var is_hide_user = undefined;
   
   if( data["users"] ) {
     var users = data["users"];
     for( var key in users ) {
       count++;
-      if( key == imaginnection.current_id ) is_hide_user = users[key].is_hide_user;
-      if( !users[key].is_hide_user ) post_data.push(key);
+      if( key == imaginnection.current_id ) {
+        if( users[key].is_hide_user ) {
+          is_hide_user = "1";
+        }
+        post_data.push(key);
+      } else if( !users[key].is_hide_user ) {
+        post_data.push(key);
+      }
     }
   }
   

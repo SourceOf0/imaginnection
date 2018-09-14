@@ -9,7 +9,7 @@ class FollowsController < ApplicationController
   end
 
   def create
-    @user = User.find(params[:id])
+    @user = User.find_by(ref_id: params[:id])
     if !current_user.can_follow?(@user)
       @user = nil
       #flash[:warning] = 'ユーザをフォローできません。'
@@ -23,7 +23,7 @@ class FollowsController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find_by(ref_id: params[:id])
     current_user.unfollow(@user)
     #flash[:success] = 'ユーザのフォローを解除しました。'
   end

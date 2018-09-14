@@ -1,5 +1,6 @@
 
 <%# @param users: リスト表示するユーザのモデルインスタンス %>
+<%# @param is_hide_current_user: ログイン中のユーザの名前を非公開中として表示するか %>
 
 <% if users.any? %>
 
@@ -9,22 +10,22 @@
         <span class="follow-btns">
           <% if current_user != user %>
             <% if current_user.following?(user) %>
-              <span id="follow-form-<%= user.id %>">
+              <span id="follow-form-<%= user.ref_id %>">
                 <% if user.is_disable_follow %>
                   <%# フォロー中だが相手が新規フォロワーを受け付けていない %>
-                  <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
+                  <%= link_to follow_path(id: user.ref_id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
                     フォロー中
                   <% end %>
                 <% else %>
-                  <%= link_to follow_path(id: user.id), method: :delete, remote: true, class: 'btn btn-default btn-xs active' do %>
+                  <%= link_to follow_path(id: user.ref_id), method: :delete, remote: true, class: 'btn btn-default btn-xs active' do %>
                     フォロー中
                   <% end %>
                 <% end %>
               </span>
             <% elsif !user.is_disable_follow %>
-              <span id="follow-form-<%= user.id %>">
+              <span id="follow-form-<%= user.ref_id %>">
                 <%# フォローしてない %>
-                <%= link_to follows_path(id: user.id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
+                <%= link_to follows_path(id: user.ref_id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
                   フォローする
                 <% end %>
               </span>
@@ -34,6 +35,9 @@
         <span class="user-name">
           <% if (current_user == user) || user.is_hide_edges %>
             <%= user.name %>
+            <% if is_hide_current_user %>
+              （非公開中）
+            <% end %>
           <% else %>
             <%= link_to(user.name, edge_path(user.ref_id)) %>
           <% end %>
