@@ -67,7 +67,6 @@ imaginnection.three.init = function() {
 	data.context = data.renderer.domElement.getContext("2d");
 	
 	var labelNum = Math.ceil(baseSize / 50);
-	console.log(labelNum);
 	for( var i = 0; i < labelNum; i++ ) {
 		var nodeLabel = imaginnection.three.NodeLabel.create();
 		data.container.appendChild(nodeLabel.element);
