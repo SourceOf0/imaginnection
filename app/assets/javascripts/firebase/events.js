@@ -132,8 +132,9 @@ $(document).ready(function() {
   
   $("#node-new").on("shown.bs.modal", function() {
     imaginnection.setTour(3);
-    $("#node-new .node-name").focus();
+    $("#node-new .node-name").click().focus();
   }).on("hide.bs.modal", function() {
+    $("#node-new .node-name").blur();
     if( window.location.hash.substring(1) === "node-new") {
       window.location.hash = "";
     }
@@ -141,8 +142,9 @@ $(document).ready(function() {
   
   $("#edge-new").on("shown.bs.modal", function() {
     imaginnection.setTour(4);
-    $("#edge-new .node-name").focus();
+    $("#edge-new .node-name").click().focus();
   }).on("hide.bs.modal", function() {
+    $("#edge-new .node-name").blur();
     if( window.location.hash.substring(1).indexOf("edge-new-") === 0 ) {
       window.location.hash = "";
     }
