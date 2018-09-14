@@ -6,6 +6,7 @@ window.onerror = function(msg, url, line, col, error) {
   text += "<p>[url]"  + url  + "</p>";
   text += "<p>[line]" + line + "</p>";
   text += "<p>[col]"  + col  + "</p>";
+  text += "<p>[error]"  + error.stack  + "</p>";
   text += "</div>";
   $("#log-view").append(text);
   text = "js error: " + text.replace(/<.+?>/g, "");
