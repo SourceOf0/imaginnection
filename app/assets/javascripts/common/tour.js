@@ -7,20 +7,40 @@ var imaginnection = imaginnection || {};
 
 
 /**
- * ツアー遷移
+ * ステップ遷移
  */
- 
-imaginnection.setTour = function( index ) {
+imaginnection.setTour = function( index, conditionStep ) {
+  if( !imaginnection.tour ) return;
   var current = imaginnection.tour.getCurrentStep();
+  //console.log("CHECK: ", index, current, conditionStep );
+  if( !!conditionStep && conditionStep.indexOf(current) < 0 ) return;
+  //console.log("OK");
   if( !current || current == index ) return;
-  imaginnection.tour.goTo(index);
+  setTimeout( function() {
+    imaginnection.tour.goTo(index);
+  }, 300);
 };
 
+/**
+ * ステップ取得
+ */
+imaginnection.getTourStep = function() {
+  if( !imaginnection.tour ) return -1;
+  return imaginnection.tour.getCurrentStep();
+};
 
 /**
- * ツアー初期化
+ * 最初から開始
  */
- 
+imaginnection.setTourRestart = function() {
+  if( !imaginnection.tour ) return;
+  imaginnection.setTour(0);
+  imaginnection.tour.restart();
+};
+
+/**
+ * 初期化
+ */
 imaginnection.initTour = function() {
   
   var can_tap = window.ontouchstart === null;

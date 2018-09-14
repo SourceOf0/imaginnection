@@ -14,13 +14,6 @@ imaginnection.changeContent = function() {
   if( hash == 0 ) {
     // ポップアップ全部隠す
     $(".modal").modal("hide");
-    
-		if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 4 ) {
-			if( imaginnection.current_id != imaginnection.map_user_id ) {
-				imaginnection.setTour(6);
-			}
-		}
-		
     return;
   }
   
@@ -73,38 +66,31 @@ $(document).ready(function() {
     }
   });
   
-	$("#drawer .drawer-open").click(function() {
-		var $div = $("#drawer .drawer-body");
-		var $icon = $("#drawer .drawer-open span");
-		if($div.hasClass("in")) {
-			$div.removeClass("in");
-			$icon.addClass("glyphicon-triangle-left");
-			$icon.removeClass("glyphicon-triangle-right");
-		} else {
-			$div.addClass("in");
-			$icon.removeClass("glyphicon-triangle-left");
-			$icon.addClass("glyphicon-triangle-right");
+  $("#drawer .drawer-open").click(function() {
+    var $div = $("#drawer .drawer-body");
+    var $icon = $("#drawer .drawer-open span");
+    if($div.hasClass("in")) {
+      $div.removeClass("in");
+      $icon.addClass("glyphicon-triangle-left");
+      $icon.removeClass("glyphicon-triangle-right");
+    } else {
+      $div.addClass("in");
+      $icon.removeClass("glyphicon-triangle-left");
+      $icon.addClass("glyphicon-triangle-right");
       if( !imaginnection.current_id ) return;
-    	if( imaginnection.tour && imaginnection.tour.getCurrentStep() == 7 ) {
-    		setTimeout( function() {
-    			imaginnection.setTour(8);
-    		}, 500);
-    	}
-		}
-	});
-	
-	if( window.innerWidth > 1500 ) {
-	  $("#drawer .drawer-open").click();
-	}
-	
+      imaginnection.setTour(8, [7]);
+    }
+  });
+  
+  if( window.innerWidth > 1500 ) {
+    $("#drawer .drawer-open").click();
+  }
+  
   if( !imaginnection.current_id ) return;
-	// 以下ログイン時のみ
+  // 以下ログイン時のみ
   
   $("#tour-icon").on("click", function() {
-    if( imaginnection.tour ) {
-    	imaginnection.setTour(0);
-    	imaginnection.tour.restart();
-    }
+    imaginnection.setTourRestart();
   });
   
   $("#twitter-icon").on("click", function() {
@@ -152,9 +138,7 @@ $(document).ready(function() {
 
   $("#users-modal").on("hidden.bs.modal", function() {
     if( !imaginnection.current_id ) return;
-  	if( imaginnection.tour && imaginnection.tour.getCurrentStep() >= 9 ) {
-			imaginnection.setTour(11);
-  	}
+    imaginnection.setTour(11, [9, 10]);
   });
 });
 
