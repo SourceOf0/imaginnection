@@ -16,7 +16,7 @@ imaginnection.three.addNodeList = function( node ) {
 	temp += "<span class='badge pull-right'>0</span>";
 	temp += "</h4>";
 	temp += "</a>";
-	temp += "<div id='from-node-list-" + index + "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='from-node-index-" + index + "'>";
+	temp += "<div id='from-node-list-" + index + "' class='panel-collapse collapse' role='tabpanel' aria-labelledby='from-node-index-" + index + "' data-parent='#nodes-index'>";
 	temp += "<div class='list-group'>";
 	temp += "</div>";
 	temp += "</div>";

@@ -34,7 +34,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 	var index = $list.children().index($target);
 	var pos = $box.scrollTop() + ($list.offset().top + $target.outerHeight(true) * index) - $box.offset().top - 10;
 
-	$("#from-node-index-" + from_node.index + ">a").click();
+	$("#from-node-list-" + from_node.index).collapse("show");
 	$box.stop().animate({ scrollTop: pos }, 500, "swing");
 };
 
