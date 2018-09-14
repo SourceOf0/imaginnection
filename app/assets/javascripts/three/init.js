@@ -47,11 +47,12 @@ imaginnection.threeData = {
 
 imaginnection.three.init = function() {
 	var data = imaginnection.threeData;
+	var baseSize = Math.max(window.innerWidth, window.innerHeight);
 	
 	data.container = document.getElementById('edges-index');
 	data.container.style.height = (window.innerHeight - 100) + "px";
 
-	data.camera = new THREE.PerspectiveCamera( 45, data.container.clientWidth / data.container.clientHeight, 1, Math.max(window.innerWidth, window.innerHeight) * 4 );
+	data.camera = new THREE.PerspectiveCamera( 45, data.container.clientWidth / data.container.clientHeight, 1, baseSize * 4 );
 	data.camera.position.set( 0, 300, 500 );
 	
 	data.scene = new THREE.Scene();
@@ -65,7 +66,9 @@ imaginnection.three.init = function() {
 	
 	data.context = data.renderer.domElement.getContext("2d");
 	
-	for( var i = 0; i < 20; i++ ) {
+	var labelNum = Math.ceil(baseSize / 50);
+	console.log(labelNum);
+	for( var i = 0; i < labelNum; i++ ) {
 		var nodeLabel = imaginnection.three.NodeLabel.create();
 		data.container.appendChild(nodeLabel.element);
 		imaginnection.three.NodeLabel.list.push(nodeLabel);
