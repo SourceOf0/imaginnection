@@ -247,7 +247,7 @@ imaginnection.three.render = function() {
   var node_list = imaginnection.three.Node.list;
   var edge_list = imaginnection.three.Edge.list;
 
-  data.context.clearRect(0, 0, view.clientWidth, view.clientHeight);
+  data.context.clearRect(0, 0, view.clientWidth * window.devicePixelRatio, view.clientHeight * window.devicePixelRatio);
 
   for( var key in node_list ) {
     node_list[key].update();
@@ -264,12 +264,13 @@ imaginnection.three.render = function() {
   
   var strokeStyle = data.context.strokeStyle;
   var fillStyle = data.context.fillStyle;
+  data.context.globalAlpha = 1;
   for( var key in node_list ) {
     node_list[key].labelUpdate( view.clientWidth, view.clientHeight );
   }
   data.context.strokeStyle = strokeStyle;
   data.context.fillStyle = fillStyle;
-
+  
   //console.log(nowTime - data.animeTimer);
   data.animeTimer = nowTime;
 };
