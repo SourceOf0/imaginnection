@@ -106,10 +106,9 @@ imaginnection.three.Node = {
 	
 	create: function( name, from_node ) {
 		var useFromNodeIndex = !!from_node && from_node.edge_count > 1 ;
-		var posIndex = ( useFromNodeIndex )? from_node.edge_count*2 : this.total_count;
-		var pos = new THREE.Vector3( (posIndex % 4 / 4) * 500 + Math.log(1 + posIndex) * 50, 0, 0);
+		var posIndex = (( useFromNodeIndex )? from_node.edge_count : this.total_count+100) + 10;
+		var pos = new THREE.Vector3( (posIndex % 4 / 4) * 100 + Math.log(1 + posIndex) * 100 + posIndex, 0, 0);
 		if( !useFromNodeIndex ) {
-			pos.z = this.total_count * 2;
 		}
 		pos.applyAxisAngle( this.org1, (posIndex % 11 / 11) * PI2 );
 		pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2 );
