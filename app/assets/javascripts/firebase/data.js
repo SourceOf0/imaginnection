@@ -71,13 +71,6 @@ imaginnection.childAddedUsersDB = function( childSnapshot, prevChildKey ) {
   var edge_id = childSnapshot.key;
   var user_id = childSnapshot.ref.parent.parent.key;
   
-  var data = imaginnection.dbdata.edges[edge.from_node];
-  if( imaginnection.current_id != imaginnection.map_user_id ) {
-    if( data && data[edge.to_node] && data[edge.to_node].users && data[edge.to_node]["users"][imaginnection.map_user_id] && data[edge.to_node]["users"][imaginnection.map_user_id].is_hide_user == "true" ) {
-      return;
-    }
-  }
-
   imaginnection.three.addEdge(edge_id, user_id, imaginnection.convertPathEntities(edge.from_node, "decode"), imaginnection.convertPathEntities(edge.to_node, "decode"));
 
   //console.log("GET : child_added : " + edge.from_node + " -> " + edge.to_node);
