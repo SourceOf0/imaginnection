@@ -220,7 +220,7 @@ imaginnection.three.render = function() {
   var data = imaginnection.threeData;
   var nowTime = new Date().getTime();
   var diffCount = (nowTime - data.animeTimer) / 20;
-
+  
   if( data.focusNode ) {
     var target_pos = data.focusNode.particle.position;
     
@@ -245,50 +245,14 @@ imaginnection.three.render = function() {
 
   var view = document.getElementById('edges-index');
   var node_list = imaginnection.three.Node.list;
-  var node_label_list = imaginnection.three.NodeLabel.list;
-  var view_node = [];
+  var edge_list = imaginnection.three.Edge.list;
 
   data.context.clearRect(0, 0, view.clientWidth, view.clientHeight);
 
   for( var key in node_list ) {
-    var node = node_list[key];
-    node.update();
-    if( node == imaginnection.threeData.focusNode ) continue;
-    
-    var view_pos = node.view_pos;
-    if( (view_pos.z < -1) || ((view_pos.x < -1 || view_pos.x > 1) || (view_pos.y < -1 || view_pos.y > 1)) ) {
-      continue;
-    }
-    if( view_node.length < node_label_list.length ) {
-      view_node.push(node);
-      continue;
-    }
-    for( var i = 0 ; i < view_node.length; i++ ) {
-      if( view_pos.distanceTo(data.labelViewTargetPos) > view_node[i].view_pos.distanceTo(data.labelViewTargetPos) ) continue;
-      view_node[i] = node;
-      break;
-    }
+    node_list[key].update();
   }
   
-  var count = 1;
-  for( var i = 0 ; i < view_node.length; i++ ) {
-    if( node_label_list[count].update(view_node[i], data.camera, view.clientWidth, view.clientHeight) ) {
-      count++;
-    }
-    if( count >= node_label_list.length ) break;
-  }
-
-  if( imaginnection.threeData.focusNode ) {
-    node_label_list[0].update(imaginnection.threeData.focusNode, data.camera, view.clientWidth, view.clientHeight);
-  } else {
-    node_label_list[0].update(null, data.camera, view.clientWidth, view.clientHeight);
-  }
-  
-  for( ; count < node_label_list.length; count++ ) {
-    node_label_list[count].update(null, data.camera, view.clientWidth, view.clientHeight);
-  }
-  
-  var edge_list = imaginnection.three.Edge.list;
   for( var key in edge_list ) {
     edge_list[key].update();
   }
@@ -297,6 +261,16 @@ imaginnection.three.render = function() {
   //data.context.shadowBlur = 10;
   
   data.renderer.render( data.scene, data.camera );
+  
+  var strokeStyle = data.context.strokeStyle;
+  var fillStyle = data.context.fillStyle;
+  for( var key in node_list ) {
+    node_list[key].labelUpdate( view.clientWidth, view.clientHeight );
+  }
+  data.context.strokeStyle = strokeStyle;
+  data.context.fillStyle = fillStyle;
+
+  //console.log(nowTime - data.animeTimer);
   data.animeTimer = nowTime;
 };
 

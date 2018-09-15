@@ -70,7 +70,7 @@ $(document).ready(function() {
   
   /* フォントサイズ設定 */
   function setFont(message, x, y, r, g, b, alpha) {
-    context.fillStyle = "rgba(" + r + ", " + g + ", " + b+ ", " + alpha + ")";
+    context.fillStyle = "rgba(" + r + ", " + g + ", " + b + ", " + alpha + ")";
     context.fillText(message, width * 0.5 - context.measureText(message).width/2 + x, y);
   }
 

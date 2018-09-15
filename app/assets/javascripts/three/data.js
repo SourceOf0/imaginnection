@@ -9,72 +9,40 @@ imaginnection.three = imaginnection.three || {};
 
 imaginnection.three.NodeLabel = {
 	
-	list: [],
-	
 	create: function() {
-		var div = document.createElement('div');
-		div.className = 'text-label';
-		div.style.position = 'absolute';
-
+		
 		return {
-			element: div,
 			width: 300,
-			height: 16,
-			node: null,
+			height: 14,
 			position: new THREE.Vector3(0, 0, 0),
-			hide: function() {
-				this.resetTarget();
-				this.element.style.display = "none";
-			},
-			setTarget: function() {
-				div.classList.add("target-node");
-			},
-			resetTarget: function() {
-				div.classList.remove("target-node");
-			},
-			setOwner: function() {
-				div.classList.add("owner");
-			},
-			resetOwner: function() {
-				div.classList.remove("owner");
-			},
-			update: function( node, camera, viewWidth, viewHeight ) {
-				if( node == null ) {
-					this.hide();
-					return false;
-				}
+			update: function( node, viewWidth, viewHeight ) {
+				var data = imaginnection.threeData;
 				
 				var vector = node.view_pos;
 				var z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
-				if( imaginnection.threeData.focusNode != node ) {
+				if( data.focusNode != node ) {
 					if( (vector.z > z_min) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
-						this.hide();
 						return false;
 					}
-					this.resetTarget();
 				} else {
 					if( (vector.z < -1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
-						this.hide();
 						return false;
 					}
-					this.setTarget();
 				}
-	
-				this.node = node;
-				if( this.element.textContent != node.name ) this.element.textContent = node.name;
 				
-				if( node.is_owner ) {
-					this.setOwner();
-				} else {
-					this.resetOwner();
-				}
-
-				vector.x = (vector.x + 1)/2 * viewWidth - this.width/2;
-				vector.y = -(vector.y - 1)/2 * viewHeight - this.height/2;
-	
-				this.element.style.left = vector.x + 'px';
-				this.element.style.top = vector.y + 'px';
-				this.element.style.display = "block";
+				vector.x = (vector.x + 1)/2 * viewWidth;
+				vector.y = -(vector.y - 1)/2 * viewHeight + this.height/2;
+				
+				var text = node.name;
+				
+				data.context.font = "400 14px Unknown Font, sans-serif";
+				
+				data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
+				data.context.strokeText(text, vector.x - data.context.measureText(text).width/2, vector.y);
+				
+				data.context.fillStyle = "rgba(255, 255, 255, 1)";
+				data.context.fillText(text, vector.x - data.context.measureText(text).width/2, vector.y);
+				
 				return true;
 			},
 		};
@@ -134,11 +102,15 @@ imaginnection.three.Node = {
 			to_edges: {},
 			edge_count: 0,
 			view_pos: new THREE.Vector3(0, 0, 0),
+			label: imaginnection.three.NodeLabel.create(),
 			update: function() {
 				var target_scale = this.edge_count * 5 + 10;
 				this.particle.scale.x += (target_scale - this.particle.scale.x) * 0.1;
 				this.particle.scale.y += (target_scale - this.particle.scale.y) * 0.1;
 				this.view_pos = this.particle.position.clone().project(imaginnection.threeData.camera);
+			},
+			labelUpdate: function( clientWidth, clientHeight ) {
+				this.label.update( this, clientWidth, clientHeight );
 			},
 			getToEdge: function( to_node ) {
 				for( var key in this.to_edges ) {

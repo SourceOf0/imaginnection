@@ -64,14 +64,7 @@ imaginnection.three.init = function() {
 	data.container.appendChild( data.renderer.domElement );
 	
 	data.context = data.renderer.domElement.getContext("2d");
-	
-	var labelNum = Math.ceil(window.innerWidth * window.devicePixelRatio / 50);
-	for( var i = 0; i < labelNum; i++ ) {
-		var nodeLabel = imaginnection.three.NodeLabel.create();
-		data.container.appendChild(nodeLabel.element);
-		imaginnection.three.NodeLabel.list.push(nodeLabel);
-	}
-	
+
 	data.controls = new THREE.TrackballControls( data.camera, data.container );
 	data.controls.center = new THREE.Vector3(0, 0, 0);
 	data.controls.rotateSpeed = 1.5;
