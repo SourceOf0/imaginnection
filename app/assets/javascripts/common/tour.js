@@ -34,6 +34,7 @@ imaginnection.getTourStep = function() {
  */
 imaginnection.setTourRestart = function() {
   if( !imaginnection.tour ) return;
+  imaginnection.tour.init();
   imaginnection.setTour(0);
   imaginnection.tour.restart();
 };
@@ -190,6 +191,4 @@ imaginnection.initTour = function() {
     onResume: function (tour, duration) {},
     onRedirectError: function (tour) {}
   });
-
-  imaginnection.tour.init();
 };
