@@ -9,9 +9,7 @@ class EdgesController < ApplicationController
     @view_ref_ids = current_user.followings.map(&:ref_id).push(current_user.ref_id)
     @is_hide_user = current_user.is_hide_edges
     
-    @from_node = Node.new
-    @to_node = Node.new
-    
+    set_index_data()
     set_logger( 'edge/index', @view_ref_ids.to_json )
   end
 
@@ -27,9 +25,7 @@ class EdgesController < ApplicationController
         # マップが公開中、またはログインユーザ
         @view_ref_ids = [@target_user.ref_id]
         
-        @from_node = Node.new
-        @to_node = Node.new
-    
+        set_index_data()
         set_logger( 'edge/show', @target_user.name + " : " + @target_user.ref_id )
         render :index
       else
@@ -79,7 +75,19 @@ class EdgesController < ApplicationController
   def node_params
     params.require(:node).permit(:name)
   end
+  
+  def set_index_data
+    @json_data = {
+      current_id: (user_signed_in?)? current_user.ref_id : '',
+      map_user_id: (@target_user)? @target_user.ref_id : (user_signed_in?)? current_user.ref_id : '',
+      map_user_name: (@target_user)? @target_user.name : (user_signed_in?)? current_user.name : '',
+      view_ids: @view_ref_ids,
+    }
 
+    @from_node = Node.new
+    @to_node = Node.new
+  end
+  
   def set_debug_view
     @is_debug_view = true
   end

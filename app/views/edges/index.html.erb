@@ -121,6 +121,9 @@
   <%# ポップアップ %>
   <div id="users-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
+  <%# jsonデータ %>
+  <div id="json-data" data-json="<%= @json_data.to_json %>"></div>
+  
 <% end %>
 
 
@@ -128,10 +131,7 @@
 
   <script>
     var imaginnection = imaginnection || {};
-    imaginnection.current_id = "<%=j (user_signed_in?)? current_user.ref_id : '' %>";
-    imaginnection.map_user_id = "<%=j (@target_user)? @target_user.ref_id : (user_signed_in?)? current_user.ref_id : '' %>";
-    imaginnection.map_user_name = "<%=j (@target_user)? @target_user.name.html_safe : (user_signed_in?)? current_user.name.html_safe : '' %>";
-    imaginnection.view_ids = <%= @view_ref_ids.to_json.html_safe %>;
+    imaginnection = $("#json-data").data("json");
   </script>
   
   <%= javascript_include_tag 'vendor/bootstrap-tour.min.js' %>
