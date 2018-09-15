@@ -35,13 +35,13 @@ imaginnection.three.NodeLabel = {
 				
 				var text = node.name;
 				
-				data.context.font = "400 14px Unknown Font, sans-serif";
+				data.context.font = "400 " + (14 * window.devicePixelRatio) + "px Unknown Font, sans-serif";
 				
 				data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
-				data.context.strokeText(text, vector.x - data.context.measureText(text).width/2, vector.y);
+				data.context.strokeText(text, (vector.x - data.context.measureText(text).width/2)*window.devicePixelRatio, vector.y*window.devicePixelRatio);
 				
 				data.context.fillStyle = "rgba(255, 255, 255, 1)";
-				data.context.fillText(text, vector.x - data.context.measureText(text).width/2, vector.y);
+				data.context.fillText(text, vector.x - data.context.measureText(text).width/2*window.devicePixelRatio, vector.y*window.devicePixelRatio);
 				
 				return true;
 			},
