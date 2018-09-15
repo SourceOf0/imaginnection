@@ -191,10 +191,20 @@
     >.panel-heading {
       background: $backgroundColor2;
       border-color: $backgroundColor1;
-      text-align: left;
-
-      .badge {
-        @include mono-background;
+      
+      .panel-title {
+        display: flex;
+        justify-content: space-between;
+        text-align: left;
+        
+        .name {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        
+        .badge {
+          @include mono-background;
+        }
       }
     }
     
@@ -203,9 +213,16 @@
     }
     
     .list-group-item {
+      display: flex;
+      justify-content: space-between;
       background: $backgroundColor3;
       border: 1px solid $backgroundColor1;
       color: $textColor;
+
+      .name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
       
       .badge {
         @include main-background;
