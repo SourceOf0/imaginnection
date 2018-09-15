@@ -264,6 +264,7 @@ imaginnection.three.render = function() {
   
   var strokeStyle = data.context.strokeStyle;
   var fillStyle = data.context.fillStyle;
+  data.context.lineWidth = 2;
   data.context.globalAlpha = 1;
   for( var key in node_list ) {
     node_list[key].labelUpdate( view.clientWidth, view.clientHeight );
