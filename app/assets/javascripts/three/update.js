@@ -264,6 +264,8 @@ imaginnection.three.render = function() {
   
   var strokeStyle = data.context.strokeStyle;
   var fillStyle = data.context.fillStyle;
+  var lineWidth = data.context.lineWidth;
+  var globalAlpha = data.context.globalAlpha;
   data.context.lineWidth = 2;
   data.context.globalAlpha = 1;
   for( var key in node_list ) {
@@ -271,6 +273,8 @@ imaginnection.three.render = function() {
   }
   data.context.strokeStyle = strokeStyle;
   data.context.fillStyle = fillStyle;
+  data.context.lineWidth = lineWidth;
+  data.context.globalAlpha = globalAlpha;
   
   //console.log(nowTime - data.animeTimer);
   data.animeTimer = nowTime;
