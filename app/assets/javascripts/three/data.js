@@ -31,7 +31,7 @@ imaginnection.three.NodeLabel = {
 				
 				var text = node.name;
 				
-				data.context.font = "400 " + this.height + "px Unknown Font, sans-serif";
+				data.context.font = "700 " + this.height + "px Unknown Font, sans-serif";
 
 				vector.x = ((vector.x + 1)*viewWidth - data.context.measureText(text).width) / 2;
 				vector.y = (-(vector.y - 1)*viewHeight + this.height) / 2;
