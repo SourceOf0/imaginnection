@@ -111,13 +111,13 @@ imaginnection.three.init = function() {
 	function onMouseMove( event ) {
 		event.preventDefault();
 		imaginnection.three.moveControlTarget(event);
-		//console.log(isDrag + " onMouseMove:" + mouse.x + ":" + mouse.y);
+		//console.log(imaginnection.threeData.isDrag + " onMouseMove:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
 	}
 	
 	function onTouchMove( event ) {
 		event.preventDefault();
 		imaginnection.three.moveControlTarget(event.targetTouches[0]);
-		//console.log("onTouchMove:" + mouse.x + ":" + mouse.y);
+		//console.log("onTouchMove:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
 	}
 	
 	function onMouseDown( event ) {
@@ -132,7 +132,7 @@ imaginnection.three.init = function() {
 		data.mouseDownPos.x = event.clientX;
 		data.mouseDownPos.y = event.clientY;
 		imaginnection.three.moveControlTarget(event);
-		//console.log(isDrag + " onMouseDown:" + mouseDownPos.x + ":" + mouseDownPos.y);
+		//console.log(imaginnection.threeData.isDrag + " onMouseDown:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
 	}
 	
 	function onTouchStart( event ) {
@@ -147,14 +147,14 @@ imaginnection.three.init = function() {
 		data.mouseDownPos.x = event.targetTouches[0].clientX;
 		data.mouseDownPos.y = event.targetTouches[0].clientY;
 		imaginnection.three.moveControlTarget(event.targetTouches[0]);
-		//console.log("onTouchStart:" + mouseDownPos.x + ":" + mouseDownPos.y);
+		//console.log("onTouchStart:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
 	}
 	
 	function onMouseUp( event ) {
 		if( event.button != 0 ) return;
 		// 左ボタンの場合のみ
 		imaginnection.three.setControlTarget();
-		//console.log(isDrag + " onMouseUp");
+		//console.log(imaginnection.threeData.isDrag + " onMouseUp");
 	}
 	
 	function onTouchEnd( event ) {
