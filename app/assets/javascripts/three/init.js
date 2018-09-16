@@ -102,12 +102,14 @@ imaginnection.three.init = function() {
 	});
 
 	function onWindowResize() {
-		var data = imaginnection.threeData;
-		var view = data.container;
-		view.style.height = (window.innerHeight - 100) + "px";
-		data.camera.aspect = view.clientWidth / view.clientHeight;
-		data.camera.updateProjectionMatrix();
-		data.renderer.setSize( view.clientWidth, view.clientHeight );
+		setTimeout(function(){
+			var data = imaginnection.threeData;
+			var view = data.container;
+			view.style.height = (window.innerHeight - 100) + "px";
+			data.camera.aspect = view.clientWidth / view.clientHeight;
+			data.camera.updateProjectionMatrix();
+			data.renderer.setSize( view.clientWidth, view.clientHeight );
+		}, 100);
 	}
 	
 	function onMouseMove( event ) {
