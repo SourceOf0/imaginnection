@@ -48,7 +48,9 @@
       gtag('js', new Date());
       gtag('config', 'UA-124890972-1', {
         <% if user_signed_in? %>
-          'dimension1': '<%= current_user.name %>: <%= current_user.ref_id %>'
+          'dimension1': '<%= current_user.ref_id %>: <%= current_user.name %>'
+        <% else %>
+          'dimension1': 'guest'
         <% end %>
       });
     </script>
