@@ -80,7 +80,8 @@ imaginnection.three.init = function() {
 	data.container.addEventListener( 'touchend', onTouchEnd, false );
 	
 	window.addEventListener( 'resize', onWindowResize, false );
-	
+	window.addEventListener( 'orientationchange', onWindowResize, false );
+
 	//var axis = new THREE.AxesHelper(1000);
 	//data.scene.add(axis);
 	
