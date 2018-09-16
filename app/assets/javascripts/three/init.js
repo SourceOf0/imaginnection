@@ -38,7 +38,7 @@ imaginnection.threeData = {
 	gazeColor: 0xffd688,
 	
 	nodeLineWidth: 0.1,
-	edgeDefaultLineWidth: 2 * window.devicePixelRatio,
+	edgeDefaultLineWidth: 1 * window.devicePixelRatio,
 	edgeTargetLineWidth: 10 * window.devicePixelRatio,
 	
 	animeTimer: new Date().getTime(),
