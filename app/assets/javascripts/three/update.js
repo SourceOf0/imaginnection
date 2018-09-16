@@ -141,7 +141,7 @@ imaginnection.three.setControlTarget = function() {
   }
   
   data.raycaster.setFromCamera( data.mouse, data.camera );
-  data.raycaster.linePrecision = 5 * window.devicePixelRatio;
+  data.raycaster.linePrecision = 2 * data.firstDevicePixelRatio;
   
   var intersects = data.raycaster.intersectObjects( data.scene.children );
   if( intersects.length == 0 ) return;
@@ -270,7 +270,7 @@ imaginnection.three.render = function() {
   var fillStyle = data.context.fillStyle;
   var lineWidth = data.context.lineWidth;
   var globalAlpha = data.context.globalAlpha;
-  data.context.lineWidth = 2;
+  data.context.lineWidth = 3 * data.firstDevicePixelRatio;
   data.context.globalAlpha = 1;
   for( var key in node_list ) {
     node_list[key].labelUpdate( viewWidth * data.firstDevicePixelRatio, viewHeight * data.firstDevicePixelRatio );
