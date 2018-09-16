@@ -21,7 +21,7 @@ imaginnection.three.NodeLabel = {
 				var vector = node.view_pos;
 				var z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
 				if( this.is_target ) {
-					if( (vector.z < -1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
+					if( (vector.z > 1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						return false;
 					}
 				} else {
@@ -39,16 +39,12 @@ imaginnection.three.NodeLabel = {
 				
 				if( this.is_target ) {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
-				} else {
-					data.context.strokeStyle = "rgba(0, 0, 0, 0.1)";
-				}
-				data.context.strokeText(text, vector.x, vector.y);
-				
-				if( this.is_target ) {
 					data.context.fillStyle = "rgba(255, 255, 255, 1)";
 				} else {
+					data.context.strokeStyle = "rgba(0, 0, 0, 0.1)";
 					data.context.fillStyle = "rgba(255, 255, 255, 0.3)";
 				}
+				data.context.strokeText(text, vector.x, vector.y);
 				data.context.fillText(text, vector.x, vector.y);
 				
 				return true;

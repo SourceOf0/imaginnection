@@ -21,10 +21,19 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
   data.focusNode = from_node;
   data.focusNode.setTargetStyle();
   data.isCameraTargeting = true;
-  var vector = data.focusNode.particle.position.clone().project(data.camera);
-  if( vector.z > 1 ) {
+  
+  var node_pos = data.focusNode.particle.position.clone().project(data.camera);
+  
+  // 画面に対する縦横のフェアリングのみにするため、新しいターゲットの奥行き座標だけ先行反映
+  var target_pos = data.controls.target.project(data.camera);
+  target_pos.z = node_pos.z;
+  data.controls.target.copy( target_pos.unproject(data.camera) );
+  
+  if( node_pos.z > 1 ) {
     data.zoomPos.subVectors( data.focusNode.particle.position, data.camera.position );
     data.zoomPos = data.zoomPos.normalize().negate().multiplyScalar(500).add(data.focusNode.particle.position);
+    // ズーム後のカメラ回転を省略するため、新しいターゲットを先行反映
+    data.controls.target.copy( node_pos.unproject(data.camera) );
     data.isCameraZoom = true;
   }
   
@@ -199,7 +208,7 @@ imaginnection.three.setZoom = function( ratio ) {
   } else {
     target_pos = new THREE.Vector3(0, 0, 0);
   }
-  data.zoomPos.copy(data.camera.position);
+  data.zoomPos.copy( data.camera.position );
   data.delta.subVectors( target_pos, data.camera.position ).multiplyScalar( ratio );
   data.zoomPos.add( data.delta );
   data.isCameraZoom = true;
