@@ -251,7 +251,7 @@ imaginnection.three.render = function() {
   var viewWidth = view.clientWidth;
   var viewHeight = view.clientHeight;
   
-  data.context.clearRect(0, 0, viewWidth * window.devicePixelRatio, viewHeight * window.devicePixelRatio);
+  data.context.clearRect(0, 0, viewWidth * data.firstDevicePixelRatio, viewHeight * data.firstDevicePixelRatio);
 
   for( var key in node_list ) {
     node_list[key].update();
