@@ -18,7 +18,8 @@ imaginnection.threeData = {
 	renderer: null,
 	controls: null,
 	raycaster: null,
-	
+	firstDevicePixelRatio: window.devicePixelRatio,
+
 	isDrag: false,
 	isMouseDown: false,
 	mouse: null,
@@ -36,7 +37,7 @@ imaginnection.threeData = {
 	ownerColor: 0xb1e9ff,
 	gazeColor: 0xffd688,
 	
-	nodeLineWidth: 0.1 * window.devicePixelRatio,
+	nodeLineWidth: 0.1,
 	edgeDefaultLineWidth: 2 * window.devicePixelRatio,
 	edgeTargetLineWidth: 10 * window.devicePixelRatio,
 	
@@ -101,7 +102,7 @@ imaginnection.three.init = function() {
 
 	function onWindowResize() {
 		var data = imaginnection.threeData;
-		var view = document.getElementById('edges-index');
+		var view = data.container;
 		view.style.height = (window.innerHeight - 100) + "px";
 		data.camera.aspect = view.clientWidth / view.clientHeight;
 		data.camera.updateProjectionMatrix();

@@ -139,7 +139,9 @@ imaginnection.three.setControlTarget = function() {
     data.isDrag = false;
     return;
   }
+  
   data.raycaster.setFromCamera( data.mouse, data.camera );
+  data.raycaster.linePrecision = 5 * window.devicePixelRatio;
   
   var intersects = data.raycaster.intersectObjects( data.scene.children );
   if( intersects.length == 0 ) return;
@@ -243,11 +245,13 @@ imaginnection.three.render = function() {
     }
   }
 
-  var view = document.getElementById('edges-index');
   var node_list = imaginnection.three.Node.list;
   var edge_list = imaginnection.three.Edge.list;
-
-  data.context.clearRect(0, 0, view.clientWidth * window.devicePixelRatio, view.clientHeight * window.devicePixelRatio);
+  var view = data.container;
+  var viewWidth = view.clientWidth;
+  var viewHeight = view.clientHeight;
+  
+  data.context.clearRect(0, 0, viewWidth * window.devicePixelRatio, viewHeight * window.devicePixelRatio);
 
   for( var key in node_list ) {
     node_list[key].update();
@@ -269,7 +273,7 @@ imaginnection.three.render = function() {
   data.context.lineWidth = 2;
   data.context.globalAlpha = 1;
   for( var key in node_list ) {
-    node_list[key].labelUpdate( view.clientWidth, view.clientHeight );
+    node_list[key].labelUpdate( viewWidth * data.firstDevicePixelRatio, viewHeight * data.firstDevicePixelRatio );
   }
   data.context.strokeStyle = strokeStyle;
   data.context.fillStyle = fillStyle;
