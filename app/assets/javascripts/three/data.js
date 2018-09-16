@@ -14,17 +14,18 @@ imaginnection.three.NodeLabel = {
 		return {
 			height: 14 * window.devicePixelRatio,
 			position: new THREE.Vector3(0, 0, 0),
+			is_target: false,
 			update: function( node, viewWidth, viewHeight ) {
 				var data = imaginnection.threeData;
 				
 				var vector = node.view_pos;
 				var z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
-				if( data.focusNode != node ) {
-					if( (vector.z > z_min) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
+				if( this.is_target ) {
+					if( (vector.z < -1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						return false;
 					}
 				} else {
-					if( (vector.z < -1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
+					if( (vector.z > z_min) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						return false;
 					}
 				}
@@ -36,10 +37,18 @@ imaginnection.three.NodeLabel = {
 				vector.x = ((vector.x + 1)*viewWidth - data.context.measureText(text).width) / 2;
 				vector.y = (-(vector.y - 1)*viewHeight + this.height) / 2;
 				
-				data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
+				if( this.is_target ) {
+					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
+				} else {
+					data.context.strokeStyle = "rgba(0, 0, 0, 0.1)";
+				}
 				data.context.strokeText(text, vector.x, vector.y);
 				
-				data.context.fillStyle = "rgba(255, 255, 255, 1)";
+				if( this.is_target ) {
+					data.context.fillStyle = "rgba(255, 255, 255, 1)";
+				} else {
+					data.context.fillStyle = "rgba(255, 255, 255, 0.3)";
+				}
 				data.context.fillText(text, vector.x, vector.y);
 				
 				return true;
@@ -136,8 +145,10 @@ imaginnection.three.Node = {
 			},
 			setTargetStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programFill;
+				this.label.is_target = true;
 				for( var key in this.to_edges ) {
 					this.to_edges[key].setTargetStyle();
+					this.to_edges[key].to_node.label.is_target = true;
 				}
 				for( var key in this.from_edges ) {
 					this.from_edges[key].setSubTargetStyle();
@@ -145,8 +156,10 @@ imaginnection.three.Node = {
 			},
 			setDefaultStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programStroke;
+				this.label.is_target = false;
 				for( var key in this.to_edges ) {
 					this.to_edges[key].setDefaultStyle();
+					this.to_edges[key].to_node.label.is_target = false;
 				}
 				for( var key in this.from_edges ) {
 					this.from_edges[key].setDefaultStyle();
