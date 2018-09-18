@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  # リダイレクト
+  before_action :ensure_domain if ENV['DEFAULT_URL'] != nil
+  
+  # BASIC認証
   before_action :site_http_basic_authenticate_with if ENV['USE_BASIC'] == 'true'
 
   # deviseでのログイン認証
@@ -14,6 +18,15 @@ class ApplicationController < ActionController::Base
 
   # ログ用
   before_action :print_info
+
+  protected
+  
+  def ensure_domain
+    default_host = ENV['DEFAULT_URL']
+    if request.env['HTTP_HOST'] != default_host && Rails.env.production?
+     redirect_to "#{request.protocol}#{default_host}#{request.fullpath}", status: 301
+    end
+  end
 
   def set_logger( name, text )
     logger.info 'LOG[ ' + name + ' ] ' + text
@@ -33,8 +46,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  protected
-  
   # deviseのstring parameter
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :empathy_button_kind, :is_disable_follow, :is_hide_edges])

@@ -97,12 +97,12 @@ $(document).ready(function() {
     if( !imaginnection.threeData.focusNode || ( imaginnection.current_id == imaginnection.map_user_id && !imaginnection.threeData.focusNode.is_owner ) ) {
       // 参考：http://twitter.com/share?url=[シェアするURL]&text=[ツイート内テキスト]&via=[ツイート内に含むユーザ名]&related=[ツイート後に表示されるユーザー]&hashtags=[ハッシュタグ]
       window.open().location.href = "http://twitter.com/share?url="
-        + encodeURIComponent( "https://imaginnection.herokuapp.com/edges/" + imaginnection.map_user_id )
+        + encodeURIComponent( "https://www.imaginnection.net/edges/" + imaginnection.map_user_id )
         + "&text=" + encodeURIComponent( imaginnection.map_user_name + "さんが連想した単語のマップ" )
         + "&related=imaginnection&hashtags=imaginnection";
     } else {
       window.open().location.href = "http://twitter.com/share?url="
-        + encodeURIComponent( "https://imaginnection.herokuapp.com/edges/" + imaginnection.map_user_id + "#" + encodeURIComponent( imaginnection.threeData.focusNode.name ) )
+        + encodeURIComponent( "https://www.imaginnection.net/edges/" + imaginnection.map_user_id + "#" + encodeURIComponent( imaginnection.threeData.focusNode.name ) )
         + "&text=" + encodeURIComponent( imaginnection.map_user_name + "さんが「" + imaginnection.threeData.focusNode.name + "」から連想した単語のマップ" )
         + "&related=imaginnection&hashtags=imaginnection";
     }
