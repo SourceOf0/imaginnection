@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       set_logger( 'login user accessed -> ' + request.path, current_user.name + ' : ' + current_user.ref_id )
     else
-      set_logger( 'guest user accessed', '' )
+      set_logger( 'guest user accessed -> ' + request.path, '' )
     end
   end
 
