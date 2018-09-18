@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   
   def print_info
     if user_signed_in?
-      set_logger( 'login user accessed -> ' + request.path, current_user.name + ' : ' + current_user.ref_id )
+      set_logger( 'login user accessed -> ' + request.path, current_user.ref_id + ' : ' + current_user.name )
     else
       set_logger( 'guest user accessed -> ' + request.path, '' )
     end
