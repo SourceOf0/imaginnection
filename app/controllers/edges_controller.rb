@@ -26,7 +26,7 @@ class EdgesController < ApplicationController
         @view_ref_ids = [@target_user.ref_id]
         
         set_index_data()
-        set_logger( 'edge/show', @target_user.name + " : " + @target_user.ref_id )
+        set_logger( 'edge/show', @target_user.ref_id + " : " + @target_user.name )
         render :index
       else
         set_logger( 'edge/show', 'this user hide map' )
