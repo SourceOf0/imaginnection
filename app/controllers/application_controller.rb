@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   def ensure_domain
     default_host = ENV['DEFAULT_URL']
     if request.env['HTTP_HOST'] != default_host && Rails.env.production?
-     redirect_to "#{request.protocol}#{default_host}#{request.fullpath}", status: 301
+     redirect_to "https://#{default_host}#{request.fullpath}", status: 301
     end
   end
 
