@@ -40,7 +40,7 @@ en:
 
   layouts:
     mailer:
-      greeting: Hello %{recipient}!
+      greeting: Hello %{recipient}.
 
   user_mailer:
     footer:

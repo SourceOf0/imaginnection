@@ -40,7 +40,7 @@ ja:
 
   layouts:
     mailer:
-      greeting: "こんにちは！%{recipient}様。Imaginnectionです。"
+      greeting: "%{recipient}様"
 
   user_mailer:
     footer:
