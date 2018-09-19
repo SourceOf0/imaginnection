@@ -37,3 +37,17 @@ en:
     models:
       node: Word
       edge: Association
+
+  layouts:
+    mailer:
+      greeting: Hello %{recipient}!
+
+  user_mailer:
+    footer:
+      link_text: Word association service Imaginnection
+    user_welcome_mail:
+      action: Log in
+      instruction: |
+        Thank you for registering your account.
+        You can log in from the link below.
+      subject: Welcome to Imaginnection!

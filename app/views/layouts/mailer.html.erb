@@ -8,6 +8,10 @@
   </head>
 
   <body>
+    <% if @resource %>
+      <p><%= t('.greeting', recipient: @resource.name) %></p>
+    <% end %>
     <%= yield %>
+    <%= render 'user_mailer/footer' %>
   </body>
 </html>

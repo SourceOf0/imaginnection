@@ -1,1 +1,8 @@
+
+<% if @resource %>
+<%= t('.greeting', recipient: @resource.name) %>
+<% end %>
+
 <%= yield %>
+
+<%= render 'user_mailer/footer' %>

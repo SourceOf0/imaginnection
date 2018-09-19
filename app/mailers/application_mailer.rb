@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default to: 'imaginnection@gmail.com'
-  default from: 'imaginnection_site@gmail.com'
+  default to: '"Imaginnection" <imaginnection@gmail.com>'
+  default from: '"Imaginnection" <imaginnection@gmail.com>'
   layout 'mailer'
 end

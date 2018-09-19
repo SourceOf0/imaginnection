@@ -35,8 +35,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable, :omniauthable
-  
-  
+
   # デフォルト値設定
   before_validation do
     self.ref_id = SecureRandom::urlsafe_base64(30) if self.ref_id.nil?
@@ -49,6 +48,15 @@ class User < ApplicationRecord
     true
   end
 
+  # ユーザ確認
+  def confirm
+    super
+    if confirmed?
+      # Welcomeメール送信
+      UserMailer.user_welcome_mail(self).deliver
+    end
+  end
+  
   # アカウントを削除する
   def soft_delete
     self.is_disable_follow = true

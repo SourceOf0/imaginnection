@@ -26,7 +26,7 @@ class InquiryController < ApplicationController
     @inquiry.message = @inquiry.message.gsub(/\R/, "<br>").html_safe
     
     # メールを送信
-    InquiryMailer.inquiry_email(@inquiry).deliver
+    UserMailer.inquiry_email(@inquiry).deliver
 
     flash[:info] = 'お問い合わせありがとうございました'
     redirect_to root_path

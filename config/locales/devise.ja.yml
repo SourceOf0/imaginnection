@@ -3,7 +3,7 @@ ja:
     attributes:
       user:
         confirmation_sent_at: "パスワード確認送信時刻"
-        confirmation_token: "パスワード確認用トークン"
+        confirmation_token: "パスワード確認用URL"
         confirmed_at: "パスワード確認時刻"
         created_at: "作成日"
         current_password: "現在のパスワード"
@@ -24,13 +24,15 @@ ja:
         remember_created_at: "ログイン記憶時刻"
         remember_me: "ログインを記憶する"
         reset_password_sent_at: "パスワードリセット送信時刻"
-        reset_password_token: "パスワードリセット用トークン"
+        reset_password_token: "パスワードリセット用URL"
         sign_in_count: "ログイン回数"
         unconfirmed_email: "未確認Eメール"
-        unlock_token: "ロック解除用トークン"
+        unlock_token: "ロック解除用URL"
         updated_at: "更新日"
     models:
       user: "ユーザ"
+  system:
+    sign_up: "アカウント登録"
   devise:
     confirmations:
       confirmed: "アカウントを登録しました。"
@@ -42,40 +44,36 @@ ja:
       already_authenticated: "すでにログインしています。"
       inactive: "アカウントが有効化されていません。メールに記載された手順にしたがって、アカウントを有効化してください。"
       invalid: "%{authentication_keys}またはパスワードが違います。"
-      last_attempt: "もう一回誤るとアカウントがロックされます。"
-      locked: "アカウントは凍結されています。"
+      last_attempt: "パスワードをもう一回誤るとアカウントがロックされます。"
+      locked: "そのアカウントは凍結されています。"
       not_found_in_database: "%{authentication_keys}またはパスワードが違います。"
       timeout: "セッションがタイムアウトしました。もう一度ログインしてください。"
       unauthenticated: "アカウント登録もしくはログインしてください。"
       unconfirmed: "メールアドレスの本人確認が必要です。"
-      deleted_account: "そのアカウントは登録済みです。"
+      deleted_account: "そのアカウントは削除済みです。"
     mailer:
       confirmation_instructions:
         action: "本人確認"
-        greeting: "こんにちは！%{recipient}様。"
-        instruction: "imaginnectionへのご登録ありがとうございます。次のリンクでメールアドレスの確認が完了します。"
-        subject: "アカウントの有効化について"
+        instruction: "次のリンクでメールアドレスの確認が完了します。"
+        subject: "[Imaginnection]アカウントの有効化について"
       email_changed:
-        greeting: 
-        message: 
-        subject: 
+        message: "メールアドレスが %{email} に変更されましたので、連絡いたします。"
+        subject: "[Imaginnection]メールアドレスの変更について"
       password_change:
-        greeting: "こんにちは！%{recipient}様。imaginnectionです。"
         message: "パスワードが再設定されましたので、通知いたします。"
-        subject: "パスワードの変更について"
+        subject: "[Imaginnection]パスワードの変更について"
       reset_password_instructions:
         action: "パスワード変更"
-        greeting: "こんにちは！%{recipient}様。imaginnectionです。"
         instruction: "パスワード再設定の依頼を受けたため、メールを送信しています。下のリンクからパスワードの再設定ができます。"
-        instruction_2: "パスワード再設定の依頼をしていない場合、このメールを無視してください。"
-        instruction_3: "パスワードの再設定は、上のリンクから新しいパスワードを登録するまで完了しません。"
-        subject: "パスワードの再設定について"
+        instruction_2: |
+          パスワード再設定の依頼をしていない場合、このメールを無視してください。
+          パスワードの再設定は、上のリンクから新しいパスワードを登録するまで完了しません。
+        subject: "[Imaginnection]パスワードの再設定について"
       unlock_instructions:
         action: "アカウントのロック解除"
-        greeting: "こんにちは！%{recipient}様。imaginnectionです。"
         instruction: "アカウントのロックを解除するには下のリンクをクリックしてください。"
         message: "ログイン失敗が繰り返されたため、アカウントはロックされています。"
-        subject: "アカウントの凍結解除について"
+        subject: "[Imaginnection]アカウントの凍結解除について"
     omniauth_callbacks:
       failure: "%{kind} アカウントによる認証に失敗しました。理由：（%{reason}）"
       success: "%{kind} アカウントによる認証に成功しました。"
@@ -83,7 +81,7 @@ ja:
       edit:
         change_my_password: "パスワードを変更する"
         change_your_password: "パスワードを変更"
-        confirm_new_password: "確認用新しいパスワード"
+        confirm_new_password: "新しいパスワード（確認用）"
         new_password: "新しいパスワード"
       new:
         forgot_your_password: "パスワードの再設定"
@@ -96,7 +94,7 @@ ja:
     registrations:
       destroyed: "アカウントを削除しました。またのご利用をお待ちしております。"
       edit:
-        are_you_sure: "本当によろしいですか？"
+        are_you_sure: "アカウントを削除します。本当によろしいですか？"
         cancel_my_account: "アカウント削除"
         currently_waiting_confirmation_for_email: "%{email} の確認待ち"
         leave_blank_if_you_don_t_want_to_change_it: "空欄のままなら変更しません"
@@ -127,7 +125,9 @@ ja:
         sign_in: "ログイン"
         sign_in_with_provider: "%{provider}でログイン"
         sign_up: "新規登録"
-      minimum_password_length: "（%{count}字以上）"
+      minimum_password_length: 
+        one: "（%{count}字以上）"
+        other: "（%{count}字以上）"
     unlocks:
       new:
         resend_unlock_instructions: "アカウント凍結解除"
@@ -136,7 +136,7 @@ ja:
       unlocked: "アカウントを凍結解除しました。"
   errors:
     messages:
-      already_confirmed: "は既に登録済みです。ログインしてください。"
+      already_confirmed: "は既に登録済みです。"
       confirmation_period_expired: "の期限が切れました。%{period} までに確認する必要があります。 新しくリクエストしてください。"
       expired: "の有効期限が切れました。新しくリクエストしてください。"
       not_found: "は見つかりませんでした。"
