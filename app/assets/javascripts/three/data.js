@@ -19,7 +19,7 @@ imaginnection.three.NodeLabel = {
 				var data = imaginnection.threeData;
 				
 				var vector = node.view_pos;
-				var z_min = Math.min(0.00001 * node.edge_count + 0.999, 1.0);
+				var z_min = Math.min(0.00005 * node.edge_count + 0.999, 1.0);
 				if( this.is_target ) {
 					if( (vector.z > 1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						return false;
@@ -78,10 +78,13 @@ imaginnection.three.Node = {
 	
 	create: function( name, from_node ) {
 		var useFromNodeIndex = !!from_node && from_node.edge_count > 1 ;
-		var posIndex = (( useFromNodeIndex )? from_node.edge_count : this.total_count+10) + 10;
-		var pos = new THREE.Vector3( (posIndex % 4 / 4) * 100 + Math.log(1 + posIndex) * 100 + posIndex, 0, 0);
+		var posIndex = (( useFromNodeIndex )? from_node.edge_count+10 : this.total_count*2000);
+		var pos = new THREE.Vector3( (posIndex % 11 / 11)*500 + Math.log(1 + posIndex)*100, 0, 0);
+		if( !useFromNodeIndex ) {
+			pos.x += this.total_count + 100;
+		}
 		pos.applyAxisAngle( this.org1, (posIndex % 11 / 11) * PI2 );
-		pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2 );
+		pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2/2 );
 		if( !!from_node ) {
 			pos.add( from_node.particle.position );
 		}
