@@ -16,4 +16,5 @@ window.onerror = function(msg, url, line, col, error) {
     data: {text: text},
     datatype: "json",
   });
+  window.onerror = null;
 };
