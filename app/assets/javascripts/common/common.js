@@ -18,3 +18,10 @@ window.onerror = function(msg, url, line, col, error) {
   });
   window.onerror = null;
 };
+
+$(document).on( "ajaxError", function( e, xhr, status ){
+  if( xhr.readyState == 4 && xhr.status == 401 ) {
+    // 認証エラーなのでページリロード、サーバ経由でログイン画面へ
+    window.location.reload(true);
+  }
+});
