@@ -15,6 +15,8 @@ imaginnection.three.NodeLabel = {
 			height: 14 * window.devicePixelRatio,
 			position: new THREE.Vector3(0, 0, 0),
 			update: function( node, viewWidth, viewHeight ) {
+				if( node.is_hide ) return false;
+				
 				var data = imaginnection.threeData;
 				
 				var vector = node.view_pos;
