@@ -92,6 +92,7 @@ imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_nod
     from_node.addToEdge( edge );
     to_node.addFromEdge( edge );
   }
+  if( data.focusNode == from_node ) from_node.setTargetStyle();
   if( is_owner ) edge.setOwner();
   edge.addCount();
   imaginnection.three.addEdgeList( is_owner, edge );
