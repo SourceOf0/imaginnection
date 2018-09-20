@@ -84,11 +84,11 @@ imaginnection.three.Node = {
 		var pos = new THREE.Vector3( 0, 0, 0 );
 		if( useFromNodeIndex ) {
 			pos.x = ((posIndex % 4 / 4)*posIndex*10 + Math.log(1 + posIndex*200)*(posIndex/2 + 50)) + this.total_count/2;
-			pos.applyAxisAngle( this.org1, (posIndex % 5 / 5) * PI2 );
+			pos.applyAxisAngle( this.org1, (posIndex % 5 / 5) * PI2 + this.total_count/2 );
 			pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2 );
 			pos.add( from_node.particle.position );
 		} else {
-			pos.x = ((posIndex % 4 / 4)*posIndex*6 + Math.log(1 + posIndex*200)*(posIndex/2 + 50))*1.5;
+			pos.x = ((posIndex % 11 / 11)*posIndex*6 + Math.log(1 + posIndex*200)*(posIndex/2 + 100));
 			pos.applyAxisAngle( this.org1, (posIndex % 5 / 5) * PI2 );
 			pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2 );
 		}
