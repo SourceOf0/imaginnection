@@ -150,7 +150,7 @@ imaginnection.removeEdge = function( edge ) {
   }
 };
 
-// テスト用
+// データチェック用
 /*
 setTimeout(function() {
   var edges = imaginnection.dbdata.edges;
@@ -175,15 +175,18 @@ setTimeout(function() {
   });
 }, 3000);
 /**/
+
+// テスト用
 /*
 setTimeout(function() {
-  var id = "vygUqlmpNU0Hz0zMqw7OydK2IA7MAGGsCre4VcYw";
-  //var id = "bVQDGbw07EKBThh-fwIqLuWLU8b1mZnPs6WaEaYA";
-  //var id = "mYAPf-2vS670r3pOLz9tM7GDFYuF2iFJIrWGj8xE";
+  var id = "jlRrvBcYf6hiIOPVAiTjG4sEY5f6c0i_NOGT3pim";
+  //var id = "CCZvQH4FurVebU6NDlazhs-a3tXDHfy_HqGP-qz5";
   for( var i = 0; i < 100; i++ ) {
-    var edge = imaginnection.createEdgeData(id, i + "個目", (i+1) + "個目", false);
-    imaginnection.createEdge(edge);
-    //imaginnection.removeEdge(edge);
+    for( var j = 0; j < 20; j++ ) {
+      var edge = imaginnection.createEdgeData(id, i + "個目", i + "個目の" + j + "個目", false);
+      imaginnection.createEdge(edge);
+      //imaginnection.removeEdge(edge);
+    }
   }
 }, 3000);
 /**/

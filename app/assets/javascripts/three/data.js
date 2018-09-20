@@ -14,13 +14,12 @@ imaginnection.three.NodeLabel = {
 		return {
 			height: 14 * window.devicePixelRatio,
 			position: new THREE.Vector3(0, 0, 0),
-			is_target: false,
 			update: function( node, viewWidth, viewHeight ) {
 				var data = imaginnection.threeData;
 				
 				var vector = node.view_pos;
-				var z_min = Math.min(0.00005 * node.edge_count + 0.999, 1.0);
-				if( this.is_target ) {
+				var z_min = Math.min(0.00004 * node.edge_count + 0.999, 1.0);
+				if( node.is_target ) {
 					if( (vector.z > 1.0) || ((vector.x < -0.9 || vector.x > 0.9) || (vector.y < -0.9 || vector.y > 0.9)) ) {
 						return false;
 					}
@@ -37,7 +36,7 @@ imaginnection.three.NodeLabel = {
 				vector.x = ((vector.x + 1)*viewWidth - data.context.measureText(text).width) / 2;
 				vector.y = (-(vector.y - 1)*viewHeight + this.height) / 2;
 				
-				if( this.is_target ) {
+				if( node.is_target ) {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
 					data.context.fillStyle = "rgba(255, 255, 255, 1)";
 				} else {
@@ -77,16 +76,19 @@ imaginnection.three.Node = {
 	},
 	
 	create: function( name, from_node ) {
-		var useFromNodeIndex = !!from_node && from_node.edge_count > 1 ;
-		var posIndex = (( useFromNodeIndex )? from_node.edge_count+10 : this.total_count*2000);
-		var pos = new THREE.Vector3( (posIndex % 11 / 11)*500 + Math.log(1 + posIndex)*100, 0, 0);
-		if( !useFromNodeIndex ) {
-			pos.x += this.total_count + 100;
-		}
-		pos.applyAxisAngle( this.org1, (posIndex % 11 / 11) * PI2 );
-		pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2/2 );
-		if( !!from_node ) {
+		var useFromNodeIndex = !!from_node;
+		var posIndex = (( useFromNodeIndex )? from_node.edge_count+1 : this.total_count);
+		//var posIndex = this.total_count;
+		var pos = new THREE.Vector3( 0, 0, 0 );
+		if( useFromNodeIndex ) {
+			pos.x = ((posIndex % 4 / 4)*posIndex*10 + Math.log(1 + posIndex*200)*(posIndex/2 + 50)) + this.total_count/2;
+			pos.applyAxisAngle( this.org1, (posIndex % 5 / 5) * PI2 );
+			pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2 );
 			pos.add( from_node.particle.position );
+		} else {
+			pos.x = ((posIndex % 4 / 4)*posIndex*6 + Math.log(1 + posIndex*200)*(posIndex/2 + 50))*1.5;
+			pos.applyAxisAngle( this.org1, (posIndex % 5 / 5) * PI2 );
+			pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2 );
 		}
 
 		var color = imaginnection.threeData.normalColor;
@@ -105,16 +107,20 @@ imaginnection.three.Node = {
 			name: name,
 			is_owner: false,
 			is_gaze: is_gaze,
+			is_target: false,
+			is_hide: false,
+			view_pos: new THREE.Vector3(0, 0, 0),
 			from_edges: {},
 			to_edges: {},
 			edge_count: 0,
-			view_pos: new THREE.Vector3(0, 0, 0),
 			label: imaginnection.three.NodeLabel.create(),
 			update: function() {
 				var target_scale = this.edge_count * 5 + 10;
 				this.particle.scale.x += (target_scale - this.particle.scale.x) * 0.1;
 				this.particle.scale.y += (target_scale - this.particle.scale.y) * 0.1;
 				this.view_pos = this.particle.position.clone().project(imaginnection.threeData.camera);
+				this.is_hide = !this.is_target && ((this.view_pos.z > 1.0) || ((this.view_pos.x < -1.0 || this.view_pos.x > 1.0) || (this.view_pos.y < -1.0 || this.view_pos.y > 1.0)));
+				this.particle.visible = !this.is_hide;
 			},
 			labelUpdate: function( clientWidth, clientHeight ) {
 				this.label.update( this, clientWidth, clientHeight );
@@ -144,10 +150,10 @@ imaginnection.three.Node = {
 			},
 			setTargetStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programFill;
-				this.label.is_target = true;
+				this.is_target = true;
 				for( var key in this.to_edges ) {
 					this.to_edges[key].setTargetStyle();
-					this.to_edges[key].to_node.label.is_target = true;
+					this.to_edges[key].to_node.is_target = true;
 				}
 				for( var key in this.from_edges ) {
 					this.from_edges[key].setSubTargetStyle();
@@ -155,10 +161,10 @@ imaginnection.three.Node = {
 			},
 			setDefaultStyle: function() {
 				this.particle.material.program = imaginnection.three.Node.programStroke;
-				this.label.is_target = false;
+				this.is_target = false;
 				for( var key in this.to_edges ) {
 					this.to_edges[key].setDefaultStyle();
-					this.to_edges[key].to_node.label.is_target = false;
+					this.to_edges[key].to_node.is_target = false;
 				}
 				for( var key in this.from_edges ) {
 					this.from_edges[key].setDefaultStyle();
@@ -228,7 +234,7 @@ imaginnection.three.Edge = {
 		
 		var color = imaginnection.threeData.normalColor;
 		var geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
-		var line = new THREE.Line( geometry, new THREE.LineDashedMaterial( { color: color, opacity: 0.5, dashSize: 40, gapSize: 3, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
+		var line = new THREE.Line( geometry, new THREE.LineDashedMaterial( { color: color, opacity: 0.1, dashSize: 40, gapSize: 3, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
 		
 		line.name = from_node.name + " -> " + to_node.name;
 		line.material.linecap = "butt";
@@ -241,6 +247,11 @@ imaginnection.three.Edge = {
 			click_time: 0,
 			count: 0,
 			update: function() {
+				if( from_node.is_hide || to_node.is_hide ) {
+					line.material.visible = false;
+				} else {
+					line.material.visible = true;
+				}
 				if( this.click_time > 0 ) {
 					var ratio = 1 - this.click_time / 20;
 					line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth * ratio;
@@ -275,7 +286,7 @@ imaginnection.three.Edge = {
 			},
 			setDefaultStyle: function() {
 				line.material.linewidth = imaginnection.threeData.edgeDefaultLineWidth;
-				line.material.opacity = 0.5;
+				line.material.opacity = 0.1;
 				this.click_time = 0;
 			},
 			setOwner: function() {

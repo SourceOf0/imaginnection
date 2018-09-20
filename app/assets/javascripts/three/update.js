@@ -150,7 +150,7 @@ imaginnection.three.setControlTarget = function() {
   }
   
   data.raycaster.setFromCamera( data.mouse, data.camera );
-  data.raycaster.linePrecision = 2 * data.firstDevicePixelRatio;
+  data.raycaster.linePrecision = 4 * data.firstDevicePixelRatio;
   
   var intersects = data.raycaster.intersectObjects( data.scene.children );
   if( intersects.length == 0 ) return;

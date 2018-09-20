@@ -37,7 +37,7 @@ imaginnection.threeData = {
 	ownerColor: 0xb1e9ff,
 	gazeColor: 0xffd688,
 	
-	nodeLineWidth: 0.1,
+	nodeLineWidth: 0.2,
 	edgeDefaultLineWidth: 1 * window.devicePixelRatio,
 	edgeTargetLineWidth: 10 * window.devicePixelRatio,
 	
