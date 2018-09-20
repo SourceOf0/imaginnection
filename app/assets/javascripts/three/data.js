@@ -159,6 +159,7 @@ imaginnection.three.Node = {
 				}
 				for( var key in this.from_edges ) {
 					this.from_edges[key].setSubTargetStyle();
+					this.from_edges[key].from_node.is_target = true;
 				}
 			},
 			setDefaultStyle: function() {
@@ -170,6 +171,7 @@ imaginnection.three.Node = {
 				}
 				for( var key in this.from_edges ) {
 					this.from_edges[key].setDefaultStyle();
+					this.from_edges[key].from_node.is_target = false;
 				}
 			},
 			setColor: function() {
