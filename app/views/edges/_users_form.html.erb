@@ -1,10 +1,13 @@
 <%# 共感者一覧 %>
 <%# @param from_node: ノード %>
 <%# @param to_node: ノード %>
-<%# @param users: リスト表示するユーザのモデルインスタンス %>
-<%# @param count: 総人数 %>
-<%# @param is_owner: 所有ノードか %>
-<%# @param is_hide_user: ユーザを名前を非公開中として表示するか %>
+<%# @param forward: 正順エッジの情報 %>
+<%# @param backward: 逆順エッジの情報 %>
+<%# @node エッジ内情報 %>
+<%#   users: リスト表示するユーザのモデルインスタンス %>
+<%#   count: 総人数 %>
+<%#   is_owner: 所有ノードか %>
+<%#   is_hide_user: ユーザを名前を非公開中として表示するか %>
 
 <div class="modal-dialog">
   <div class="modal-content">
@@ -12,46 +15,86 @@
       
       <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
       
-      <!--
       <ul class="nav nav-tabs">
         <li role="presentation" class="edge-order active">
-          <a href="#"><p class="glyphicon glyphicon-arrow-down"></p></a>
+          <a href="#forward-user-form" aria-controls="forward-user-form" role="tab" data-toggle="tab">
+            <p class="glyphicon glyphicon-arrow-down"></p>
+          </a>
         </li>
         <li role="presentation" class="edge-order">
-          <a href="#"><p class="glyphicon glyphicon-arrow-up"></p></a>
+          <a href="#backward-user-form" aria-controls="backward-user-form" role="tab" data-toggle="tab">
+            <p class="glyphicon glyphicon-arrow-up"></p>
+          </a>
         </li>
       </ul>
-      -->
-      
-      <h3 class="text-center">
-        <p>「<%= from_node.name %>」</p>
-        <p class="glyphicon glyphicon-arrow-down"></p>
-        <p>「<%= to_node.name %>」</p>
-      </h3>
+
+      <div class="tab-content">
         
-      <% if !!count %>
-        <div>
-          <p>共感した人：<%= count %>人（非公開含む）</p>
+        <div role="tabpanel" class="tab-pane active" id="forward-user-form">
+          <h3 class="text-center">
+            <p>「<%= from_node.name %>」</p>
+            <p class="glyphicon glyphicon-arrow-down"></p>
+            <p>「<%= to_node.name %>」</p>
+          </h3>
+            
+          <% if !!forward[:count] %>
+            <div>
+              <p>共感した人：<%= forward[:count] %>人（非公開含む）</p>
+            </div>
+          <% end %>
+          
+          <div class="well" id="empathy-user-list">
+            <%= render 'follows/users', users: forward[:users], is_hide_current_user: forward[:is_hide_user] %>
+          </div>
+          
+          <div id="empathy-button">
+            <% if forward[:is_owner] %>
+            
+              <%# 共感削除ボタンを表示 %>
+              <%= render 'unempathy', from_node: from_node, to_node: to_node, is_hide_user: forward[:is_hide_user] %>
+      
+            <% else %>
+        
+              <%# 共感するボタンを表示 %>
+              <%= render 'empathy', from_node: from_node, to_node: to_node, is_hide_user: forward[:is_hide_user] %>
+      
+            <% end %>
+          </div>
         </div>
-      <% end %>
-      
-      <div class="well" id="empathy-user-list">
-        <%= render 'follows/users', users: users, is_hide_current_user: is_hide_user %>
-      </div>
-      
-      <div id="empathy-button">
-        <% if is_owner %>
         
-          <%# 共感削除ボタンを表示 %>
-          <%= render 'unempathy', from_node: from_node, to_node: to_node, is_hide_user: is_hide_user %>
-  
-        <% else %>
-    
-          <%# 共感するボタンを表示 %>
-          <%= render 'empathy', from_node: from_node, to_node: to_node, is_hide_user: is_hide_user %>
-  
-        <% end %>
-      </div>
+        <div role="tabpanel" class="tab-pane" id="backward-user-form">
+          <h3 class="text-center">
+            <p>「<%= from_node.name %>」</p>
+            <p class="glyphicon glyphicon-arrow-up"></p>
+            <p>「<%= to_node.name %>」</p>
+          </h3>
+            
+          <% if !!backward[:count] %>
+            <div>
+              <p>共感した人：<%= backward[:count] %>人（非公開含む）</p>
+            </div>
+          <% end %>
+          
+          <div class="well" id="empathy-user-list">
+            <%= render 'follows/users', users: backward[:users], is_hide_current_user: backward[:is_hide_user] %>
+          </div>
+          
+          <div id="empathy-button">
+            <% if backward[:is_owner] %>
+            
+              <%# 共感削除ボタンを表示 %>
+              <%= render 'unempathy', from_node: to_node, to_node: from_node, is_hide_user: backward[:is_hide_user] %>
+      
+            <% else %>
+        
+              <%# 共感するボタンを表示 %>
+              <%= render 'empathy', from_node: to_node, to_node: from_node, is_hide_user: backward[:is_hide_user] %>
+      
+            <% end %>
+          </div>
+        </div>
+        
+      </div><!-- .tab-content -->
       
     </div>
   </div>

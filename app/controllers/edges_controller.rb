@@ -40,10 +40,8 @@ class EdgesController < ApplicationController
     # 未ログインでも表示可能のため注意
     @from_node = Node.new(name: params[:from_node])
     @to_node = Node.new(name: params[:to_node])
-    @is_hide_user = !!params[:is_hide_user]
-    @users = User.where(ref_id: params[:content], deleted_at: nil)
-    @count = params[:count];
-    @is_owner = user_signed_in? && (@is_hide_user || @users.include?(current_user))
+    @forward = create_users_data(params[:forward_data])
+    @backward = create_users_data(params[:backward_data])
     set_logger( 'edge/users', @from_node.name + ' -> ' + @to_node.name )
   end
 
@@ -86,6 +84,17 @@ class EdgesController < ApplicationController
 
     @from_node = Node.new
     @to_node = Node.new
+  end
+  
+  def create_users_data(data)
+    is_hide_user = !!data[:is_hide_user]
+    users = User.where(ref_id: data[:content], deleted_at: nil)
+    return {
+      is_hide_user: is_hide_user,
+      users: users,
+      count: data[:count],
+      is_owner: user_signed_in? && (is_hide_user || users.include?(current_user)),
+    }
   end
   
   def set_debug_view

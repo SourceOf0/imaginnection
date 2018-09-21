@@ -1,3 +1,3 @@
 
 <%# エッジ詳細のポップアップを表示する %>
-$("#users-modal").html("<%=j render 'users_form', from_node: @from_node, to_node: @to_node, is_hide_user: @is_hide_user, users: @users, count: @count, is_owner: @is_owner, is_hide_current_user: @is_hide_user %>").modal("show");
+$("#users-modal").html("<%=j render 'users_form', from_node: @from_node, to_node: @to_node, forward: @forward, backward: @backward %>").modal("show");
