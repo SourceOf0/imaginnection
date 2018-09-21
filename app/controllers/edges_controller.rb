@@ -48,14 +48,14 @@ class EdgesController < ApplicationController
   end
 
   def new
-    @from_node = Node.new(node_params)
+    @from_node = Node.new(name: params[:node_name])
     set_logger( 'edge/new', @from_node.name )
   end
   
   
   def create
     @from_node = Node.new(name: params[:from_node_name])
-    @to_node = Node.new(node_params)
+    @to_node = Node.new(name: params[:to_node_name])
     @is_hide_user = !!params[:is_hide_user]
     set_logger( 'edge/create', @from_node.name + ' -> ' + @to_node.name )
   end
@@ -63,7 +63,7 @@ class EdgesController < ApplicationController
   
   def destroy
     @from_node = Node.new(name: params[:from_node_name])
-    @to_node = Node.new(node_params)
+    @to_node = Node.new(name: params[:to_node_name])
     @is_hide_user = false
     set_logger( 'edge/destroy', @from_node.name + ' -> ' + @to_node.name )
   end

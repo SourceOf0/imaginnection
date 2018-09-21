@@ -3,10 +3,10 @@
 <%# @params to_node: 対象toノード %>
 <%# @params is_hide_user: 名前非公開か %>
 
-<%= form_for(to_node, method: :delete, url: edge_path("delete"), html: {id: "edge-delete-form"}, remote: true) do |f| %>
+<%= form_tag(edge_path("delete"), method: :delete, id: "edge-delete-form", remote: true) do %>
   
   <%= hidden_field_tag :from_node_name, from_node.name %>
-  <%= f.hidden_field :name, value: to_node.name %>
+  <%= hidden_field_tag :to_node_name, to_node.name %>
 
   <div class="text-center">
     <div class="form-group check-hide-user">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-group">
-      <%= f.submit '共感解除', class: 'btn btn-default active', name: nil %>
+      <%= submit_tag '共感解除', class: 'btn btn-default active', name: nil %>
     </div>
   </div>
   

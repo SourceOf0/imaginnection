@@ -49,15 +49,15 @@
         </div>
         
         <div class="modal-body">
-          <%= form_for(@from_node, method: :get, url: new_edge_path, html: {id: "node-new-form"}, remote: true) do |f| %>
+          <%= form_tag(new_edge_path, method: :get, id: "node-new-form", remote: true) do %>
             
             <div class="form-group node-circle text-center">
-              <%= f.label :name, 'ノード名', class: 'sr-only' %>
-              <%= f.text_field :name, class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "単語を入力", required: true %>
+              <%= label_tag :node_name, 'ノード名', class: 'sr-only' %>
+              <%= text_field_tag :node_name, '', class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "単語を入力", required: true %>
             </div>
           
             <div class="form-group text-center">
-              <%= f.submit '次へ', class: 'btn btn-default', name: nil %>
+              <%= submit_tag '次へ', class: 'btn btn-default', name: nil %>
             </div>
             
           <% end %>
@@ -78,7 +78,7 @@
         </div>
         
         <div class="modal-body">
-          <%= form_for(@to_node, method: :post, url: edges_path, html: {id: "edge-new-form"}, remote: true) do |f| %>
+          <%= form_tag(edges_path, method: :post, id: "edge-new-form", remote: true) do %>
             
             <%= hidden_field_tag :from_node_name, "" %>
             
@@ -95,8 +95,8 @@
               
               <div class="edge-to-node col-xs-8 text-center">
                 <div class="form-group node-circle">
-                  <%= f.label :name, 'ノード名', class: 'sr-only' %>
-                  <%= f.text_field :name, class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "連想する単語を入力", required: true %>
+                  <%= label_tag :to_node_name, 'ノード名', class: 'sr-only' %>
+                  <%= text_field_tag :to_node_name, '', class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "連想する単語を入力", required: true %>
                 </div>
               </div>
             </div>
@@ -107,7 +107,7 @@
             </div>
             
             <div class="form-group text-center">
-              <%= f.submit '作成', class: 'btn btn-default', name: nil %>
+              <%= submit_tag '作成', class: 'btn btn-default', name: nil %>
             </div>
             
           <% end %>
