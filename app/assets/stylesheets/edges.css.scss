@@ -66,6 +66,13 @@
     @include main-background-overlay;
   }
   
+  .edge-order {
+    width: 45%;
+  }
+  .edge-order.active>a {
+    background: transparent;
+  }
+
   .node-circle {
     background: $ownNodeColor;
     border-radius: 50%;
@@ -84,7 +91,7 @@
       text-align: center;
     }
     
-    #from-node-label {
+    .node-label {
       margin-top: -.7em;
       text-shadow: 0 0 4px $colorBlack;
     }
@@ -96,23 +103,17 @@
     background: $ownNodeColor;
     display: block;
     height: 2%;
-    margin: 23% 25% 0 20%;
+    margin: 23% 0 0 20%;
     position: absolute;
-    width: 50%;
+    width: 60%;
   }
-  .edge-form-node {
+  
+  .small-node {
     padding-top: 11.5%;
   }
 }
 
 #users-modal {
-  .edge-order {
-    width: 45%;
-  }
-  .edge-order.active>a {
-    background: transparent;
-  }
-
   .check-hide-user {
     white-space: nowrap;
     &:before {

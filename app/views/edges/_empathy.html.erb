@@ -3,7 +3,7 @@
 <%# @params to_node: 対象toノード %>
 <%# @params is_hide_user: 名前非公開か %>
 
-<%= form_tag(edges_path, method: :post, id: "edge-new-form", remote: true) do %>
+<%= form_tag(edges_path, method: :post, class: "edge-new-form", remote: true) do %>
   
   <%= hidden_field_tag :from_node_name, from_node.name %>
   <%= hidden_field_tag :to_node_name, to_node.name %>

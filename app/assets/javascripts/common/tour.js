@@ -103,14 +103,14 @@ imaginnection.initTour = function() {
       },
       {
         template: temp_wait,
-        element: "#node-new-form #node_name",
+        element: "#node-new .form-control",
         title: "単語を作ろう",
         content: "単語を入力して「次へ」を押します。<br><small>趣味や目の前の物など、思いつくものを書いてみてください。<br>20文字まで入力できます。</small>",
         placement: "auto top",
       },
       {
         template: temp_wait,
-        element: "#edge-new-form #node_name",
+        element: "#edge-new .form-control",
         title: "連想しよう",
         content: "連想する単語を入力して「作成」を押します。<br><small>「好き」などの感想でも何でもOKです。<br>20文字まで入力できます。</small>",
         placement: "auto top",

@@ -23,7 +23,7 @@ imaginnection.getUserList = function( from_node_name, to_node_name ) {
   }
   
   var data = imaginnection.dbdata.edges[from_node_name][to_node_name];
-  if( !data["users"] ) {
+  if( !data || !data["users"] ) {
     return {is_hide_user: is_hide_user, content: post_data, count: count};
   }
   

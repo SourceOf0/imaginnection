@@ -75,47 +75,105 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
           <h4 class="modal-title">新規作成</h4>
+          
         </div>
         
         <div class="modal-body">
-          <%= form_tag(edges_path, method: :post, id: "edge-new-form", remote: true) do %>
+          
+          <ul class="nav nav-tabs">
+            <li role="presentation" class="edge-order active">
+              <a href="#edge-new-forward" aria-controls="edge-new-forward" role="tab" data-toggle="tab">
+                <p class="glyphicon glyphicon-arrow-down"></p>
+              </a>
+            </li>
+            <li role="presentation" class="edge-order">
+              <a href="#edge-new-backward" aria-controls="edge-new-backward" role="tab" data-toggle="tab">
+                <p class="glyphicon glyphicon-arrow-up"></p>
+              </a>
+            </li>
+          </ul>
+
+          <div class="tab-content">
             
-            <%= hidden_field_tag :from_node_name, "" %>
-            
-            <div class="row">
-              <div class="edge-line"></div>
-              
-              <div class="edge-form-node col-xs-4">
-                <div class="text-center">
-                  <div class="node-circle">
-                    <span id="from-node-label" class="node-name"></span>
+            <div role="tabpanel" class="tab-pane active" id="edge-new-forward">
+              <%= form_tag(edges_path, method: :post, id: "edge-new-forward-form", remote: true) do %>
+                
+                <%= hidden_field_tag :from_node_name, "", class: "auto-node-name" %>
+                
+                <div class="row">
+                  <div class="edge-line"></div>
+                  
+                  <div class="small-node col-xs-4">
+                    <div class="text-center">
+                      <div class="node-circle">
+                        <span class="node-name node-label"></span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="big-node col-xs-8 text-center">
+                    <div class="form-group node-circle">
+                      <%= label_tag :to_node_name, 'ノード名', class: 'sr-only' %>
+                      <%= text_field_tag :to_node_name, '', class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "連想する単語を入力", required: true %>
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              <div class="edge-to-node col-xs-8 text-center">
-                <div class="form-group node-circle">
-                  <%= label_tag :to_node_name, 'ノード名', class: 'sr-only' %>
-                  <%= text_field_tag :to_node_name, '', class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "連想する単語を入力", required: true %>
+                
+                <div class="form-group text-center">
+                  <%= check_box_tag :is_hide_user %>
+                  <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
                 </div>
-              </div>
+                
+                <div class="form-group text-center">
+                  <%= submit_tag '作成', class: 'btn btn-default', name: nil %>
+                </div>
+                
+              <% end %>
             </div>
             
-            <div class="form-group text-center">
-              <%= check_box_tag :is_hide_user %>
-              <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
+            <div role="tabpanel" class="tab-pane" id="edge-new-backward">
+              <%= form_tag(edges_path, method: :post, id: "edge-new-backward-form", remote: true) do %>
+                
+                <%= hidden_field_tag :to_node_name, "", class: "auto-node-name" %>
+                
+                <div class="row">
+                  <div class="edge-line"></div>
+                  
+                  <div class="big-node col-xs-8 text-center">
+                    <div class="form-group node-circle">
+                      <%= label_tag :from_node_name, 'ノード名', class: 'sr-only' %>
+                      <%= text_field_tag :from_node_name, '', class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "連想する単語を入力", required: true %>
+                    </div>
+                  </div>
+                  
+                  <div class="small-node col-xs-4">
+                    <div class="text-center">
+                      <div class="node-circle">
+                        <span class="node-name node-label"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group text-center">
+                  <%= check_box_tag :is_hide_user %>
+                  <%= label_tag :is_hide_user, '自分の名前を非公開にする' %>
+                </div>
+                
+                <div class="form-group text-center">
+                  <%= submit_tag '作成', class: 'btn btn-default', name: nil %>
+                </div>
+                
+              <% end %>
             </div>
             
-            <div class="form-group text-center">
-              <%= submit_tag '作成', class: 'btn btn-default', name: nil %>
-            </div>
-            
-          <% end %>
-        </div>
+          </div><!-- .tab-content -->
+          
+        </div><!-- .modal-body -->
         
-      </div>
-    </div>
-  </div>
+      </div><!-- .modal-content -->
+    </div><!-- .modal-dialog -->
+  </div><!-- #edge-new -->
   
   
   <%# ポップアップ %>

@@ -32,16 +32,18 @@ imaginnection.changeContent = function() {
   
   if( hash.indexOf("edge-new-") === 0 ) {
     $("#node-new").modal("hide");
+    
+    var $edgeNew = $("#edge-new");
 
     // フォームの中身を消す
-    $("#edge-new-form")[0].reset();
+    $edgeNew.find("form")[0].reset();
 
     // 指定されている名前をフォームに挿入
     var name = hash.replace(/^edge-new-/, "");
-    $("#from-node-label").text(name);
-    $("#from_node_name").attr("value", name);
+    $edgeNew.find(".node-label").text(name);
+    $edgeNew.find(".auto-node-name").attr("value", name);
 
-    $("#edge-new").modal("show");
+    $edgeNew.modal("show");
     return;
   }
 };
