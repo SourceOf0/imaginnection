@@ -231,7 +231,13 @@
       }
       
       .badge {
-        @include main-background;
+        @include mono-background;
+      }
+    }
+    
+    .is-owner {
+      .badge {
+        @include sub-background;
       }
     }
     
