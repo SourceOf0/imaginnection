@@ -12,3 +12,4 @@
 //
 //= require jquery
 //= require rails-ujs
+//= require common/common.js
