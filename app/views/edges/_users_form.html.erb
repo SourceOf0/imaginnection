@@ -47,7 +47,7 @@
             <%= render 'follows/users', users: forward[:users], is_hide_current_user: forward[:is_hide_user] %>
           </div>
           
-          <div id="empathy-button">
+          <div class="empathy-button">
             <% if forward[:is_owner] %>
             
               <%# 共感削除ボタンを表示 %>
@@ -79,7 +79,7 @@
             <%= render 'follows/users', users: backward[:users], is_hide_current_user: backward[:is_hide_user] %>
           </div>
           
-          <div id="empathy-button">
+          <div class="empathy-button">
             <% if backward[:is_owner] %>
             
               <%# 共感削除ボタンを表示 %>

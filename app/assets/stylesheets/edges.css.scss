@@ -66,11 +66,16 @@
     @include main-background-overlay;
   }
   
-  .edge-order {
-    width: 45%;
-  }
-  .edge-order.active>a {
-    background: transparent;
+  .nav {
+    display: flex;
+    justify-content: center;
+    
+    .edge-order {
+      width: 49%;
+    }
+    .edge-order.active>a {
+      background: transparent;
+    }
   }
 
   .node-circle {

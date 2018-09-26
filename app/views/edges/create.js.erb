@@ -18,7 +18,7 @@
     imaginnection.three.setFocusNode( edge.from_node, true );
     
     <%# 共感者一覧のボタンを切り替える %>
-    $("#empathy-button").html("<%=j render 'unempathy', from_node: @from_node, to_node: @to_node, is_hide_user: @is_hide_user %>");
+    $(".active .empathy-button").html("<%=j render 'unempathy', from_node: @from_node, to_node: @to_node, is_hide_user: @is_hide_user %>");
   }
 
 <% end %>

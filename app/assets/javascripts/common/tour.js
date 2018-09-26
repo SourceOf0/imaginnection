@@ -110,7 +110,7 @@ imaginnection.initTour = function() {
       },
       {
         template: temp_wait,
-        element: "#edge-new .form-control",
+        element: "#edge-new-forward .node-name-form",
         title: "連想しよう",
         content: "連想する単語を入力して「作成」を押します。<br><small>「好き」などの感想でも何でもOKです。<br>20文字まで入力できます。</small>",
         placement: "auto top",
@@ -150,7 +150,7 @@ imaginnection.initTour = function() {
       },
       {
         template: temp_def,
-        element: "#empathy-button .btn",
+        element: "#forward-user-form .empathy-button .btn",
         title: "共感・削除",
         content: "自分が投稿した内容はここから削除できます。他人が投稿した内容に共感した場合もここから同じ内容で投稿できます。",
         placement: "auto top",

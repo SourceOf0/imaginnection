@@ -96,9 +96,9 @@
           <div class="tab-content">
             
             <div role="tabpanel" class="tab-pane active" id="edge-new-forward">
-              <%= form_tag(edges_path, method: :post, id: "edge-new-forward-form", remote: true) do %>
+              <%= form_tag(edges_path, method: :post, id: 'edge-new-forward-form', remote: true) do %>
                 
-                <%= hidden_field_tag :from_node_name, "", class: "auto-node-name" %>
+                <%= hidden_field_tag :from_node_name, '', class: 'auto-node-name' %>
                 
                 <div class="row">
                   <div class="edge-line"></div>
@@ -114,7 +114,7 @@
                   <div class="big-node col-xs-8 text-center">
                     <div class="form-group node-circle">
                       <%= label_tag :to_node_name, 'ノード名', class: 'sr-only' %>
-                      <%= text_field_tag :to_node_name, '', class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "連想する単語を入力", required: true %>
+                      <%= text_field_tag :to_node_name, '', class: 'form-control node-name node-name-form', autocomplete: 'on', list: 'node-words', placeholder: '連想する単語を入力', required: true %>
                     </div>
                   </div>
                 </div>
@@ -132,9 +132,9 @@
             </div>
             
             <div role="tabpanel" class="tab-pane" id="edge-new-backward">
-              <%= form_tag(edges_path, method: :post, id: "edge-new-backward-form", remote: true) do %>
+              <%= form_tag(edges_path, method: :post, id: 'edge-new-backward-form', remote: true) do %>
                 
-                <%= hidden_field_tag :to_node_name, "", class: "auto-node-name" %>
+                <%= hidden_field_tag :to_node_name, '', class: 'auto-node-name' %>
                 
                 <div class="row">
                   <div class="edge-line"></div>
@@ -142,7 +142,7 @@
                   <div class="big-node col-xs-8 text-center">
                     <div class="form-group node-circle">
                       <%= label_tag :from_node_name, 'ノード名', class: 'sr-only' %>
-                      <%= text_field_tag :from_node_name, '', class: 'form-control node-name', autocomplete: "on", list: "node-words", placeholder: "連想する単語を入力", required: true %>
+                      <%= text_field_tag :from_node_name, '', class: 'form-control node-name node-name-form', autocomplete: 'on', list: 'node-words', placeholder: '連想する単語を入力', required: true %>
                     </div>
                   </div>
                   
