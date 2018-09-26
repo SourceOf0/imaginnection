@@ -124,6 +124,7 @@ $(document).ready(function() {
   }).on("hide.bs.modal", function() {
     $("#node-new .node-name").blur();
     if( window.location.hash.substring(1) === "node-new") {
+      imaginnection.setTour(2, [4, 3]);
       window.location.hash = "";
     }
   });
@@ -134,6 +135,7 @@ $(document).ready(function() {
   }).on("hide.bs.modal", function() {
     $("#edge-new .node-name").blur();
     if( window.location.hash.substring(1).indexOf("edge-new-") === 0 ) {
+      imaginnection.setTour(2, [4, 3]);
       window.location.hash = "";
     }
   });
