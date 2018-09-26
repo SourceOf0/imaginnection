@@ -1,14 +1,6 @@
 
 //= require vendor/bootstrap-tour.min.js
 
-/* ======================================================================
- * Copyright © 2018 Imaginnection. All rights reserved.
- 
- * This source code or any portion thereof must not be  
- * reproduced or used in any manner whatsoever.
- * ======================================================================
- */
-
 //= require edges/firebase/data.js
 //= require edges/firebase/init.js
 

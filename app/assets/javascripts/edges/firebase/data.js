@@ -1,3 +1,10 @@
+/* ======================================================================
+ * Copyright © 2018 Imaginnection. All rights reserved.
+ 
+ * This source code or any portion thereof must not be  
+ * reproduced or used in any manner whatsoever.
+ * ======================================================================
+ */
 
 var imaginnection = imaginnection || {};
 
