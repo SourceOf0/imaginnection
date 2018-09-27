@@ -58,10 +58,10 @@ imaginnection.three.addEdgeList = function( is_owner, edge ) {
 			.find(".name").text(to_node.name);
 		
 		$to_node = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index );
-		if( is_owner ) {
-			$to_node.addClass("is-owner");
-		}
 		$to_node.click( imaginnection.three.onClickEdgeEvent );
+	}
+	if( is_owner ) {
+		$to_node.addClass("is-owner");
 	}
 };
 
