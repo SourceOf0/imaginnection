@@ -3,7 +3,7 @@
 User-agent: *
 
 Disallow: /users/
-Allow: /users/sign_in/
-Allow: /users/sign_up/
+Allow: /users/sign_in
+Allow: /users/sign_up
 
 Disallow: /follows/
