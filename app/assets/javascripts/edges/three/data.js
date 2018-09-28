@@ -8,12 +8,13 @@ imaginnection.three = imaginnection.three || {};
 
 
 imaginnection.three.NodeLabel = {
+	height: 14 * window.devicePixelRatio,
 	
 	create: function() {
 		
 		return {
-			height: 14 * window.devicePixelRatio,
 			position: new THREE.Vector3(0, 0, 0),
+			
 			update: function( node, viewWidth, viewHeight ) {
 				if( node.is_hide ) return false;
 				
@@ -33,10 +34,8 @@ imaginnection.three.NodeLabel = {
 				
 				var text = node.name;
 				
-				data.context.font = "700 " + this.height + "px Unknown Font, sans-serif";
-
 				vector.x = ((vector.x + 1)*viewWidth - data.context.measureText(text).width) / 2;
-				vector.y = (-(vector.y - 1)*viewHeight + this.height) / 2;
+				vector.y = (-(vector.y - 1)*viewHeight + imaginnection.three.NodeLabel.height) / 2;
 				
 				if( node.is_target ) {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";

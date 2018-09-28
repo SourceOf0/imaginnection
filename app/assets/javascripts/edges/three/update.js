@@ -282,6 +282,7 @@ imaginnection.three.render = function() {
   var globalAlpha = data.context.globalAlpha;
   data.context.lineWidth = 3 * data.firstDevicePixelRatio;
   data.context.globalAlpha = 1;
+  data.context.font = "700 " + imaginnection.three.NodeLabel.height + "px Unknown Font, sans-serif";
   for( var key in node_list ) {
     node_list[key].labelUpdate( viewWidth * data.firstDevicePixelRatio, viewHeight * data.firstDevicePixelRatio );
   }
