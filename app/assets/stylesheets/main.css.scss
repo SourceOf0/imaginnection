@@ -265,11 +265,14 @@ form {
     border: none;
     outline: none;
   }
-  &.active, &:hover, &:active {
+  &:hover, &:active {
     background: linear-gradient(to top, lighten($subColor, 10%), darken($subColor, 20%));
     color: $subTextColor;
     border: none;
     outline: none;
+  }
+  &.active {
+    background: $subColor;
   }
 }
 
@@ -291,11 +294,14 @@ form {
     border: none;
     outline: none;
   }
-  &.active, &:hover, &:active {
+  &:hover, &:active {
     background: linear-gradient(to top, lighten($accentColor, 10%), darken($accentColor, 20%));
     color: $subTextColor;
     border: none;
     outline: none;
+  }
+  &.active {
+    background: $accentColor;
   }
 }
 
