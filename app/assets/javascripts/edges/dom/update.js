@@ -1,10 +1,11 @@
 
 /* global $ */
+/* global canvas */
 
-var canvas = canvas || {};
+var dom = dom || {};
 
 
-canvas.addNodeList = function( node ) {
+dom.addNodeList = function( node ) {
 	var index = node.index;
 	var $container = $("#nodes-index");
 	var temp = "";
@@ -27,12 +28,12 @@ canvas.addNodeList = function( node ) {
 	$container.find("#from-node-index-" + index).click( canvas.setFocusEvent );
 };
 
-canvas.removeNodeList = function( node ) {
+dom.removeNodeList = function( node ) {
 	$( "#from-node-index-" + node.index ).remove();
 	$( "#word-index-" + node.index ).remove();
 };
 
-canvas.addEdgeList = function( is_owner, edge ) {
+dom.addEdgeList = function( is_owner, edge ) {
 	var from_node = edge.from_node;
 	var to_node = edge.to_node;
 	var $container = $( "#from-node-index-" + from_node.index );
@@ -64,7 +65,7 @@ canvas.addEdgeList = function( is_owner, edge ) {
 	}
 };
 
-canvas.removeEdgeList = function( is_owner, edge ) {
+dom.removeEdgeList = function( is_owner, edge ) {
 	var from_node = edge.from_node;
 	var to_node = edge.to_node;
 	var $container = $( "#from-node-index-" + from_node.index );

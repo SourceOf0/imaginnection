@@ -3,6 +3,7 @@
 /* global THREE */
 /* global accept */
 /* global guide */
+/* global dom */
 
 var canvas = canvas || {};
 
@@ -60,7 +61,7 @@ canvas.addNode = function( name, from_node ) {
 	canvas.data.scene.add(node.particle);
 	canvas.Node.list[name] = node;
 	
-	canvas.addNodeList( node );
+	dom.addNodeList( node );
 	return node;
 };
 
@@ -68,7 +69,7 @@ canvas.removeNode = function( node ) {
 	canvas.data.scene.remove(node.particle);
 	delete canvas.Node.list[node.name];
 	
-	canvas.removeNodeList( node );
+	dom.removeNodeList( node );
 };
 
 canvas.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
@@ -96,7 +97,7 @@ canvas.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
 	if( data.focusNode == from_node ) from_node.setTargetStyle();
 	if( is_owner ) edge.setOwner();
 	edge.addCount();
-	canvas.addEdgeList( is_owner, edge );
+	dom.addEdgeList( is_owner, edge );
 	
 	var hash = decodeURIComponent(window.location.hash.substring(1));
 	if( hash == from_node_name ) {
@@ -119,7 +120,7 @@ canvas.removeEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
 		if( edge ) {
 			if( is_owner ) edge.resetOwner();
 			edge.decCount();
-			canvas.removeEdgeList( is_owner, edge );
+			dom.removeEdgeList( is_owner, edge );
 			if( edge.count == 0 ) {
 				data.scene.remove( edge.line );
 				delete canvas.Edge.list[edge.line.uuid];

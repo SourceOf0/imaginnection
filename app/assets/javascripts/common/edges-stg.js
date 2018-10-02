@@ -6,8 +6,8 @@
  * ======================================================================
  */
 
-//= require edges/db/data.js
 //= require edges/db/init-stg.js
+//= require edges/db/data.js
 
 //= require edges/db/view.js
 //= require edges/db/update.js
@@ -19,7 +19,8 @@
 //= require vendor/three/renderers/CanvasRenderer.js
 //= require vendor/three/renderers/Projector.js
 
-//= require edges/canvas/view.js
+//= require edges/dom/update.js
+
 //= require edges/canvas/events.js
 //= require edges/canvas/data.js
 //= require edges/canvas/update.js
