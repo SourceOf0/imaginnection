@@ -1,5 +1,9 @@
 
 /* global firebase */
+/* global db */
+/* global accept */
+
+var db = db || {};
 
 
 /** 
@@ -16,40 +20,35 @@ if( !firebase.apps.length ) {
 }
 
 
-var imaginnection = imaginnection || {};
-
-imaginnection.dbdata = {};
-
-
 // DB初期化
-imaginnection.initDB = function() {
+db.initDB = function() {
   
   // キャッシュデータを空にする
-  imaginnection.dbdata = {};
+  db.data = {};
   
   // 各種データの取得と更新イベント監視
   
   // users
-  imaginnection.dbdata.users = {};
-  imaginnection.view_ids.forEach( function(id) {
+  db.data.users = {};
+  accept.view_ids.forEach( function(id) {
     var usersSnapshot = firebase.database().ref("users/" + id);
-    usersSnapshot.off("value", imaginnection.changeUsersDB);
-    usersSnapshot.on("value", imaginnection.changeUsersDB);
+    usersSnapshot.off("value", db.changeUsersDB);
+    usersSnapshot.on("value", db.changeUsersDB);
   });
   
   // edges
-  imaginnection.dbdata.edges = {};
+  db.data.edges = {};
   var edgesSnapshot = firebase.database().ref("edges");
-  edgesSnapshot.off("value", imaginnection.changeEdgesDB);
-  edgesSnapshot.on("value", imaginnection.changeEdgesDB);
+  edgesSnapshot.off("value", db.changeEdgesDB);
+  edgesSnapshot.on("value", db.changeEdgesDB);
   
-  imaginnection.view_ids.forEach( function(user_id) {
+  accept.view_ids.forEach( function(user_id) {
     var edgeRef = firebase.database().ref("users/" + user_id + "/edges").orderByChild("created_at");
     // 追加イベント監視
-    edgeRef.off("child_added", imaginnection.childAddedUsersDB);
-    edgeRef.on("child_added", imaginnection.childAddedUsersDB);
+    edgeRef.off("child_added", db.childAddedUsersDB);
+    edgeRef.on("child_added", db.childAddedUsersDB);
     // 削除イベント監視
-    edgeRef.off("child_removed", imaginnection.childRemovedUsersDB);
-    edgeRef.on("child_removed", imaginnection.childRemovedUsersDB);
+    edgeRef.off("child_removed", db.childRemovedUsersDB);
+    edgeRef.on("child_removed", db.childRemovedUsersDB);
   });
 };

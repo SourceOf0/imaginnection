@@ -1,48 +1,46 @@
 
-/* global $ */
 /* global Tour */
 
-
-var imaginnection = imaginnection || {};
+var guide = guide || {};
 
 
 /**
  * ステップ遷移
  */
-imaginnection.setTour = function( index, conditionStep ) {
-  if( !imaginnection.tour ) return;
-  var current = imaginnection.tour.getCurrentStep();
+guide.setTour = function( index, conditionStep ) {
+  if( !guide.tour ) return;
+  var current = guide.tour.getCurrentStep();
   //console.log("CHECK: ", index, current, conditionStep );
   if( !!conditionStep && conditionStep.indexOf(current) < 0 ) return;
   //console.log("OK");
   if( !current || current == index ) return;
   setTimeout( function() {
-    imaginnection.tour.goTo(index);
+    guide.tour.goTo(index);
   }, 300);
 };
 
 /**
  * ステップ取得
  */
-imaginnection.getTourStep = function() {
-  if( !imaginnection.tour ) return -1;
-  return imaginnection.tour.getCurrentStep();
+guide.getTourStep = function() {
+  if( !guide.tour ) return -1;
+  return guide.tour.getCurrentStep();
 };
 
 /**
  * 最初から開始
  */
-imaginnection.setTourRestart = function() {
-  if( !imaginnection.tour ) return;
-  imaginnection.tour.init();
-  imaginnection.setTour(0);
-  imaginnection.tour.restart();
+guide.setTourRestart = function() {
+  if( !guide.tour ) return;
+  guide.tour.init();
+  guide.setTour(0);
+  guide.tour.restart();
 };
 
 /**
  * 初期化
  */
-imaginnection.initTour = function() {
+guide.initTour = function() {
   
   var can_tap = window.ontouchstart === null;
   
@@ -78,7 +76,7 @@ imaginnection.initTour = function() {
   temp_wait += "  </div>";
   temp_wait += "</div>";
   
-  imaginnection.tour = new Tour({
+  guide.tour = new Tour({
     name: "tour",
     steps: [
       {

@@ -1,21 +1,22 @@
 
 /* global $ */
 /* global firebase */
+/* global accept */
 
 
-var imaginnection = imaginnection || {};
+var db = db || {};
 
 
 // edgeのバリデーション
-imaginnection.validateEdge = function( edge ) {
-  if( edge.user_id != imaginnection.current_id ) return "投稿に失敗しました";
+db.validateEdge = function( edge ) {
+  if( edge.user_id != accept.current_id ) return "投稿に失敗しました";
   if( edge.from_node == edge.to_node ) return "前後で同じ名前の単語は使用できません";
   return null;
 };
 
 // userが持つedgeを作成
 // @return: 追加したedgeのkey
-imaginnection.createUserEdge = function( edge ) {
+db.createUserEdge = function( edge ) {
   var ref = firebase.database().ref().child( "users/" + edge["user_id"] + "/edges" ).push({
     from_node: edge["from_node"],
     to_node: edge["to_node"],
@@ -25,7 +26,7 @@ imaginnection.createUserEdge = function( edge ) {
 };
 
 // userが持つedgeを削除
-imaginnection.removeUserEdge = function( edge, edge_id ) {
+db.removeUserEdge = function( edge, edge_id ) {
   if(!edge_id) return;
   firebase.database().ref().child( "users/" + edge["user_id"] + "/edges/" + edge_id ).remove();
 };
@@ -34,14 +35,14 @@ imaginnection.removeUserEdge = function( edge, edge_id ) {
 
 // edge更新
 // @return: 更新完了ならtrue, 新規追加ならfalse
-imaginnection.updateEdge = function( edge, is_remove ) {
+db.updateEdge = function( edge, is_remove ) {
   var updates = {};
   var timestamp = firebase.database.ServerValue.TIMESTAMP;
   
   // パス定義
   var path = "edges";
-  var from_node_path = path + "/" + imaginnection.convertPathEntities(edge["from_node"], "encode");
-  var to_node_path = from_node_path + "/" + imaginnection.convertPathEntities(edge["to_node"], "encode");
+  var from_node_path = path + "/" + db.convertPathEntities(edge["from_node"], "encode");
+  var to_node_path = from_node_path + "/" + db.convertPathEntities(edge["to_node"], "encode");
   var user_path = to_node_path + "/users/" + edge["user_id"];
   
   //console.log("from_node_path: " + from_node_path);
@@ -57,13 +58,13 @@ imaginnection.updateEdge = function( edge, is_remove ) {
     updates[user_path + "/is_hide_user"] = edge["is_hide_user"];
   }
   
-  var edges = imaginnection.dbdata.edges;
+  var edges = db.data.edges;
   if( !edges ) {
     // edges以下を作成して終了
     updates[from_node_path + "/created_at"] = timestamp;
     updates[to_node_path + "/created_at"] = timestamp;
     if( !is_remove ) {
-      updates[user_path + "/edge_id"] = imaginnection.createUserEdge(edge);
+      updates[user_path + "/edge_id"] = db.createUserEdge(edge);
       updates[user_path + "/created_at"] = timestamp;
     }
     firebase.database().ref().update(updates);
@@ -76,7 +77,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
     updates[from_node_path + "/created_at"] = timestamp;
     updates[to_node_path + "/created_at"] = timestamp;
     if( !is_remove ) {
-      updates[user_path + "/edge_id"] = imaginnection.createUserEdge(edge);
+      updates[user_path + "/edge_id"] = db.createUserEdge(edge);
       updates[user_path + "/created_at"] = timestamp;
     }
     firebase.database().ref().update(updates);
@@ -88,7 +89,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
     // to_node以下を作成して終了
     updates[to_node_path + "/created_at"] = timestamp;
     if( !is_remove ) {
-      updates[user_path + "/edge_id"] = imaginnection.createUserEdge(edge);
+      updates[user_path + "/edge_id"] = db.createUserEdge(edge);
       updates[user_path + "/created_at"] = timestamp;
     }
     firebase.database().ref().update(updates);
@@ -100,7 +101,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
   
   if( !user && !is_remove ) {
     // user_id以下を作成して終了
-    updates[user_path + "/edge_id"] = imaginnection.createUserEdge(edge);
+    updates[user_path + "/edge_id"] = db.createUserEdge(edge);
     updates[user_path + "/created_at"] = timestamp;
     firebase.database().ref().update(updates);
     return false;
@@ -108,7 +109,7 @@ imaginnection.updateEdge = function( edge, is_remove ) {
   
   if( user && is_remove ) {
     // usersから削除
-    imaginnection.removeUserEdge(edge, user["edge_id"]);
+    db.removeUserEdge(edge, user["edge_id"]);
   }
   
   // 更新して終了
@@ -118,10 +119,10 @@ imaginnection.updateEdge = function( edge, is_remove ) {
 
 
 // edge作成
-imaginnection.createEdge = function( edge ) {
+db.createEdge = function( edge ) {
   
   // バリデーション
-  var checkResult = imaginnection.validateEdge(edge);
+  var checkResult = db.validateEdge(edge);
   if( checkResult ) {
     $("#info-modal").html(
       "<div class='modal-dialog'><div class='modal-content'><div class='modal-body'>" + 
@@ -131,7 +132,7 @@ imaginnection.createEdge = function( edge ) {
     return false;
   }
   
-  if( imaginnection.updateEdge(edge) ) {
+  if( db.updateEdge(edge) ) {
     //console.log("update: " + edge.from_node + " -> " + edge.to_node);
   } else {
     //console.log("create: " + edge.from_node + " -> " + edge.to_node);
@@ -142,8 +143,8 @@ imaginnection.createEdge = function( edge ) {
 
 
 // edge削除
-imaginnection.removeEdge = function( edge ) {
-  if( imaginnection.updateEdge(edge, true) ) {
+db.removeEdge = function( edge ) {
+  if( db.updateEdge(edge, true) ) {
     //console.log("delete: " + edge.from_node + " -> " + edge.to_node);
   } else {
     //console.log("not found: " + edge.from_node + " -> " + edge.to_node);
@@ -153,8 +154,8 @@ imaginnection.removeEdge = function( edge ) {
 // データチェック用
 /*
 setTimeout(function() {
-  var edges = imaginnection.dbdata.edges;
-  var users = imaginnection.dbdata.users;
+  var edges = db.data.edges;
+  var users = db.data.users;
   
   Object.keys(users).forEach(function(id) {
     var check = {};
@@ -183,9 +184,9 @@ setTimeout(function() {
   //var id = "CCZvQH4FurVebU6NDlazhs-a3tXDHfy_HqGP-qz5";
   for( var i = 0; i < 100; i++ ) {
     for( var j = 0; j < 20; j++ ) {
-      var edge = imaginnection.createEdgeData(id, i + "個目", i + "個目の" + j + "個目", false);
-      imaginnection.createEdge(edge);
-      //imaginnection.removeEdge(edge);
+      var edge = db.createEdgeData(id, i + "個目", i + "個目の" + j + "個目", false);
+      db.createEdge(edge);
+      //db.removeEdge(edge);
     }
   }
 }, 3000);

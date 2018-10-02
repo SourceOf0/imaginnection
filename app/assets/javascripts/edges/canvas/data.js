@@ -1,13 +1,12 @@
 
-/* global $ */
 /* global THREE */
+/* global db */
 
 var PI2 = Math.PI * 2;
-var imaginnection = imaginnection || {};
-imaginnection.three = imaginnection.three || {};
+var canvas = canvas || {};
 
 
-imaginnection.three.NodeLabel = {
+canvas.NodeLabel = {
 	height: 14 * window.devicePixelRatio,
 	
 	create: function() {
@@ -18,7 +17,7 @@ imaginnection.three.NodeLabel = {
 			update: function( node, viewWidth, viewHeight ) {
 				if( node.is_hide ) return false;
 				
-				var data = imaginnection.threeData;
+				var data = canvas.data;
 				
 				var vector = node.view_pos;
 				var z_min = Math.min(0.00004 * node.edge_count + 0.999, 1.0);
@@ -35,7 +34,7 @@ imaginnection.three.NodeLabel = {
 				var text = node.name;
 				
 				vector.x = ((vector.x + 1)*viewWidth - data.context.measureText(text).width) / 2;
-				vector.y = (-(vector.y - 1)*viewHeight + imaginnection.three.NodeLabel.height) / 2;
+				vector.y = (-(vector.y - 1)*viewHeight + canvas.NodeLabel.height) / 2;
 				
 				if( node.is_target ) {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
@@ -55,7 +54,7 @@ imaginnection.three.NodeLabel = {
 };
 
 
-imaginnection.three.Node = {
+canvas.Node = {
 	
 	total_count: 0,
 	list: {},
@@ -63,14 +62,14 @@ imaginnection.three.Node = {
 	org2: new THREE.Vector3(0, 0, 1),
 	
 	programFill: function( context ) {
-		context.lineWidth = imaginnection.threeData.nodeLineWidth;
+		context.lineWidth = canvas.data.nodeLineWidth;
 		context.beginPath();
 		context.arc( 0, 0, 0.5, 0, PI2, true );
 		context.fill();
 	},
 	
 	programStroke: function( context ) {
-		context.lineWidth = imaginnection.threeData.nodeLineWidth;
+		context.lineWidth = canvas.data.nodeLineWidth;
 		context.beginPath();
 		context.arc( 0, 0, 0.5, 0, PI2, true );
 		context.stroke();
@@ -92,7 +91,7 @@ imaginnection.three.Node = {
 			pos.applyAxisAngle( this.org2, Math.log(1 + posIndex) * PI2 );
 		}
 
-		var color = imaginnection.threeData.normalColor;
+		var color = canvas.data.normalColor;
 		var particle = new THREE.Sprite( new THREE.SpriteCanvasMaterial( { color: color, program: this.programStroke } ) );
 		particle.position.copy(pos);
 		particle.scale.x = particle.scale.y = 0;
@@ -114,12 +113,12 @@ imaginnection.three.Node = {
 			from_edges: {},
 			to_edges: {},
 			edge_count: 0,
-			label: imaginnection.three.NodeLabel.create(),
+			label: canvas.NodeLabel.create(),
 			update: function() {
 				var target_scale = this.edge_count * 5 + 10;
 				this.particle.scale.x += (target_scale - this.particle.scale.x) * 0.1;
 				this.particle.scale.y += (target_scale - this.particle.scale.y) * 0.1;
-				this.view_pos = this.particle.position.clone().project(imaginnection.threeData.camera);
+				this.view_pos = this.particle.position.clone().project(canvas.data.camera);
 				this.is_hide = !this.is_target && ((this.view_pos.z > 1.0) || ((this.view_pos.x < -1.0 || this.view_pos.x > 1.0) || (this.view_pos.y < -1.0 || this.view_pos.y > 1.0)));
 				this.particle.visible = !this.is_hide;
 			},
@@ -150,7 +149,7 @@ imaginnection.three.Node = {
 				delete this.to_edges[edge.line.uuid];
 			},
 			setTargetStyle: function() {
-				this.particle.material.program = imaginnection.three.Node.programFill;
+				this.particle.material.program = canvas.Node.programFill;
 				this.is_target = true;
 				for( var key in this.to_edges ) {
 					this.to_edges[key].setTargetStyle();
@@ -162,7 +161,7 @@ imaginnection.three.Node = {
 				}
 			},
 			setDefaultStyle: function() {
-				this.particle.material.program = imaginnection.three.Node.programStroke;
+				this.particle.material.program = canvas.Node.programStroke;
 				this.is_target = false;
 				for( var key in this.to_edges ) {
 					this.to_edges[key].setDefaultStyle();
@@ -174,11 +173,11 @@ imaginnection.three.Node = {
 				}
 			},
 			setColor: function() {
-				var color = imaginnection.threeData.normalColor;
+				var color = canvas.data.normalColor;
 				if( this.is_gaze ) {
-					color = imaginnection.threeData.gazeColor;
+					color = canvas.data.gazeColor;
 				} else if( this.is_owner ) {
-					color = imaginnection.threeData.ownerColor;
+					color = canvas.data.ownerColor;
 				}
 				this.particle.material.color.set(color);
 			},
@@ -228,16 +227,16 @@ imaginnection.three.Node = {
 	}
 };
 
-imaginnection.three.Edge = {
+canvas.Edge = {
 
 	list: {},
 
 	create: function( from_node, to_node ) {
 		if(!from_node || !to_node) return null;
 		
-		var color = imaginnection.threeData.normalColor;
+		var color = canvas.data.normalColor;
 		var geometry = new THREE.BufferGeometry().setFromPoints( [from_node.particle.position, to_node.particle.position] );
-		var line = new THREE.Line( geometry, new THREE.LineDashedMaterial( { color: color, opacity: 0.1, dashSize: 40, gapSize: 3, linewidth: imaginnection.threeData.edgeDefaultLineWidth } ) );
+		var line = new THREE.Line( geometry, new THREE.LineDashedMaterial( { color: color, opacity: 0.1, dashSize: 40, gapSize: 3, linewidth: canvas.data.edgeDefaultLineWidth } ) );
 		
 		line.name = from_node.name + " -> " + to_node.name;
 		line.material.linecap = "butt";
@@ -257,15 +256,15 @@ imaginnection.three.Edge = {
 				}
 				if( this.click_time > 0 ) {
 					var ratio = 1 - this.click_time / 20;
-					line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth * ratio;
+					line.material.linewidth = canvas.data.edgeTargetLineWidth * ratio;
 					this.click_time--;
 				}
 			},
 			onClick: function() {
 				if( this.click_time > 0 ) return;
-				imaginnection.viewUserList(this.from_node.name, this.to_node.name);
+				db.viewUserList(this.from_node.name, this.to_node.name);
 				this.click_time = 20;
-				line.material.linewidth = imaginnection.threeData.edgeDefaultLineWidth;
+				line.material.linewidth = canvas.data.edgeDefaultLineWidth;
 			},
 			addCount: function() {
 				this.count++;
@@ -278,24 +277,24 @@ imaginnection.three.Edge = {
 				this.to_node.edge_count--;
 			},
 			setTargetStyle: function() {
-				line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth;
+				line.material.linewidth = canvas.data.edgeTargetLineWidth;
 				line.material.opacity = 1;
 				this.click_time = 0;
 			},
 			setSubTargetStyle: function() {
-				line.material.linewidth = imaginnection.threeData.edgeTargetLineWidth;
+				line.material.linewidth = canvas.data.edgeTargetLineWidth;
 				line.material.opacity = 0.2;
 				this.click_time = 0;
 			},
 			setDefaultStyle: function() {
-				line.material.linewidth = imaginnection.threeData.edgeDefaultLineWidth;
+				line.material.linewidth = canvas.data.edgeDefaultLineWidth;
 				line.material.opacity = 0.1;
 				this.click_time = 0;
 			},
 			setOwner: function() {
 				if( this.is_owner == true ) return;
 				this.is_owner = true;
-				var color = imaginnection.threeData.ownerColor;
+				var color = canvas.data.ownerColor;
 				line.material.color.set(color);
 				line.material.gapSize = 0;
 				from_node.setOwner( to_node );
@@ -303,7 +302,7 @@ imaginnection.three.Edge = {
 			resetOwner: function() {
 				if( this.is_owner == false ) return;
 				this.is_owner = false;
-				var color = imaginnection.threeData.normalColor;
+				var color = canvas.data.normalColor;
 				line.material.color.set(color);
 				line.material.gapSize = 3;
 				from_node.resetOwner( to_node );

@@ -6,11 +6,10 @@
  テキスト表示参考：https://codepen.io/dxinteractive/pen/reNpOR
  */
 
-var imaginnection = imaginnection || {};
-imaginnection.three = imaginnection.three || {};
+var canvas = canvas || {};
 
 
-imaginnection.threeData = {
+canvas.data = {
 	scene: null,
 	container: null,
 	context: null,
@@ -46,8 +45,8 @@ imaginnection.threeData = {
 
 
 
-imaginnection.three.init = function() {
-	var data = imaginnection.threeData;
+canvas.init = function() {
+	var data = canvas.data;
 
 	data.container = document.getElementById('edges-index');
 	data.container.style.height = (window.innerHeight - 100) + "px";
@@ -70,7 +69,7 @@ imaginnection.three.init = function() {
 	data.controls.center = new THREE.Vector3(0, 0, 0);
 	data.controls.rotateSpeed = 1.5;
 	data.controls.panSpeed = 0.2;
-	data.controls.addEventListener( 'change', imaginnection.three.render );
+	data.controls.addEventListener( 'change', canvas.render );
 	
 	data.container.addEventListener( 'mousemove', onMouseMove, false );
 	data.container.addEventListener( 'touchmove', onTouchMove, false );
@@ -85,25 +84,25 @@ imaginnection.three.init = function() {
 	//var axis = new THREE.AxesHelper(1000);
 	//data.scene.add(axis);
 	
-	imaginnection.three.animate();
+	canvas.animate();
 	
 	
 	$(".zoom-in-button").click(function() {
-		imaginnection.three.setZoom(0.4);
+		canvas.setZoom(0.4);
 		this.blur();
-		imaginnection.threeData.container.focus();
+		canvas.data.container.focus();
 		return false;
 	});
 	$(".zoom-out-button").click(function() {
-		imaginnection.three.setZoom(-0.4);
+		canvas.setZoom(-0.4);
 		this.blur();
-		imaginnection.threeData.container.focus();
+		canvas.data.container.focus();
 		return false;
 	});
 
 	function onWindowResize() {
 		setTimeout(function(){
-			var data = imaginnection.threeData;
+			var data = canvas.data;
 			var view = data.container;
 			view.style.height = (window.innerHeight - 100) + "px";
 			data.camera.aspect = view.clientWidth / view.clientHeight;
@@ -114,58 +113,57 @@ imaginnection.three.init = function() {
 	
 	function onMouseMove( event ) {
 		event.preventDefault();
-		imaginnection.three.moveControlTarget(event);
-		//console.log(imaginnection.threeData.isDrag + " onMouseMove:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
+		canvas.moveControlTarget(event);
+		//console.log(canvas.data.isDrag + " onMouseMove:" + canvas.data.mouse.x + ":" + canvas.data.mouse.y);
 	}
 	
 	function onTouchMove( event ) {
 		event.preventDefault();
-		imaginnection.three.moveControlTarget(event.targetTouches[0]);
-		//console.log("onTouchMove:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
+		canvas.moveControlTarget(event.targetTouches[0]);
+		//console.log("onTouchMove:" + canvas.data.mouse.x + ":" + canvas.data.mouse.y);
 	}
 	
 	function onMouseDown( event ) {
-		var data = imaginnection.threeData;
+		var data = canvas.data;
 		if( event.button == 2 ) {
 			// 右ボタンの場合はカメラスライドのため補正しない
-			imaginnection.three.resetControlTarget();
-			imaginnection.three.resetZoom();
+			canvas.resetControlTarget();
+			canvas.resetZoom();
 			return;
 		}
 		data.isMouseDown = true;
 		data.mouseDownPos.x = event.clientX;
 		data.mouseDownPos.y = event.clientY;
-		imaginnection.three.moveControlTarget(event);
-		//console.log(imaginnection.threeData.isDrag + " onMouseDown:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
+		canvas.moveControlTarget(event);
+		//console.log(canvas.data.isDrag + " onMouseDown:" + canvas.data.mouse.x + ":" + canvas.data.mouse.y);
 	}
 	
 	function onTouchStart( event ) {
-		var data = imaginnection.threeData;
+		var data = canvas.data;
 		if( !event.button && event.targetTouches.length > 1 ) {
 			// マルチタッチの場合はカメラスライドのため補正しない
-			imaginnection.three.resetControlTarget();
-			imaginnection.three.resetZoom();
+			canvas.resetControlTarget();
+			canvas.resetZoom();
 			return;
 		}
 		data.isMouseDown = true;
 		data.mouseDownPos.x = event.targetTouches[0].clientX;
 		data.mouseDownPos.y = event.targetTouches[0].clientY;
-		imaginnection.three.moveControlTarget(event.targetTouches[0]);
-		//console.log("onTouchStart:" + imaginnection.threeData.mouse.x + ":" + imaginnection.threeData.mouse.y);
+		canvas.moveControlTarget(event.targetTouches[0]);
+		//console.log("onTouchStart:" + canvas.data.mouse.x + ":" + canvas.data.mouse.y);
 	}
 	
 	function onMouseUp( event ) {
 		if( event.button != 0 ) return;
 		// 左ボタンの場合のみ
-		imaginnection.three.setControlTarget();
-		//console.log(imaginnection.threeData.isDrag + " onMouseUp");
+		canvas.setControlTarget();
+		//console.log(canvas.data.isDrag + " onMouseUp");
 	}
 	
 	function onTouchEnd( event ) {
 		if( !event.button || event.targetTouches.length > 0 ) return;
 		// シングルタッチの場合のみ
-		imaginnection.three.setControlTarget();
+		canvas.setControlTarget();
 		//console.log("onTouchEnd");
 	}
 };
-

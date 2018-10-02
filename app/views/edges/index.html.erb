@@ -188,8 +188,7 @@
 <% content_for :script do %>
 
   <script>
-    var imaginnection = imaginnection || {};
-    imaginnection = $("#json-data").data("json");
+    var accept = $("#json-data").data("json");
   </script>
   
   <%= javascript_include_tag 'vendor/bootstrap-tour.min.js' %>

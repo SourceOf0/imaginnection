@@ -1,11 +1,10 @@
 
 /* global $ */
 
-var imaginnection = imaginnection || {};
-imaginnection.three = imaginnection.three || {};
+var canvas = canvas || {};
 
 
-imaginnection.three.addNodeList = function( node ) {
+canvas.addNodeList = function( node ) {
 	var index = node.index;
 	var $container = $("#nodes-index");
 	var temp = "";
@@ -25,15 +24,15 @@ imaginnection.three.addNodeList = function( node ) {
 	
 	$("#node-words").append("<option id='word-index-" + index + "'>").find("#word-index-" + index).attr("value", node.name);
 	
-	$container.find("#from-node-index-" + index).click( imaginnection.three.setFocusEvent );
+	$container.find("#from-node-index-" + index).click( canvas.setFocusEvent );
 };
 
-imaginnection.three.removeNodeList = function( node ) {
+canvas.removeNodeList = function( node ) {
 	$( "#from-node-index-" + node.index ).remove();
 	$( "#word-index-" + node.index ).remove();
 };
 
-imaginnection.three.addEdgeList = function( is_owner, edge ) {
+canvas.addEdgeList = function( is_owner, edge ) {
 	var from_node = edge.from_node;
 	var to_node = edge.to_node;
 	var $container = $( "#from-node-index-" + from_node.index );
@@ -58,14 +57,14 @@ imaginnection.three.addEdgeList = function( is_owner, edge ) {
 			.find(".name").text(to_node.name);
 		
 		$to_node = $container.find( "#to-node-index-" + from_node.index + "-" + to_node.index );
-		$to_node.click( imaginnection.three.onClickEdgeEvent );
+		$to_node.click( canvas.onClickEdgeEvent );
 	}
 	if( is_owner ) {
 		$to_node.addClass("is-owner");
 	}
 };
 
-imaginnection.three.removeEdgeList = function( is_owner, edge ) {
+canvas.removeEdgeList = function( is_owner, edge ) {
 	var from_node = edge.from_node;
 	var to_node = edge.to_node;
 	var $container = $( "#from-node-index-" + from_node.index );

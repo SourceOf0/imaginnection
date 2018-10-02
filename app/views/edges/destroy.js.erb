@@ -10,8 +10,8 @@
 <% else %>
   
   <%# エッジを削除する %>
-  var edge = imaginnection.createEdgeData("<%=j current_user.ref_id %>", "<%=j @from_node.name.html_safe %>", "<%=j @to_node.name.html_safe %>", <%= @is_hide_user %>);
-  imaginnection.removeEdge( edge );
+  var edge = db.createEdgeData("<%=j current_user.ref_id %>", "<%=j @from_node.name.html_safe %>", "<%=j @to_node.name.html_safe %>", <%= @is_hide_user %>);
+  db.removeEdge( edge );
   
   <%# ポップアップを閉じる %>
   $("#users-modal").modal("hide");

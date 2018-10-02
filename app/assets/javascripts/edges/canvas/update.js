@@ -1,17 +1,18 @@
 
 /* global $ */
 /* global THREE */
+/* global accept */
+/* global guide */
 
-var imaginnection = imaginnection || {};
-imaginnection.three = imaginnection.three || {};
+var canvas = canvas || {};
 
 
-imaginnection.three.setFocusNode = function( node_name, isScroll ) {
-  var data = imaginnection.threeData;
-  var from_node = imaginnection.three.Node.list[node_name];
+canvas.setFocusNode = function( node_name, isScroll ) {
+  var data = canvas.data;
+  var from_node = canvas.Node.list[node_name];
   
   if( !from_node ) {
-    imaginnection.setTour(7, [4]);
+    guide.setTour(7, [4]);
     return;
   }
 
@@ -39,7 +40,7 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
   
   $("#associating-view").addClass("active");
   
-  imaginnection.setTour(5, [4]);
+  guide.setTour(5, [4]);
   
   if( !isScroll ) return;
   
@@ -54,74 +55,74 @@ imaginnection.three.setFocusNode = function( node_name, isScroll ) {
 };
 
 
-imaginnection.three.addNode = function( name, from_node ) {
-  var node = imaginnection.three.Node.create( name, from_node );
-  imaginnection.threeData.scene.add(node.particle);
-  imaginnection.three.Node.list[name] = node;
+canvas.addNode = function( name, from_node ) {
+  var node = canvas.Node.create( name, from_node );
+  canvas.data.scene.add(node.particle);
+  canvas.Node.list[name] = node;
   
-  imaginnection.three.addNodeList( node );
+  canvas.addNodeList( node );
   return node;
 };
 
-imaginnection.three.removeNode = function( node ) {
-  imaginnection.threeData.scene.remove(node.particle);
-  delete imaginnection.three.Node.list[node.name];
+canvas.removeNode = function( node ) {
+  canvas.data.scene.remove(node.particle);
+  delete canvas.Node.list[node.name];
   
-  imaginnection.three.removeNodeList( node );
+  canvas.removeNodeList( node );
 };
 
-imaginnection.three.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
-  var data = imaginnection.threeData;
-  var from_node = imaginnection.three.Node.list[from_node_name];
-  var to_node = imaginnection.three.Node.list[to_node_name];
-  var is_owner = ( user_id === imaginnection.current_id );
+canvas.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
+  var data = canvas.data;
+  var from_node = canvas.Node.list[from_node_name];
+  var to_node = canvas.Node.list[to_node_name];
+  var is_owner = ( user_id === accept.current_id );
 
   if( !from_node ) {
-    from_node = imaginnection.three.addNode(from_node_name, null);
+    from_node = canvas.addNode(from_node_name, null);
   }
   if( !to_node ) {
-    to_node = imaginnection.three.addNode(to_node_name, from_node);
+    to_node = canvas.addNode(to_node_name, from_node);
   }
   
   var edge = from_node.getToEdge( to_node );
   if( !edge ) {
-    edge = imaginnection.three.Edge.create( from_node, to_node );
+    edge = canvas.Edge.create( from_node, to_node );
     if( !edge ) return;
     data.scene.add( edge.line );
-    imaginnection.three.Edge.list[edge.line.uuid] = edge;
+    canvas.Edge.list[edge.line.uuid] = edge;
     from_node.addToEdge( edge );
     to_node.addFromEdge( edge );
   }
   if( data.focusNode == from_node ) from_node.setTargetStyle();
   if( is_owner ) edge.setOwner();
   edge.addCount();
-  imaginnection.three.addEdgeList( is_owner, edge );
+  canvas.addEdgeList( is_owner, edge );
   
   var hash = decodeURIComponent(window.location.hash.substring(1));
   if( hash == from_node_name ) {
-    imaginnection.three.setFocusNode( decodeURIComponent(from_node_name), true );
+    canvas.setFocusNode( decodeURIComponent(from_node_name), true );
     window.location.hash = "";
   } else if( hash == to_node_name ) {
-    imaginnection.three.setFocusNode( decodeURIComponent(to_node_name), true );
+    canvas.setFocusNode( decodeURIComponent(to_node_name), true );
     window.location.hash = "";
   }
 };
 
-imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
-  var data = imaginnection.threeData;
-  var from_node = imaginnection.three.Node.list[from_node_name];
-  var to_node = imaginnection.three.Node.list[to_node_name];
-  var is_owner = ( user_id === imaginnection.current_id );
+canvas.removeEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
+  var data = canvas.data;
+  var from_node = canvas.Node.list[from_node_name];
+  var to_node = canvas.Node.list[to_node_name];
+  var is_owner = ( user_id === accept.current_id );
 
   if( from_node && to_node ) {
     var edge = from_node.getToEdge( to_node );
     if( edge ) {
       if( is_owner ) edge.resetOwner();
       edge.decCount();
-      imaginnection.three.removeEdgeList( is_owner, edge );
+      canvas.removeEdgeList( is_owner, edge );
       if( edge.count == 0 ) {
         data.scene.remove( edge.line );
-        delete imaginnection.three.Edge.list[edge.line.uuid];
+        delete canvas.Edge.list[edge.line.uuid];
         from_node.removeToEdge( edge );
         to_node.removeFromEdge( edge );
       }
@@ -129,11 +130,11 @@ imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_
   }
 
   if( from_node && from_node.edge_count == 0 ) {
-    imaginnection.three.removeNode(from_node);
+    canvas.removeNode(from_node);
     if( data.focusNode == from_node ) data.focusNode = null;
   }
   if( to_node && to_node.edge_count == 0 ) {
-    imaginnection.three.removeNode(to_node);
+    canvas.removeNode(to_node);
     if( data.focusNode == to_node ) data.focusNode = null;
   }
   
@@ -142,8 +143,8 @@ imaginnection.three.removeEdge = function( edge_id, user_id, from_node_name, to_
   }
 };
 
-imaginnection.three.setControlTarget = function() {
-  var data = imaginnection.threeData;
+canvas.setControlTarget = function() {
+  var data = canvas.data;
   data.isMouseDown = false;
   if ( data.isDrag ) {
     data.isDrag = false;
@@ -160,7 +161,7 @@ imaginnection.three.setControlTarget = function() {
   var focusNode = data.focusNode;
   for( var key in intersects ) {
     var obj = intersects[key].object;
-    node = node || imaginnection.three.Node.list[obj.name];
+    node = node || canvas.Node.list[obj.name];
     if( focusNode ) {
       from_edge = from_edge || focusNode.from_edges[obj.uuid];
       to_edge = to_edge || focusNode.to_edges[obj.uuid];
@@ -176,12 +177,12 @@ imaginnection.three.setControlTarget = function() {
     return;
   }
   if( focusNode == node ) return;
-  imaginnection.three.setFocusNode( node.name, true );
+  canvas.setFocusNode( node.name, true );
 };
 
 
-imaginnection.three.moveControlTarget = function( pos ) {
-  var data = imaginnection.threeData;
+canvas.moveControlTarget = function( pos ) {
+  var data = canvas.data;
   var view = document.getElementById('edges-index');
   data.mouse.x = ( pos.clientX / view.clientWidth ) * 2 - 1;
   data.mouse.y = - ( (pos.clientY - 50) / view.clientHeight ) * 2 + 1;
@@ -193,16 +194,16 @@ imaginnection.three.moveControlTarget = function( pos ) {
 };
 
 
-imaginnection.three.resetControlTarget = function() {
-  var data = imaginnection.threeData;
+canvas.resetControlTarget = function() {
+  var data = canvas.data;
   data.isCameraTargeting = false;
   data.isDrag = false;
   data.isMouseDown = false;
 };
 
 
-imaginnection.three.setZoom = function( ratio ) {
-  var data = imaginnection.threeData;
+canvas.setZoom = function( ratio ) {
+  var data = canvas.data;
   var target_pos = new THREE.Vector3(0, 0, 0);
   if( data.focusNode ) {
     target_pos.copy( data.focusNode.particle.position );
@@ -216,20 +217,20 @@ imaginnection.three.setZoom = function( ratio ) {
 };
 
 
-imaginnection.three.resetZoom = function() {
-  imaginnection.threeData.isCameraZoom = false;
+canvas.resetZoom = function() {
+  canvas.data.isCameraZoom = false;
 };
 
 
-imaginnection.three.animate = function() {
-  requestAnimationFrame( imaginnection.three.animate );
-  imaginnection.threeData.controls.update();
-  imaginnection.three.render();
+canvas.animate = function() {
+  requestAnimationFrame( canvas.animate );
+  canvas.data.controls.update();
+  canvas.render();
 };
 
 
-imaginnection.three.render = function() {
-  var data = imaginnection.threeData;
+canvas.render = function() {
+  var data = canvas.data;
   var nowTime = new Date().getTime();
   var diffCount = (nowTime - data.animeTimer) / 20;
   
@@ -255,8 +256,8 @@ imaginnection.three.render = function() {
     }
   }
 
-  var node_list = imaginnection.three.Node.list;
-  var edge_list = imaginnection.three.Edge.list;
+  var node_list = canvas.Node.list;
+  var edge_list = canvas.Edge.list;
   var view = data.container;
   var viewWidth = view.clientWidth;
   var viewHeight = view.clientHeight;
@@ -282,7 +283,7 @@ imaginnection.three.render = function() {
   var globalAlpha = data.context.globalAlpha;
   data.context.lineWidth = 3 * data.firstDevicePixelRatio;
   data.context.globalAlpha = 1;
-  data.context.font = "700 " + imaginnection.three.NodeLabel.height + "px Unknown Font, sans-serif";
+  data.context.font = "700 " + canvas.NodeLabel.height + "px Unknown Font, sans-serif";
   for( var key in node_list ) {
     node_list[key].labelUpdate( viewWidth * data.firstDevicePixelRatio, viewHeight * data.firstDevicePixelRatio );
   }
