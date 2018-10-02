@@ -13,6 +13,7 @@
 //= require edges/db/update.js
 
 //= require edges/guide.js
+//= require edges/ajax.js
 
 //= require vendor/three/three.min.js
 //= require vendor/three/controls/TrackballControls.js

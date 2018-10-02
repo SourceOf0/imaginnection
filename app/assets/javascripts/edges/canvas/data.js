@@ -1,6 +1,6 @@
 
 /* global THREE */
-/* global db */
+/* global ajax */
 
 var PI2 = Math.PI * 2;
 var canvas = canvas || {};
@@ -262,7 +262,7 @@ canvas.Edge = {
 			},
 			onClick: function() {
 				if( this.click_time > 0 ) return;
-				db.viewUserList(this.from_node.name, this.to_node.name);
+				ajax.viewUserList(this.from_node.name, this.to_node.name);
 				this.click_time = 20;
 				line.material.linewidth = canvas.data.edgeDefaultLineWidth;
 			},
