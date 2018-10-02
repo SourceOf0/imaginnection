@@ -304,6 +304,16 @@ form {
   margin: 16px;
 }
 
+.follow-btn {
+  .btn {
+    padding: 0.5em 0;
+    width: 7em;
+  }
+  .btn.active {
+    background: $accentColor;
+  }
+}
+
 .media-list {
   margin: 0;
   padding: 0 12px;
@@ -322,14 +332,6 @@ form {
   
   .follow-btns {
     width: 7em;
-    
-    .btn {
-      padding: 0.5em 0;
-      width: 7em;
-    }
-    .btn.active {
-      background: $accentColor;
-    }
   }
   
   .user-name {

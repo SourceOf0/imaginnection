@@ -8,9 +8,9 @@
     <% users.each do |user| %>
       <li>
         <span class="follow-btns">
-          <% if current_user != user %>
+          <% if user_signed_in? && current_user != user %>
             <% if current_user.following?(user) %>
-              <span id="follow-form-<%= user.ref_id %>">
+              <span class="follow-form-<%= user.ref_id %> follow-btn">
                 <% if user.is_disable_follow %>
                   <%# フォロー中だが相手が新規フォロワーを受け付けていない %>
                   <%= link_to follow_path(id: user.ref_id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
@@ -23,7 +23,7 @@
                 <% end %>
               </span>
             <% elsif !user.is_disable_follow %>
-              <span id="follow-form-<%= user.ref_id %>">
+              <span class="follow-form-<%= user.ref_id %> follow-btn">
                 <%# フォローしてない %>
                 <%= link_to follows_path(id: user.ref_id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
                   フォローする

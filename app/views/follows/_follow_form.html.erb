@@ -5,14 +5,24 @@
 
 <% if user_signed_in? && current_user != user %>
   <% if current_user.following?(user) %>
-    <span id="follow-form-<%= user.ref_id %>">
-      <%# フォロー中 %>
-      <%= render "follows/unfollow", user: user %>
+    <span class="follow-form-<%= user.ref_id %> follow-btn">
+      <% if user.is_disable_follow %>
+        <%# フォロー中だが相手が新規フォロワーを受け付けていない %>
+        <%= link_to follow_path(id: user.ref_id), method: :delete, remote: true, class: 'btn btn-default btn-xs active', data: { confirm: "このユーザは新規フォロー受付停止中です。再度フォローできなくなりますが、フォローをやめますか？" } do %>
+          フォロー中
+        <% end %>
+      <% else %>
+        <%= link_to follow_path(id: user.ref_id), method: :delete, remote: true, class: 'btn btn-default btn-xs active' do %>
+          フォロー中
+        <% end %>
+      <% end %>
     </span>
   <% elsif !user.is_disable_follow %>
-    <span id="follow-form-<%= user.ref_id %>">
+    <span class="follow-form-<%= user.ref_id %> follow-btn">
       <%# フォローしてない %>
-      <%= render "follows/follow", user: user %>
+      <%= link_to follows_path(id: user.ref_id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
+        フォローする
+      <% end %>
     </span>
   <% end %>
 <% end %>

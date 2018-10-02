@@ -1,2 +1,2 @@
 <%# 表示されている対象のフォローボタンを切り替える %>
-$('#follow-form-<%= @user.ref_id %>').html('<%=j render 'follows/follow', user: @user %>')
+$('.follow-form-<%= @user.ref_id %>').html('<%=j render 'follows/follow', user: @user %>')

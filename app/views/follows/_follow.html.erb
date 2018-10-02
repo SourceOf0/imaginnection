@@ -7,11 +7,9 @@
 %>
 <% if user %>
   <% if !user.is_disable_follow %>
-    <span id="follow-form-<%= user.ref_id %>">
-      <%# フォローしてない %>
-      <%= link_to follows_path(id: user.ref_id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
-        フォローする
-      <% end %>
-    </span>
+    <%# フォローしてない %>
+    <%= link_to follows_path(id: user.ref_id), method: :post, remote: true, class: 'btn btn-default btn-xs' do %>
+      フォローする
+    <% end %>
   <% end %>
 <% end %>
