@@ -44,6 +44,9 @@ db.changeContent = function() {
 		var name = hash.replace(/^edge-new-/, "");
 		$edgeNew.find(".node-label").text(name);
 		$edgeNew.find(".auto-node-name").attr("value", name);
+		
+		// タブ表示を戻しておく
+		$edgeNew.find(".edge-order:first").tab("show");
 
 		$edgeNew.modal("show");
 		return;
