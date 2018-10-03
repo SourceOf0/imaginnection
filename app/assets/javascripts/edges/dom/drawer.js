@@ -1,6 +1,9 @@
 
 /* global $ */
+
+/* global accept */
 /* global canvas */
+/* global guide */
 
 var dom = dom || {};
 
@@ -82,4 +85,32 @@ dom.removeEdgeList = function( is_owner, edge ) {
 	} else {
 		$to_node.remove();
 	}
+};
+
+
+/**
+ * ドロワー初期化
+ */
+dom.initDrawer = function() {
+	
+	$("#drawer .drawer-open").click(function() {
+		var $div = $("#drawer .drawer-body");
+		var $icon = $("#drawer .drawer-open span");
+		if($div.hasClass("in")) {
+			$div.removeClass("in");
+			$icon.addClass("glyphicon-triangle-left");
+			$icon.removeClass("glyphicon-triangle-right");
+		} else {
+			$div.addClass("in");
+			$icon.removeClass("glyphicon-triangle-left");
+			$icon.addClass("glyphicon-triangle-right");
+			if( !accept.current_id ) return;
+			guide.setTour(8, [7]);
+		}
+	});
+	
+	if( window.innerWidth > 1500 ) {
+		$("#drawer .drawer-open").click();
+	}
+	
 };

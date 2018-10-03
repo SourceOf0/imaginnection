@@ -20,11 +20,12 @@
 //= require vendor/three/renderers/CanvasRenderer.js
 //= require vendor/three/renderers/Projector.js
 
-//= require edges/dom/update.js
+//= require edges/dom/drawer.js
+//= require edges/dom/modal.js
 
 //= require edges/canvas/events.js
 //= require edges/canvas/data.js
 //= require edges/canvas/update.js
 //= require edges/canvas/init.js
 
-//= require edges/db/events.js
+//= require edges/dom/init.js

@@ -1,21 +1,24 @@
 
 /* global $ */
 /* global firebase */
+
+/* global db */
 /* global accept */
 /* global canvas */
 /* global guide */
 
-var db = db || {};
+var dom = dom || {};
 
 
-// 表示要素切り替え
-db.changeContent = function() {
+/**
+ * 表示要素切り替え
+ */
+dom.changeContent = function() {
 	
 	var hash = decodeURIComponent(window.location.hash.substring(1));
 	
 	if( hash == 0 ) {
-		// ポップアップ全部隠す
-		$(".modal").modal("hide");
+		dom.hideAllModal();
 		return;
 	}
 	
@@ -23,41 +26,20 @@ db.changeContent = function() {
 	// 以下ログイン時のみ
 	
 	if( hash === "node-new" ) {
-		$("#edge-new").modal("hide");
-		
-		// フォームの中身を消す
-		$("#node-new-form")[0].reset();
-		
-		$("#node-new").modal("show");
+		dom.showNewNodeModal();
 		return;
 	}
 	
 	if( hash.indexOf("edge-new-") === 0 ) {
-		$("#node-new").modal("hide");
-		
-		var $edgeNew = $("#edge-new");
-
-		// フォームの中身を消す
-		$edgeNew.find("form")[0].reset();
-
-		// 指定されている名前をフォームに挿入
-		var name = hash.replace(/^edge-new-/, "");
-		$edgeNew.find(".node-label").text(name);
-		$edgeNew.find(".auto-node-name").attr("value", name);
-		
-		// タブ表示を戻しておく
-		$edgeNew.find(".edge-order:first").tab("show");
-
-		$edgeNew.modal("show");
+		dom.showNewEdgeModal( hash.replace(/^edge-new-/, "") );
 		return;
 	}
 };
 
 
 /**
- * イベントハンドラ
+ * 全体初期化
  */
- 
 $(document).ready(function() {
 	
 	firebase.auth().onAuthStateChanged(function(user) {
@@ -65,7 +47,7 @@ $(document).ready(function() {
 			db.initDB();
 			guide.initTour();
 			canvas.init();
-			db.changeContent();
+			dom.changeContent();
 		} else {
 			firebase.auth().signInAnonymously().catch(function(error) {
 				console.error("ログインエラー", error);
@@ -73,25 +55,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$("#drawer .drawer-open").click(function() {
-		var $div = $("#drawer .drawer-body");
-		var $icon = $("#drawer .drawer-open span");
-		if($div.hasClass("in")) {
-			$div.removeClass("in");
-			$icon.addClass("glyphicon-triangle-left");
-			$icon.removeClass("glyphicon-triangle-right");
-		} else {
-			$div.addClass("in");
-			$icon.removeClass("glyphicon-triangle-left");
-			$icon.addClass("glyphicon-triangle-right");
-			if( !accept.current_id ) return;
-			guide.setTour(8, [7]);
-		}
-	});
-	
-	if( window.innerWidth > 1500 ) {
-		$("#drawer .drawer-open").click();
-	}
+	dom.initDrawer();
 	
 	if( !accept.current_id ) return;
 	// 以下ログイン時のみ
@@ -123,35 +87,13 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	$("#node-new").on("shown.bs.modal", function() {
-		guide.setTour(3);
-		$("#node-new .node-name").focus();
-	}).on("hide.bs.modal", function() {
-		$("#node-new .node-name").blur();
-		if( window.location.hash.substring(1) === "node-new") {
-			guide.setTour(2, [4, 3]);
-			window.location.hash = "";
-		}
-	});
-	
-	$("#edge-new").on("shown.bs.modal", function() {
-		guide.setTour(4);
-		$("#edge-new .node-name").focus();
-	}).on("hide.bs.modal", function() {
-		$("#edge-new .node-name").blur();
-		if( window.location.hash.substring(1).indexOf("edge-new-") === 0 ) {
-			guide.setTour(2, [4, 3]);
-			window.location.hash = "";
-		}
-	});
-
-	$("#users-modal").on("hidden.bs.modal", function() {
-		if( !accept.current_id ) return;
-		guide.setTour(11, [9, 10]);
-	});
+	dom.initModal();
 });
 
-// URLの#以降が変化したとき
+
+/**
+ * URLの#以降が変化したとき
+ */
 window.onhashchange = function() {
-	db.changeContent();
+	dom.changeContent();
 };
