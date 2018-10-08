@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180902092023) do
+ActiveRecord::Schema.define(version: 20181006025241) do
 
   create_table "edges", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20180902092023) do
     t.text "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "url"
     t.index ["user_id"], name: "index_notification_logs_on_user_id"
   end
 
@@ -76,7 +77,7 @@ ActiveRecord::Schema.define(version: 20180902092023) do
     t.string "name"
     t.boolean "is_disable_follow"
     t.integer "empathy_button_kind"
-    t.date "notified_at"
+    t.datetime "notified_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"

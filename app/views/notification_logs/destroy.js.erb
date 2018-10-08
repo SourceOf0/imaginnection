@@ -1,0 +1,10 @@
+<%# 通知を消す %>
+$("#notification-<%= @notification_id %>").remove();
+
+<%# カウンターを更新 %>
+<% if @notification_count > 0 %>
+  $('#notification .small-counter').text("<%= @notification_count %>");
+<% else %>
+  $('#notification .small-counter').remove();
+  $("#notification .dropdown-menu").html("<li><a>通知がありません</a></li>");
+<% end %>

@@ -10,15 +10,18 @@ class ApplicationController < ActionController::Base
   # BASIC認証
   before_action :site_http_basic_authenticate_with if ENV['USE_BASIC'] == 'true'
 
-  # deviseでのログイン認証
-  before_action :authenticate_user!
-  
   # deviseのstring parameter
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # ログ用
+  # deviseでのログイン認証
+  before_action :authenticate_user!
+  
+  # サーバログ用
   before_action :print_info
 
+  # 通知チェック
+  before_action :check_notification
+  
   protected
   
   def ensure_domain
@@ -35,6 +38,19 @@ class ApplicationController < ActionController::Base
   def site_http_basic_authenticate_with
     authenticate_or_request_with_http_basic("Application") do |name, password|
       name == ENV['BASIC_USERNAME'] && password == ENV['BASIC_PASSWORD']
+    end
+  end
+  
+  def check_notification
+    if user_signed_in?
+      if current_user.notified_at < Time.now.ago(1.minutes)
+        latest_followers = current_user.latest_followers
+        latest_followers.each do |follower|
+          current_user.notification_logs.create(content: follower.name + "さんにフォローされました", url: edge_path(follower.ref_id))
+        end
+        current_user.update_notified_at
+      end
+      @notifications = current_user.notification_logs.order('created_at DESC')
     end
   end
   

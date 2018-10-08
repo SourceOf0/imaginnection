@@ -41,7 +41,7 @@ class User < ApplicationRecord
     self.ref_id = SecureRandom::urlsafe_base64(30) if self.ref_id.nil?
     self.is_disable_follow = false if self.is_disable_follow.nil?
     self.is_hide_edges = false if self.is_hide_edges.nil?
-    self.notified_at = Date.current.in_time_zone if self.notified_at.nil?
+    self.notified_at = Time.now if self.notified_at.nil?
     self.empathy_button_kind = 0 if self.empathy_button_kind.nil?
     
     # validationを継続
@@ -78,13 +78,14 @@ class User < ApplicationRecord
   
   # 通知日を現在に更新する
   def update_notified_at
-    self.notified_at = Date.current.in_time_zone
+    self.notified_at = Time.now
+    self.save
   end
   
   # 通知日よりも新しいフォロワーを取得
   # @return: 該当のフォロワー
   def latest_followers
-    return self.followers.where(id: self.reverses_of_follows.where(created_at: self.notified_at..Time.now).map(&:from_user))
+    return self.followers.where(id: self.reverses_of_follows.includes(:from_user).where(created_at: self.notified_at..Time.now).map(&:from_user))
   end
 
   # フォローしているユーザのidのリストを取得
