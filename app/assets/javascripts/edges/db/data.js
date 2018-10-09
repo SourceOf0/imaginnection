@@ -2,6 +2,7 @@
 /* global firebase */
 /* global accept */
 /* global canvas */
+/* global guide */
 
 var db = db || {};
 
@@ -49,7 +50,7 @@ db.changeUsersDB = function( snapshot ) {
 	// ログインユーザのデータがない
 	
 	// ツアー自動発動
-	db.setTourRestart();
+	guide.setTourRestart();
 };
 
 db.changeEdgesDB = function( snapshot ) {
@@ -65,6 +66,13 @@ db.changeEdgesDB = function( snapshot ) {
 	});
 	//console.log("GET : edges update");
 	//console.log(db.data.edges);
+	
+	if( db.data.users[accept.current_id] ) {
+		// 通知を確認
+		var notified_at = db.data.users[accept.current_id]["notified_at"];
+		db.renewNotification(notified_at);
+		return;
+	}
 };
 
 
@@ -72,9 +80,7 @@ db.childAddedUsersDB = function( childSnapshot, prevChildKey ) {
 	var edge = childSnapshot.val();
 	var edge_id = childSnapshot.key;
 	var user_id = childSnapshot.ref.parent.parent.key;
-	
 	canvas.addEdge(edge_id, user_id, db.convertPathEntities(edge.from_node, "decode"), db.convertPathEntities(edge.to_node, "decode"));
-
 	//console.log("GET : child_added : " + edge.from_node + " -> " + edge.to_node);
 };
 

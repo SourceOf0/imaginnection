@@ -240,6 +240,11 @@ header {
           padding: .5em;
           white-space: normal;
           line-height: 1em;
+          width: 100%;
+        }
+        
+        .close {
+          width: 2em;
         }
       }
     }

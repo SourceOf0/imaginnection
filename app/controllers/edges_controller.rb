@@ -6,7 +6,8 @@ class EdgesController < ApplicationController
   skip_before_action :authenticate_user!, only: [:show]
   
   def index
-    @view_ref_ids = current_user.followings.map(&:ref_id).push(current_user.ref_id)
+    @view_ref_ids = current_user.followings.map(&:ref_id).unshift(current_user.ref_id)
+    #@view_ref_ids = User.all.map(&:ref_id)
     @is_hide_user = current_user.is_hide_edges
     
     set_index_data()

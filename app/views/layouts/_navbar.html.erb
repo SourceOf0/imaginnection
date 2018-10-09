@@ -40,34 +40,7 @@
             </div>
           </li>
           <li id="notification" class="dropdown">
-            <a class="icon button" id="notification-btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="glyphicon glyphicon-bell">
-                <% if @notifications.count > 0 %>
-                  <span class="small-counter"><%= @notifications.count %></span>
-                <% end %>
-              </span>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="notification-btn">
-              <% if @notifications.count == 0 %>
-                <li><a>通知がありません</a></li>
-              <% else %>
-                <% @notifications.each do |notification| %>
-                  <li id="notification-<%= notification.id %>">
-                    <a 
-                      <% if !!notification.url %>
-                        href="<%= notification.url.html_safe %>"
-                      <% end %>
-                    >
-                      <%= notification.content %>
-                      <small>（<%= notification.created_at.in_time_zone('Tokyo').strftime('%m月%d日 %H:%M') %>）</small>
-                    </a>
-                    <%= link_to(notification_log_path(notification.id), method: :delete, remote: true, class: 'close') do %>
-                      <span class="glyphicon glyphicon-remove"></span>
-                    <% end %>
-                  </li>
-                <% end %>
-              <% end %>
-            </ul>
+            <%= render 'notification_logs/notifications', notifications: @notifications %>
           </li>
         </ul><!-- .position-left -->
         

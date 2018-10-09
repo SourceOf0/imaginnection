@@ -2,6 +2,7 @@
 /* global $ */
 /* global firebase */
 /* global accept */
+/* global ajax */
 
 
 var db = db || {};
@@ -191,3 +192,46 @@ setTimeout(function() {
 	}
 }, 3000);
 /**/
+
+
+// 通知更新
+db.renewNotification = function( notified_at ) {
+	// TODO
+	//var gaze_list = {"0個目": {"created_at": 000}};
+	var gaze_list = {};
+	var edges = db.data.edges;
+
+	if( !notified_at ) {
+		notified_at = 0;
+	}
+	
+	// 注視設定中のノードの更新を確認
+	Object.keys(edges).forEach(function(key) {
+		
+		if( !!gaze_list[key] && edges[key]["updated_at"] > notified_at  ) {
+			// from_nodeで該当ノードあり
+			Object.keys(edges[key]).forEach(function(to_node) {
+				var data = edges[key][to_node];
+				if( data["updated_at"] > notified_at ) {
+					ajax.setNotificationEdge(key, key, to_node, data);
+				}
+			});
+			return; // 下位の確認不要
+		}
+		
+		Object.keys(edges[key]).forEach(function(to_node) {
+			var data = edges[key][to_node];
+			if( !!gaze_list[to_node] && data["updated_at"] > notified_at ) {
+				// to_nodeで該当あり
+				ajax.setNotificationEdge(to_node, key, to_node, data);
+			}
+		});
+	});
+	
+	ajax.sendNotificationEdge();
+};
+
+// 通知のタイムスタンプ更新
+db.renewNotificateTimestamp = function() {
+	firebase.database().ref().child( "users/" + accept.current_id ).update({ notified_at: firebase.database.ServerValue.TIMESTAMP });
+};

@@ -14,9 +14,8 @@ var dom = dom || {};
  * 表示要素切り替え
  */
 dom.changeContent = function() {
-	
 	var hash = decodeURIComponent(window.location.hash.substring(1));
-	
+
 	if( hash == 0 ) {
 		dom.hideAllModal();
 		return;
