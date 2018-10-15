@@ -29,7 +29,7 @@ $(document).ready(function() {
 		
 		var v = radius * 0.002;
 		var lineWidth = radius * 0.2 + 1;
-		var alpha = Math.min(radius / 150 + 0.01, 1);
+		var alpha = Math.min(radius / 100 + 0.01, 1);
 
 		nodes.push({
 			x: x,
@@ -74,24 +74,27 @@ $(document).ready(function() {
 		}
 		requestAnimationFrame(draw);
 		
-		var gradient = context.createLinearGradient(width, 0, width, height);
-		gradient.addColorStop(0, "#252846");
-		gradient.addColorStop(0.5, "#404378");
-		gradient.addColorStop(1, "#574a76");
+		//var gradient = context.createLinearGradient(width, 0, width, height);
+		//gradient.addColorStop(0, "#252846");
+		//gradient.addColorStop(0.5, "#404378");
+		//gradient.addColorStop(1, "#574a76");
 		
 		//context.shadowColor = "#fff";
 		//context.shadowBlur = 14;
-
-		context.globalCompositeOperation = "source-over";
-		context.fillStyle = gradient;
-		context.fillRect(0, 0, width, height);
-		context.globalCompositeOperation = "lighter";
+		
+		//context.globalCompositeOperation = "source-over";
+		//context.fillStyle = gradient;
+		//context.fillRect(0, 0, width, height);
+		//context.globalCompositeOperation = "lighter";
+		
+		context.clearRect(0, 0, width, height);
 		
 		nodes.forEach(function(node) {
 			context.beginPath();
 			context.arc(node.x, node.y, node.radius - node.lineWidth, 0, Math.PI * 2);
 			context.lineWidth = node.lineWidth;
-			context.strokeStyle = "rgba(177, 233, 255, " + node.alpha + ")";
+			//context.strokeStyle = "rgba(177, 233, 255, " + node.alpha + ")";
+			context.strokeStyle = "rgba(180, 210, 255, " + node.alpha + ")";
 			context.stroke();
 			
 			node.x += Math.cos(node.angle) * node.v;
