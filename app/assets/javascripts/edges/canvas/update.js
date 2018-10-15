@@ -4,6 +4,7 @@
 /* global accept */
 /* global guide */
 /* global dom */
+/* global db */
 
 var canvas = canvas || {};
 
@@ -45,6 +46,7 @@ canvas.setFocusNode = function( node_name, isScroll ) {
 	
 	if( !isScroll ) return;
 	
+	// TODO: domに引っ越し
 	var $box = $("#drawer .drawer-body");
 	var $target = $("#from-node-index-" + from_node.index);
 	var $list = $("#nodes-index");
@@ -99,13 +101,16 @@ canvas.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
 	edge.addCount();
 	dom.addEdgeList( is_owner, edge );
 	
-	var hash = decodeURIComponent(window.location.hash.substring(1));
-	if( hash == from_node_name ) {
-		canvas.setFocusNode( decodeURIComponent(from_node_name), true );
-		window.location.hash = "";
-	} else if( hash == to_node_name ) {
-		canvas.setFocusNode( decodeURIComponent(to_node_name), true );
-		window.location.hash = "";
+	var hash = window.location.hash;
+	if( hash.length > 1 && hash.indexOf("&") < 0 ) {
+		hash = decodeURIComponent(hash.substring(1));
+		if( hash == from_node_name ) {
+			canvas.setFocusNode( decodeURIComponent(from_node_name), true );
+			window.location.hash = "";
+		} else if( hash == to_node_name ) {
+			canvas.setFocusNode( decodeURIComponent(to_node_name), true );
+			window.location.hash = "";
+		}
 	}
 };
 
@@ -144,6 +149,22 @@ canvas.removeEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
 	}
 };
 
+canvas.addGaze = function( node_name ) {
+	if( !accept.current_id ) return;
+	var node = canvas.Node.list[node_name];
+	if( !node ) return;
+	node.setGaze();
+	$("#from-node-index-" + node.index).addClass("gaze");
+};
+
+canvas.removeGaze = function( node_name ) {
+	if( !accept.current_id ) return;
+	var node = canvas.Node.list[node_name];
+	if( !node ) return;
+	node.resetGaze();
+	$("#from-node-index-" + node.index).removeClass("gaze");
+};
+
 canvas.setControlTarget = function() {
 	var data = canvas.data;
 	data.isMouseDown = false;
@@ -153,7 +174,7 @@ canvas.setControlTarget = function() {
 	}
 	
 	data.raycaster.setFromCamera( data.mouse, data.camera );
-	data.raycaster.linePrecision = 5 * data.firstDevicePixelRatio;
+	data.raycaster.linePrecision = 4 * data.firstDevicePixelRatio;
 	
 	var intersects = data.raycaster.intersectObjects( data.scene.children );
 	if( intersects.length == 0 ) return;
@@ -177,8 +198,16 @@ canvas.setControlTarget = function() {
 		}
 		return;
 	}
-	if( focusNode == node ) return;
-	canvas.setFocusNode( node.name, true );
+	
+	if( focusNode == node ) {
+		if( node.is_gaze ) {
+			db.removeGaze( node.name );
+		} else {
+			db.createGaze( node.name );
+		}
+	} else {
+		canvas.setFocusNode( node.name, true );
+	}
 };
 
 

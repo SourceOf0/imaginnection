@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
   
   # 通知
-  resources :notification_logs, only: [:create, :destroy]
+  resources :notification_logs, only: [:show, :create, :destroy]
   
   # エッジ
   resources :edges, only: [:index, :show, :new, :create, :destroy] do

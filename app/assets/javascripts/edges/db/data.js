@@ -3,6 +3,7 @@
 /* global accept */
 /* global canvas */
 /* global guide */
+/* global dom */
 
 var db = db || {};
 
@@ -38,7 +39,27 @@ db.createEdgeData = function( user_id, from_node_name, to_node_name, is_hide_use
 };
 
 db.changeUsersDB = function( snapshot ) {
-	db.data.users[snapshot.key] = snapshot.val();
+	var data = snapshot.val();
+	
+	if( accept.current_id == snapshot.key ) {
+		// ログインユーザの情報
+		if( !!data["gaze"] ) {
+			// 注視nodeをデコード
+			var setData = {};
+			Object.keys(data["gaze"]).forEach(function(key) {
+				setData[db.convertPathEntities(key, "decode")] = data["gaze"][key];
+			});
+			//console.log("set data:", setData);
+			data["gaze"] = setData;
+			//console.log("conv data:", data);
+		}
+		// 全データ取得
+		db.data.users[snapshot.key] = data;
+	} else {
+		// edgesのみ取得
+		db.data.users[snapshot.key] = {edges: data["edges"]};
+	}
+	
 	//console.log("GET : users update " + snapshot.key);
 	//console.log(db.data.users[snapshot.key]);
 
@@ -69,27 +90,38 @@ db.changeEdgesDB = function( snapshot ) {
 	
 	if( db.data.users[accept.current_id] ) {
 		// 通知を確認
-		var notified_at = db.data.users[accept.current_id]["notified_at"];
-		db.renewNotification(notified_at);
-		return;
+		db.renewNotification(db.data.users[accept.current_id]["notified_at"]);
 	}
+	
+	// データ取得後、該当ハッシュがあれば共感者一覧を表示
+	dom.showUserModalFromHash();
 };
 
 
-db.childAddedUsersDB = function( childSnapshot, prevChildKey ) {
+db.childAddedUserEdgesDB = function( childSnapshot, prevChildKey ) {
 	var edge = childSnapshot.val();
 	var edge_id = childSnapshot.key;
 	var user_id = childSnapshot.ref.parent.parent.key;
 	canvas.addEdge(edge_id, user_id, db.convertPathEntities(edge.from_node, "decode"), db.convertPathEntities(edge.to_node, "decode"));
-	//console.log("GET : child_added : " + edge.from_node + " -> " + edge.to_node);
+	//console.log("GET : edge child_added : " + edge.from_node + " -> " + edge.to_node);
 };
 
-db.childRemovedUsersDB = function( childSnapshot, prevChildKey ) {
+db.childRemovedUserEdgesDB = function( childSnapshot, prevChildKey ) {
 	var edge = childSnapshot.val();
 	var edge_id = childSnapshot.key;
 	var user_id = childSnapshot.ref.parent.parent.key;
 	canvas.removeEdge(edge_id, user_id, edge.from_node, edge.to_node);
-	//console.log("GET : child_removed : " + edge.from_node + " -> " + edge.to_node);
+	//console.log("GET : edge child_removed : " + edge.from_node + " -> " + edge.to_node);
+};
+
+db.childAddedUserGazeDB = function( childSnapshot, prevChildKey ) {
+	canvas.addGaze( db.convertPathEntities(childSnapshot.key, "decode") );
+	//console.log("GET : gaze child_added : " + db.convertPathEntities(childSnapshot.key, "decode"));
+};
+
+db.childRemovedUserGazeDB = function( childSnapshot, prevChildKey ) {
+	canvas.removeGaze( db.convertPathEntities(childSnapshot.key, "decode") );
+	//console.log("GET : gaze child_removed : " + db.convertPathEntities(childSnapshot.key, "decode"));
 };
 
 
@@ -116,12 +148,25 @@ db.initDB = function() {
 	edgesSnapshot.on("value", db.changeEdgesDB);
 	
 	accept.view_ids.forEach( function(user_id) {
+		// 表示対象のuserのedges
 		var edgeRef = firebase.database().ref("users/" + user_id + "/edges").orderByChild("created_at");
 		// 追加イベント監視
-		edgeRef.off("child_added", db.childAddedUsersDB);
-		edgeRef.on("child_added", db.childAddedUsersDB);
+		edgeRef.off("child_added", db.childAddedUserEdgesDB);
+		edgeRef.on("child_added", db.childAddedUserEdgesDB);
 		// 削除イベント監視
-		edgeRef.off("child_removed", db.childRemovedUsersDB);
-		edgeRef.on("child_removed", db.childRemovedUsersDB);
+		edgeRef.off("child_removed", db.childRemovedUserEdgesDB);
+		edgeRef.on("child_removed", db.childRemovedUserEdgesDB);
 	});
+	
+	if( !accept.current_id ) return;
+	// ログイン時のみ
+	
+	// 注視設定
+	var gazeRef = firebase.database().ref("users/" + accept.current_id + "/gaze").orderByChild("created_at");
+	// 追加イベント監視
+	gazeRef.off("child_added", db.childAddedUserGazeDB);
+	gazeRef.on("child_added", db.childAddedUserGazeDB);
+	// 削除イベント監視
+	gazeRef.off("child_removed", db.childRemovedUserGazeDB);
+	gazeRef.on("child_removed", db.childRemovedUserGazeDB);
 };

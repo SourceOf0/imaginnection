@@ -209,8 +209,8 @@ header {
   }
   
   .small-counter {
-    background: $accentColor;
-    color: $colorBlack;
+    background: #d9534f;
+    color: $colorWhite;
     position: absolute;
     font-size: .1em;
     right: -1em;
@@ -236,11 +236,17 @@ header {
         justify-content: space-between;
         
         >a {
-          font-size: 1em;
+          font-size: .9em;
           padding: .5em;
-          white-space: normal;
-          line-height: 1em;
+          line-height: 1.5em;
           width: 100%;
+          white-space: normal;
+
+          .label {
+            font-size: .6em;
+            padding: .2em .6em;
+            vertical-align: middle;
+          }
         }
         
         .close {

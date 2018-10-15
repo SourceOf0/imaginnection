@@ -33,6 +33,24 @@ db.removeUserEdge = function( edge, edge_id ) {
 };
 
 
+// userが持つ注視を作成
+db.createGaze = function( node_name ) {
+	if(!accept.current_id) return;
+	if(!node_name) return;
+
+	var data = {};
+	data[db.convertPathEntities(node_name , "encode")] = {created_at: firebase.database.ServerValue.TIMESTAMP};
+	
+	firebase.database().ref().child( "users/"+ accept.current_id + "/gaze" ).update(data);
+};
+
+// userが持つ注視を削除
+db.removeGaze = function( node_name ) {
+	if(!accept.current_id) return;
+	if(!node_name) return;
+	firebase.database().ref().child( "users/" + accept.current_id + "/gaze/" + db.convertPathEntities(node_name , "encode") ).remove();
+};
+
 
 // edge更新
 // @return: 更新完了ならtrue, 新規追加ならfalse
@@ -196,36 +214,43 @@ setTimeout(function() {
 
 // 通知更新
 db.renewNotification = function( notified_at ) {
-	// TODO
-	//var gaze_list = {"0個目": {"created_at": 000}};
-	var gaze_list = {};
+	if( !accept.current_id ) return;
+	if( !db.data.users[accept.current_id]["gaze"] ) return;
+	var gaze_list = db.data.users[accept.current_id]["gaze"];
 	var edges = db.data.edges;
-
+	
 	if( !notified_at ) {
 		notified_at = 0;
 	}
 	
+	//console.log("check Notification:", db.data.users[accept.current_id]);
+
 	// 注視設定中のノードの更新を確認
 	Object.keys(edges).forEach(function(key) {
 		
-		if( !!gaze_list[key] && edges[key]["updated_at"] > notified_at  ) {
-			// from_nodeで該当ノードあり
-			Object.keys(edges[key]).forEach(function(to_node) {
-				var data = edges[key][to_node];
-				if( data["updated_at"] > notified_at ) {
-					ajax.setNotificationEdge(key, key, to_node, data);
-				}
-			});
+		if( !!gaze_list[key] ) {
+			var gaze_created_at = gaze_list[key]["created_at"];
+			if( edges[key]["updated_at"] > notified_at && edges[key]["updated_at"] > gaze_created_at ) {
+				// from_nodeで該当ノードあり
+				Object.keys(edges[key]).forEach(function(to_node) {
+					var data = edges[key][to_node];
+					if( data["updated_at"] > notified_at && data["updated_at"] > gaze_created_at ) {
+						ajax.setNotificationEdge(key, key, to_node, data);
+					}
+				});
+			}
 			return; // 下位の確認不要
 		}
 		
 		Object.keys(edges[key]).forEach(function(to_node) {
+			if( !gaze_list[to_node] ) return;
 			var data = edges[key][to_node];
-			if( !!gaze_list[to_node] && data["updated_at"] > notified_at ) {
+			if( data["updated_at"] > notified_at && data["updated_at"] > gaze_list[to_node]["created_at"] ) {
 				// to_nodeで該当あり
 				ajax.setNotificationEdge(to_node, key, to_node, data);
 			}
 		});
+		
 	});
 	
 	ajax.sendNotificationEdge();

@@ -1,5 +1,18 @@
 class NotificationLogsController < ApplicationController
   
+  def show
+    # js側でリンク先を表示しつつ対象の通知を削除
+    @notification_id = params[:id]
+    notification = current_user.notification_logs.find( @notification_id )
+    
+    @notification_url = notification.url
+    
+    notification.destroy if notification
+    @notification_count = current_user.notification_logs.count
+    
+    render :destroy
+  end
+
   def create
     # エッジの通知作成
     data = params[:data].as_json
@@ -8,26 +21,28 @@ class NotificationLogsController < ApplicationController
       data.each do |gaze, edge|
         words = []
         edge.each do |name, state|
+          count = 0
           state['data']['users'].each do |user_id, user_data|
             if user_data['is_hide_user'] == 'false' && user_id != current_user.ref_id
-              words.push(name)
+              count += 1
+            end
+            if count > 0
+              words.push({name: name, from_node: state['from_node'], to_node: state['to_node'], count: count})
             end
           end
         end
         
-        if words.length <= 3
-          # 個別で通知
-          words.each do |name|
-            current_user.notification_logs.create(content: '「' + name + '」に共感者が増えました')
-          end
-        else
-          # 纏めて通知
-          current_user.notification_logs.create(content: '「' + gaze + '」の連想単語＋' + words.length.to_s + '個（「' + words.join('」 「') + '」）')
+        # 個別で通知作成
+        words.each do |view_data|
+          current_user.notification_logs.create(
+            content: '<span class="label label-info">+' + view_data[:count].to_s + '</span>「' + ERB::Util.html_escape(view_data[:from_node]) + '」→「' + ERB::Util.html_escape(view_data[:to_node]) + '」',
+            url: edges_path(anchor: view_data[:from_node] + "&" + view_data[:to_node] )
+          )
         end
       end
     end
     
-    @notifications = current_user.notification_logs
+    @notifications = current_user.notification_logs.order('created_at DESC')
   end
 
   def destroy

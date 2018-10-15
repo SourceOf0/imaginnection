@@ -10,18 +10,15 @@
 </a>
 <ul class="dropdown-menu" aria-labelledby="notification-btn">
   <% if @notifications.count == 0 %>
-    <li><a>通知がありません</a></li>
+    <li><a>通知がありません<br><small>※フォローされた場合や、通知受け取り設定中の単語に関連する投稿があった場合、ここに表示されます</small></a></li>
   <% else %>
     <% notifications.each do |notification| %>
       <li id="notification-<%= notification.id %>">
-        <a 
-          <% if !!notification.url %>
-            href="<%= notification.url.html_safe %>"
-          <% end %>
-        >
-          <%= notification.content %>
+        <%= link_to(notification_log_path(notification.id), remote: true) do %>
+          <%= notification.content.html_safe %>
+          <br>
           <small>（<%= notification.created_at.in_time_zone('Tokyo').strftime('%m月%d日 %H:%M') %>）</small>
-        </a>
+        <% end %>
         <%= link_to(notification_log_path(notification.id), method: :delete, remote: true, class: 'close') do %>
           <span class="glyphicon glyphicon-remove"></span>
         <% end %>

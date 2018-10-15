@@ -6,5 +6,20 @@ $("#notification-<%= @notification_id %>").remove();
   $('#notification .small-counter').text("<%= @notification_count %>");
 <% else %>
   $('#notification .small-counter').remove();
-  $("#notification .dropdown-menu").html("<li><a>通知がありません</a></li>");
+  $("#notification .dropdown-menu").html("<li><a>通知がありません<br><small>※フォローされた場合や、通知受け取り設定中の単語に関連する投稿があった場合、ここに表示されます</small><</a></li>");
+<% end %>
+
+<% if !!@notification_url %>
+  <% url = URI.parse(@notification_url) %>
+  <% if current_page?(@notification_url) && !!url.fragment %>
+    window.location.hash = "<%= url.fragment.html_safe %>";
+  <% elsif url.path == edges_path %>
+    if( !!canvas ) {
+      window.location.hash = "<%= url.fragment.html_safe %>";
+    } else {
+      window.location.href = "<%= @notification_url.html_safe %>";
+    }
+  <% else %>
+    window.location.href = "<%= @notification_url.html_safe %>";
+  <% end %>
 <% end %>

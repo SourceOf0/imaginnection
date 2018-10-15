@@ -3,6 +3,9 @@
 
 /* global accept */
 /* global guide */
+/* global ajax */
+/* global canvas */
+/* global db */
 
 var dom = dom || {};
 
@@ -49,6 +52,28 @@ dom.showNewEdgeModal = function( name ) {
 	$edgeNew.modal("show");
 };
 
+/**
+ * ハッシュ経由で共感者一覧表示
+ */
+dom.showUserModalFromHash = function() {
+	if( !db.data || !db.data.edges || Object.keys(db.data.edges).length <= 0 ) return;
+	
+	var hash = window.location.hash.substring(1);
+	if( hash.length <= 0 ) return;
+	
+	var array = hash.split("&");
+	if( array.length != 2 ) return;
+	window.location.hash = "";
+	
+	var from_node_name = decodeURIComponent(array[0]);
+	var to_node_name = decodeURIComponent(array[1]);
+	
+	//console.log("User modal OPEN: ", from_node_name, to_node_name);
+	
+	ajax.viewUserList( from_node_name, to_node_name );
+	canvas.setFocusNode( from_node_name, true );
+};
+
 
 /**
  * モーダル初期化
@@ -76,7 +101,9 @@ dom.initModal = function() {
 		}
 	});
 
-	$("#users-modal").on("hidden.bs.modal", function() {
+	$("#users-modal").on("hide.bs.modal", function() {
+		window.location.hash = "";
+	}).on("hidden.bs.modal", function() {
 		if( !accept.current_id ) return;
 		guide.setTour(11, [9, 10]);
 	});

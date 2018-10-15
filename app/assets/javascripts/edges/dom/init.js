@@ -5,6 +5,7 @@
 /* global db */
 /* global accept */
 /* global canvas */
+/* global ajax */
 /* global guide */
 
 var dom = dom || {};
@@ -33,6 +34,13 @@ dom.changeContent = function() {
 		dom.showNewEdgeModal( hash.replace(/^edge-new-/, "") );
 		return;
 	}
+	
+	if( hash.indexOf("edge-show-") === 0 ) {
+		ajax.viewUserList(this.from_node.name, this.to_node.name);
+		return;
+	}
+	
+	dom.showUserModalFromHash();
 };
 
 

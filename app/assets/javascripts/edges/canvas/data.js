@@ -32,20 +32,33 @@ canvas.NodeLabel = {
 				}
 				
 				var text = node.name;
-				
-				vector.x = ((vector.x + 1)*viewWidth - data.context.measureText(text).width) / 2;
-				vector.y = (-(vector.y - 1)*viewHeight + canvas.NodeLabel.height) / 2;
+				var posX = (vector.x + 1)*viewWidth;
+				var posY = -(vector.y - 1)*viewHeight;
 				
 				if( node.is_target ) {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
 					data.context.fillStyle = "rgba(255, 255, 255, 1)";
+					
+					var gaze_text = "";
+					if( node.is_gaze ) {
+						gaze_text = "[通知受け取り：ON]";
+					} else {
+						gaze_text = "[通知受け取り：OFF]";
+					}
+					vector.x = (posX - data.context.measureText(gaze_text).width) / 2;
+					vector.y = (posY + canvas.NodeLabel.height*4) / 2;
+					data.context.strokeText(gaze_text, vector.x, vector.y);
+					data.context.fillText(gaze_text, vector.x, vector.y);
 				} else {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.1)";
 					data.context.fillStyle = "rgba(255, 255, 255, 0.3)";
 				}
+				
+				vector.x = (posX - data.context.measureText(text).width) / 2;
+				vector.y = (posY + canvas.NodeLabel.height) / 2;
 				data.context.strokeText(text, vector.x, vector.y);
 				data.context.fillText(text, vector.x, vector.y);
-				
+
 				return true;
 			},
 		};
@@ -96,9 +109,7 @@ canvas.Node = {
 		particle.position.copy(pos);
 		particle.scale.x = particle.scale.y = 0;
 		particle.name = name;
-		// TODO
-		var is_gaze = false;
-		//if( this.total_count == 0 ) is_gaze = true;
+		
 		this.total_count++;
 		
 		return {
@@ -106,7 +117,7 @@ canvas.Node = {
 			particle: particle,
 			name: name,
 			is_owner: false,
-			is_gaze: is_gaze,
+			is_gaze: false,
 			is_target: false,
 			is_hide: false,
 			view_pos: new THREE.Vector3(0, 0, 0),
