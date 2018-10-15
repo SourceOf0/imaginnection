@@ -127,7 +127,7 @@ canvas.Node = {
 			label: canvas.NodeLabel.create(),
 			update: function() {
 				var target_scale = this.edge_count * 5 + 10;
-				var z_min = Math.min(0.00006 * target_scale + 0.999, 1.0);
+				var z_min = Math.min(0.00004 * target_scale + 0.999, 1.0);
 				this.particle.scale.x += (target_scale - this.particle.scale.x) * 0.1;
 				this.particle.scale.y += (target_scale - this.particle.scale.y) * 0.1;
 				this.view_pos = this.particle.position.clone().project(canvas.data.camera);
