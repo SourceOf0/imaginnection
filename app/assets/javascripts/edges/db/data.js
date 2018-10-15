@@ -1,9 +1,12 @@
 
+/* global $ */
 /* global firebase */
-/* global accept */
 /* global canvas */
 /* global guide */
 /* global dom */
+
+var accept = $("#json-data").data("json");
+$("#json-data").remove();
 
 var db = db || {};
 

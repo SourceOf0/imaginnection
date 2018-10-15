@@ -187,10 +187,6 @@
 
 <% content_for :script do %>
 
-  <script>
-    var accept = $("#json-data").data("json");
-  </script>
-  
   <%= javascript_include_tag 'vendor/bootstrap-tour.min.js' %>
   
   <% if ENV['BAAS_STAGING'] == 'true' %>
