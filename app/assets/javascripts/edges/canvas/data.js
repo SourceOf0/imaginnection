@@ -39,16 +39,19 @@ canvas.NodeLabel = {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
 					data.context.fillStyle = "rgba(255, 255, 255, 1)";
 					
-					var gaze_text = "";
-					if( node.is_gaze ) {
-						gaze_text = "[通知受け取り：ON]";
-					} else {
-						gaze_text = "[通知受け取り：OFF]";
+					if( node == canvas.data.focusNode ) {
+						var gaze_text = "";
+						if( node.is_gaze ) {
+							gaze_text = "[通知受け取り：ON]";
+							data.context.fillStyle = "rgba(255, 230, 150, 1)";
+						} else {
+							gaze_text = "[通知受け取り：OFF]";
+						}
+						vector.x = (posX - data.context.measureText(gaze_text).width) / 2;
+						vector.y = (posY + canvas.NodeLabel.height*4) / 2;
+						data.context.strokeText(gaze_text, vector.x, vector.y);
+						data.context.fillText(gaze_text, vector.x, vector.y);
 					}
-					vector.x = (posX - data.context.measureText(gaze_text).width) / 2;
-					vector.y = (posY + canvas.NodeLabel.height*4) / 2;
-					data.context.strokeText(gaze_text, vector.x, vector.y);
-					data.context.fillText(gaze_text, vector.x, vector.y);
 				} else {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.1)";
 					data.context.fillStyle = "rgba(255, 255, 255, 0.3)";
