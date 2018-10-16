@@ -6,7 +6,7 @@ $("#notification-<%= @notification_id %>").remove();
   $('#notification .small-counter').text("<%= @notification_count %>");
 <% else %>
   $('#notification .small-counter').remove();
-  $("#notification .dropdown-menu").html("<li><a>通知がありません<br><small>※フォローされた場合や、通知受け取り設定中の単語に関連する投稿があった場合、ここに表示されます</small><</a></li>");
+  $("#notification .dropdown-menu").html("<li><a>通知がありません<br><small>※フォローされた場合や、通知受け取り設定中の単語に関連する投稿があった場合、ここに表示されます</small></a></li>");
 <% end %>
 
 <% if !!@notification_url %>
