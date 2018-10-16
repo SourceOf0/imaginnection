@@ -12,6 +12,12 @@ var db = db || {};
 db.validateEdge = function( edge ) {
 	if( edge.user_id != accept.current_id ) return "投稿に失敗しました";
 	if( edge.from_node == edge.to_node ) return "前後で同じ名前の単語は使用できません";
+	var words = ["created_at", "updated_at"];
+	var ret = null;
+	words.forEach(function(word) {
+		if( edge.from_node === word || edge.to_node === word ) ret = word;
+	});
+	if( !!ret ) return "「" + ret + "」は使用できません";
 	return null;
 };
 
@@ -213,42 +219,58 @@ setTimeout(function() {
 
 
 // 通知更新
-db.renewNotification = function( notified_at ) {
+db.renewNotification = function() {
 	if( !accept.current_id ) return;
 	if( !db.data.users[accept.current_id]["gaze"] ) return;
-	var gaze_list = db.data.users[accept.current_id]["gaze"];
+	if( !!accept.notified_at ) return; // 通知作成が終わっていない
+
 	var edges = db.data.edges;
+	var gaze_list = db.data.users[accept.current_id]["gaze"];
 	
+	var notified_at = db.data.users[accept.current_id]["notified_at"];
 	if( !notified_at ) {
 		notified_at = 0;
 	}
+	accept.notified_at = notified_at;
+	
+	// 下位データチェック用メソッドを定義
+	var isValidTimestamp = function( data, gaze_created_at ) {
+		return ( !!data["updated_at"] && data["updated_at"] > accept.notified_at && data["updated_at"] > gaze_created_at );
+	};
+	var checkEdge = function( gaze, from_node, to_node, data, gaze_created_at ) {
+		if( !data["users"] ) return; // 共感者がいない
+		if( !isValidTimestamp( data, accept.notified_at, gaze_created_at ) ) return; // タイムスタンプが無効
+		
+		var send_data = {};
+		Object.keys(data["users"]).forEach(function(user_id) {
+			if( user_id == accept.current_id ) return; // 自分自身
+			if( !isValidTimestamp( data["users"][user_id], accept.notified_at, gaze_created_at ) ) return; // タイムスタンプが無効
+			send_data[user_id] = data["users"][user_id];
+		});
+		ajax.setNotificationEdge(gaze, from_node, to_node, send_data);
+	};
+	
 	
 	//console.log("check Notification:", db.data.users[accept.current_id]);
 
 	// 注視設定中のノードの更新を確認
 	Object.keys(edges).forEach(function(key) {
-		
 		if( !!gaze_list[key] ) {
 			var gaze_created_at = gaze_list[key]["created_at"];
-			if( edges[key]["updated_at"] > notified_at && edges[key]["updated_at"] > gaze_created_at ) {
-				// from_nodeで該当ノードあり
-				Object.keys(edges[key]).forEach(function(to_node) {
-					var data = edges[key][to_node];
-					if( data["updated_at"] > notified_at && data["updated_at"] > gaze_created_at ) {
-						ajax.setNotificationEdge(key, key, to_node, data);
-					}
-				});
-			}
+			
+			if( !isValidTimestamp( edges[key], notified_at, gaze_created_at) ) return; // タイムスタンプが無効
+			
+			// from_nodeで該当ノードチェック
+			Object.keys(edges[key]).forEach(function(to_node) {
+				checkEdge(key, key, to_node, edges[key][to_node], gaze_created_at);
+			});
 			return; // 下位の確認不要
 		}
 		
 		Object.keys(edges[key]).forEach(function(to_node) {
 			if( !gaze_list[to_node] ) return;
-			var data = edges[key][to_node];
-			if( data["updated_at"] > notified_at && data["updated_at"] > gaze_list[to_node]["created_at"] ) {
-				// to_nodeで該当あり
-				ajax.setNotificationEdge(to_node, key, to_node, data);
-			}
+			// to_nodeで該当ノードチェック
+			checkEdge(to_node, key, to_node, edges[key][to_node], gaze_list[to_node]["created_at"]);
 		});
 		
 	});
@@ -258,5 +280,8 @@ db.renewNotification = function( notified_at ) {
 
 // 通知のタイムスタンプ更新
 db.renewNotificateTimestamp = function() {
+	//console.log("update time stamp");
 	firebase.database().ref().child( "users/" + accept.current_id ).update({ notified_at: firebase.database.ServerValue.TIMESTAMP });
+	accept.notified_at = undefined; // 通知作成が終わった
+	//console.log("renew notificate timestamp: ", accept.notified_at);
 };

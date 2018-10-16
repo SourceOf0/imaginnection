@@ -22,20 +22,21 @@ class NotificationLogsController < ApplicationController
         words = []
         edge.each do |name, state|
           count = 0
-          state['data']['users'].each do |user_id, user_data|
-            if user_data['is_hide_user'] == 'false' && user_id != current_user.ref_id
+          state['data'].each do |user_id, user_data|
+            if user_id != current_user.ref_id
+              puts "TEST:", user_id, current_user.ref_id, user_data
               count += 1
             end
-            if count > 0
-              words.push({name: name, from_node: state['from_node'], to_node: state['to_node'], count: count})
-            end
+          end
+          if count > 0
+            words.push({name: name, from_node: state['from_node'], to_node: state['to_node'], count: count})
           end
         end
         
         # 個別で通知作成
         words.each do |view_data|
           current_user.notification_logs.create(
-            content: '<span class="label label-info">+' + view_data[:count].to_s + '</span>「' + ERB::Util.html_escape(view_data[:from_node]) + '」→「' + ERB::Util.html_escape(view_data[:to_node]) + '」',
+            content: '<span class="label label-info">+' + view_data[:count].to_s + '人</span>「' + ERB::Util.html_escape(view_data[:from_node]) + '」→「' + ERB::Util.html_escape(view_data[:to_node]) + '」',
             url: edges_path(anchor: view_data[:from_node] + "&" + view_data[:to_node] )
           )
         end

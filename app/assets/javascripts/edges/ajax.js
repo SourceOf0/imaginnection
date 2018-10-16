@@ -32,8 +32,7 @@ ajax.viewUserList = function( from_node_name, to_node_name ) {
 
 // 通知エッジ登録
 ajax.setNotificationEdge = function( gaze, from_node_name, to_node_name, data ) {
-	// 共感者がいないエッジはスルー
-	if( !data["users"] ) return;
+	if( !data || Object.keys(data) == 0 ) return;
 	
 	if( !ajax.data.notification_edges[gaze] ) {
 		ajax.data.notification_edges[gaze] = {};
@@ -49,7 +48,10 @@ ajax.setNotificationEdge = function( gaze, from_node_name, to_node_name, data ) 
 
 // 通知用エッジ送信
 ajax.sendNotificationEdge = function() {
-	if( Object.keys(ajax.data.notification_edges).length == 0 ) return;
+	if( Object.keys(ajax.data.notification_edges).length == 0 ) {
+		db.renewNotificateTimestamp();
+		return;
+	}
 	
 	$.ajax({
 		url: "/notification_logs",

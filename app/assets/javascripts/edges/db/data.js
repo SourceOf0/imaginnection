@@ -93,7 +93,7 @@ db.changeEdgesDB = function( snapshot ) {
 	
 	if( db.data.users[accept.current_id] ) {
 		// 通知を確認
-		db.renewNotification(db.data.users[accept.current_id]["notified_at"]);
+		db.renewNotification();
 	}
 	
 	// データ取得後、該当ハッシュがあれば共感者一覧を表示
