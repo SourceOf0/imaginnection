@@ -1,11 +1,11 @@
 
 <% if !@from_node.valid? %>
 
-  $("#info-modal").html("<%=j render 'layouts/error_messages', model: @from_node %>").modal("show");
+	$("main").prepend("<%=j render 'layouts/error_messages', model: @from_node %>");
 
 <% elsif !@to_node.valid? %>
 
-  $("#info-modal").html("<%=j render 'layouts/error_messages', model: @to_node %>").modal("show");
+	$("main").prepend("<%=j render 'layouts/error_messages', model: @to_node %>");
   
 <% else %>
   

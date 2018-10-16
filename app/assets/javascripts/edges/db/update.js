@@ -149,11 +149,12 @@ db.createEdge = function( edge ) {
 	// バリデーション
 	var checkResult = db.validateEdge(edge);
 	if( checkResult ) {
-		$("#info-modal").html(
-			"<div class='modal-dialog'><div class='modal-content'><div class='modal-body'>" + 
+		$("main").prepend(
+			"<div class='alert alert-danger'>" + 
+	    "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" +
 			checkResult +
-			"</div></div></div>"
-			).modal("show");
+			"</div>"
+		);
 		return false;
 	}
 	

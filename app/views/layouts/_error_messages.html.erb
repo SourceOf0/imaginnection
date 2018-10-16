@@ -1,18 +1,13 @@
 
 <%# @param model: modelのインスタンス %>
 
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-body">
-      
-      <% if model.errors.any? %>
-        <ul>
-          <% model.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
+<div class="alert alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <% if model.errors.any? %>
+    <ul>
+      <% model.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
       <% end %>
-      
-    </div>
-  </div>
+    </ul>
+  <% end %>
 </div>
