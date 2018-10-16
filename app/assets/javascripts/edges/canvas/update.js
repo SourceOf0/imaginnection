@@ -154,7 +154,7 @@ canvas.addGaze = function( node_name ) {
 	var node = canvas.Node.list[node_name];
 	if( !node ) return;
 	node.setGaze();
-	$("#from-node-index-" + node.index).addClass("gaze");
+	$("#from-node-index-" + node.index).addClass("gaze").prependTo("#nodes-index");
 };
 
 canvas.removeGaze = function( node_name ) {
