@@ -21,10 +21,12 @@ class NotificationLogsController < ApplicationController
       data.each do |gaze, edge|
         words = []
         edge.each do |name, state|
+          if state['notified_at'] != 0 && Time.at(state['notified_at'].to_i / 1000 ) < current_user.notified_at
+            next
+          end
           count = 0
           state['data'].each do |user_id, user_data|
             if user_id != current_user.ref_id
-              puts "TEST:", user_id, current_user.ref_id, user_data
               count += 1
             end
           end
@@ -43,14 +45,13 @@ class NotificationLogsController < ApplicationController
       end
     end
     
-    @notifications = current_user.notification_logs.order('created_at DESC')
+    check_notification()
   end
 
   def destroy
-    @notification_id = params[:id]
-    notification = current_user.notification_logs.find( @notification_id )
+    notification = current_user.notification_logs.find_by_id( params[:id] )
     notification.destroy if notification
-    @notification_count = current_user.notification_logs.count
+    @notifications = current_user.notification_logs.order('created_at DESC')
   end
   
 end

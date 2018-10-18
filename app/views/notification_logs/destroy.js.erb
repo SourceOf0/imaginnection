@@ -1,15 +1,9 @@
-<%# 通知を消す %>
-$("#notification-<%= @notification_id %>").remove();
 
-<%# カウンターを更新 %>
-<% if @notification_count > 0 %>
-  $('#notification .small-counter').text("<%= @notification_count %>");
-<% else %>
-  $('#notification .small-counter').remove();
-  $("#notification .dropdown-menu").html("<li><a>通知がありません<br><small>※フォローされた場合や、通知受け取り設定中の単語に関連する投稿があった場合、ここに表示されます</small></a></li>");
-<% end %>
+<%# 通知を表示 %>
+$('#notification').html('<%=j render 'notification_logs/notifications', notifications: @notifications %>');
 
 <% if !!@notification_url %>
+  <%# リンククリックによる通知削除なので遷移処理 %>
   <% url = URI.parse(@notification_url) %>
   <% if current_page?(@notification_url) && !!url.fragment %>
     window.location.hash = "<%= url.fragment.html_safe %>";

@@ -31,7 +31,7 @@ ajax.viewUserList = function( from_node_name, to_node_name ) {
 
 
 // 通知エッジ登録
-ajax.setNotificationEdge = function( gaze, from_node_name, to_node_name, data ) {
+ajax.setNotificationEdge = function( gaze, from_node_name, to_node_name, data, notified_at ) {
 	if( !data || Object.keys(data) == 0 ) return;
 	
 	if( !ajax.data.notification_edges[gaze] ) {
@@ -41,13 +41,14 @@ ajax.setNotificationEdge = function( gaze, from_node_name, to_node_name, data ) 
 	ajax.data.notification_edges[gaze][from_node_name + "→" + to_node_name] = {
 		"from_node": from_node_name,
 		"to_node": to_node_name,
-		"data": data
+		"data": data,
+		"notified_at": notified_at,
 	};
 	//console.log("add notification edge: ", gaze, from_node_name, to_node_name, data);
 };
 
 // 通知用エッジ送信
-ajax.sendNotificationEdge = function() {
+ajax.sendNotificationEdge = function( notified_at ) {
 	if( Object.keys(ajax.data.notification_edges).length == 0 ) {
 		db.renewNotificateTimestamp();
 		return;

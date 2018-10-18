@@ -43,16 +43,14 @@ class ApplicationController < ActionController::Base
   
   def check_notification
     if user_signed_in?
-      if current_user.notified_at < Time.now.ago(1.minutes)
-        latest_followers = current_user.latest_followers
-        latest_followers.each do |follower|
-          current_user.notification_logs.create(
-            content: '<span class="label label-danger">new</span> ' + ERB::Util.html_escape(follower.name) + "さんにフォローされました",
-            url: edge_path(follower.ref_id)
-          )
-        end
-        current_user.update_notified_at
+      latest_followers = current_user.latest_followers
+      latest_followers.each do |follower|
+        current_user.notification_logs.create(
+          content: '<span class="label label-danger">new</span> ' + ERB::Util.html_escape(follower.name) + "さんにフォローされました",
+          url: edge_path(follower.ref_id)
+        )
       end
+      current_user.update_notified_at
       @notifications = current_user.notification_logs.order('created_at DESC')
     end
   end

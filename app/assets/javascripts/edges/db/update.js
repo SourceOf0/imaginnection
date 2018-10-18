@@ -208,6 +208,11 @@ setTimeout(function() {
 setTimeout(function() {
 	var id = "jlRrvBcYf6hiIOPVAiTjG4sEY5f6c0i_NOGT3pim";
 	//var id = "CCZvQH4FurVebU6NDlazhs-a3tXDHfy_HqGP-qz5";
+	
+	var edge = db.createEdgeData(id, "test", "aaa", false);
+	db.createEdge(edge);
+
+	return;
 	for( var i = 0; i < 100; i++ ) {
 		for( var j = 0; j < 20; j++ ) {
 			var edge = db.createEdgeData(id, i + "個目", i + "個目の" + j + "個目", false);
@@ -248,7 +253,7 @@ db.renewNotification = function() {
 			if( !isValidTimestamp( data["users"][user_id], accept.notified_at, gaze_created_at ) ) return; // タイムスタンプが無効
 			send_data[user_id] = data["users"][user_id];
 		});
-		ajax.setNotificationEdge(gaze, from_node, to_node, send_data);
+		ajax.setNotificationEdge(gaze, from_node, to_node, send_data, accept.notified_at);
 	};
 	
 	
