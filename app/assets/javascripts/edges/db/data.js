@@ -46,7 +46,7 @@ db.changeUsersDB = function( snapshot ) {
 	
 	if( accept.current_id == snapshot.key ) {
 		// ログインユーザの情報
-		if( !!data["gaze"] ) {
+		if( !!data && !!data["gaze"] ) {
 			// 注視nodeをデコード
 			var setData = {};
 			Object.keys(data["gaze"]).forEach(function(key) {
