@@ -212,7 +212,7 @@ header {
     background: #d9534f;
     color: $colorWhite;
     position: absolute;
-    font-size: .1em;
+    font-size: 8px;
     right: -1em;
     top: -1em;
     min-width: 1.5em;
@@ -222,6 +222,7 @@ header {
     text-align: center;
     border-radius: 40%;
     font-weight: bold;
+    pointer-events: none;
   }
   
   #notification {
