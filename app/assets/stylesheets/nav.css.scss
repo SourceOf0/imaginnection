@@ -225,6 +225,10 @@ header {
     pointer-events: none;
   }
   
+  #notification-btn {
+    pointer-events: auto;
+  }
+  
   #notification {
     
     .dropdown-menu {
