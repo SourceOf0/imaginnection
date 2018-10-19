@@ -45,7 +45,7 @@ class NotificationLogsController < ApplicationController
       end
     end
     
-    check_notification()
+    update_notification()
   end
 
   def destroy
