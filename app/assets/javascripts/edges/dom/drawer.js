@@ -88,10 +88,33 @@ dom.removeEdgeList = function( is_owner, edge ) {
 };
 
 
+dom.filterEdgeList= function() {
+	var text = $("#edge-list-filter").val();
+	if( "" == text ) {
+		$("#nodes-index .panel").show();
+		return;
+	}
+	
+	$("#nodes-index .panel").hide();
+	$("#nodes-index .name:contains('" + text + "')").closest(".panel").show();
+};
+
+dom.resetEdgeList = function() {
+	$("#edge-list-filter").val("");
+	dom.filter();
+};
+
+
 /**
  * ドロワー初期化
  */
 dom.initDrawer = function() {
+	
+	$("#edge-list-filter").keyup(function () {
+		dom.filterEdgeList();
+		return (13 !== event.which);
+	});
+	dom.filterEdgeList();
 	
 	$("#drawer .drawer-open").click(function() {
 		var $div = $("#drawer .drawer-body");
