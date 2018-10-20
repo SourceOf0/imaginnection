@@ -102,7 +102,7 @@ guide.initTour = function() {
 			{
 				template: temp_wait,
 				element: "#node-new .form-control",
-				title: "単語を作ろう",
+				title: "連想元となる単語を作ろう",
 				content: "単語を入力して「次へ」を押します。<br><small>趣味や目の前の物など、思いつくものを書いてみてください。<br>20文字まで入力できます。</small>",
 				placement: "auto top",
 			},

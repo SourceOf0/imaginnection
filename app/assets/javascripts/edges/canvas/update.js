@@ -42,7 +42,7 @@ canvas.setFocusNode = function( node_name, isScroll ) {
 	
 	$("#associating-view").addClass("active");
 	
-	guide.setTour(5, [4]);
+	guide.setTour(5, [3, 4]);
 	
 	if( !isScroll ) return;
 	
