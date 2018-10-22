@@ -36,6 +36,17 @@ dom.removeNodeList = function( node ) {
 	$( "#word-index-" + node.index ).remove();
 };
 
+dom.scrollNodeList = function( from_node ) {
+	var $box = $("#drawer .drawer-body");
+	var $target = $("#from-node-index-" + from_node.index);
+	var $list = $("#nodes-index");
+	var index = $list.children(":visible").index($target);
+	var pos = $box.scrollTop() + ($list.offset().top + 46 * index) - $box.offset().top - 10;
+
+	$("#from-node-list-" + from_node.index).collapse("show");
+	$box.stop().animate({ scrollTop: pos }, 500, "swing");
+};
+
 dom.addEdgeList = function( is_owner, edge ) {
 	var from_node = edge.from_node;
 	var to_node = edge.to_node;

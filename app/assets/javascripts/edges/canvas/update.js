@@ -46,15 +46,7 @@ canvas.setFocusNode = function( node_name, isScroll ) {
 	
 	if( !isScroll ) return;
 	
-	// TODO: domに引っ越し
-	var $box = $("#drawer .drawer-body");
-	var $target = $("#from-node-index-" + from_node.index);
-	var $list = $("#nodes-index");
-	var index = $list.children().index($target);
-	var pos = $box.scrollTop() + ($list.offset().top + $target.outerHeight(true) * index) - $box.offset().top - 10;
-
-	$("#from-node-list-" + from_node.index).collapse("show");
-	$box.stop().animate({ scrollTop: pos }, 500, "swing");
+	dom.scrollNodeList( from_node );
 };
 
 
