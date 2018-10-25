@@ -3,6 +3,25 @@
 
 var guide = guide || {};
 
+/**
+ * ステップ定義
+ */
+guide.step_num = 0;
+guide.step = {
+	INTRO: guide.step_num++,
+	LOOK_MAIN: guide.step_num++,
+	OPEN_FORM_NEW_NODE: guide.step_num++,
+	ADD_NEW_NODE: guide.step_num++,
+	ADD_NEW_EDGE: guide.step_num++,
+	CONTROL_MAIN_VIEW: guide.step_num++,
+	MORE_ASSOCIATE: guide.step_num++,
+	OPEN_NODE_LIST: guide.step_num++,
+	OPEN_EMPATHY_USERS_FORM: guide.step_num++,
+	LOOK_EMPATHY_USERS: guide.step_num++,
+	LOOK_EMPATHY_BUTTON: guide.step_num++,
+	OUTRO: guide.step_num++,
+};
+
 
 /**
  * ステップ遷移
@@ -32,9 +51,13 @@ guide.getTourStep = function() {
  */
 guide.setTourRestart = function() {
 	if( !guide.tour ) return;
-	guide.tour.init();
-	guide.setTour(0);
-	guide.tour.restart();
+	if( guide.tour.ended() ) {
+		guide.tour.restart();
+	} else {
+		guide.tour.init();
+		guide.setTour(0);
+		guide.tour.restart();
+	}
 };
 
 /**
@@ -43,15 +66,21 @@ guide.setTourRestart = function() {
 guide.initTour = function() {
 	
 	var can_tap = window.ontouchstart === null;
-	
+
 	var temp = "";
 	temp += "<div class='popover tour' role='tooltip'>";
 	temp += "	<div class='arrow'></div>";
 	temp += "	<h3 class='popover-title'></h3>";
 	temp += "	<div class='popover-content'></div>";
 	temp += "	<div class='popover-navigation'>";
-	temp += "		<button class='btn btn-default btn-sm' data-role='next'>はい</button>";
-	temp += "		<button class='btn btn-default btn-sm' data-role='end'>いいえ</button>";
+	temp += "		目次";
+	temp += "		<ul>";
+	temp += "				<li><a href='#' onclick='guide.tour.restart(); guide.tour.goTo(guide.step.OPEN_FORM_NEW_NODE);'>新規投稿</a></li>";
+	temp += "				<li><a href='#' onclick='guide.tour.restart(); guide.tour.goTo(guide.step.CONTROL_MAIN_VIEW);'>マップ操作</a></li>";
+	temp += "				<li><a href='#' onclick='guide.tour.restart(); guide.tour.goTo(guide.step.OPEN_NODE_LIST);'>単語一覧～フォロー、投稿削除</a></li>";
+	temp += "		</ul>";
+	temp += "		<button class='btn btn-default btn-sm' data-role='next'>最初から</button>";
+	temp += "		<button class='btn btn-default btn-sm' data-role='end'>閉じる</button>";
 	temp += "	</div>";
 	temp += "</div>";
 	
@@ -82,8 +111,8 @@ guide.initTour = function() {
 			{
 				template: temp,
 				element: "#tour-icon",
-				title: "操作ガイドツアー",
-				content: "基本操作説明を実際に操作しながら行います。開始しますか？",
+				title: "操作ガイド",
+				content: "基本操作説明を実際に操作しながら行います。",
 				placement: "auto left",
 			},
 			{
@@ -103,14 +132,14 @@ guide.initTour = function() {
 				template: temp_wait,
 				element: "#node-new .form-control",
 				title: "連想元となる単語を作ろう",
-				content: "単語を入力して「次へ」を押します。<br><small>趣味や目の前の物など、思いつくものを書いてみてください。<br>20文字まで入力できます。</small>",
+				content: "単語を入力して「次へ」を押します。<br><small>好きなものなどでOKです。<br>20文字まで入力できます。</small>",
 				placement: "auto top",
 			},
 			{
 				template: temp_wait,
 				element: "#edge-new-forward .node-name-form",
 				title: "連想しよう",
-				content: "連想する単語を入力して「作成」を押します。<br><small>「好き」などの感想でも何でもOKです。<br>20文字まで入力できます。</small>",
+				content: "連想する単語を入力して「作成」を押します。<br><small>「好き」などの感想でもOKです。<br>20文字まで入力できます。</small>",
 				placement: "auto top",
 			},
 			{

@@ -25,7 +25,7 @@ ajax.viewUserList = function( from_node_name, to_node_name ) {
 		data: {from_node: from_node_name, to_node: to_node_name, forward_data, backward_data},
 		datatype: "html",
 	}).done(function(data) {
-		guide.setTour(9, [8]);
+		guide.setTour(guide.step.LOOK_EMPATHY_USERS, [guide.step.OPEN_EMPATHY_USERS_FORM]);
 	});
 };
 

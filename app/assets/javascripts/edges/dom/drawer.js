@@ -139,7 +139,7 @@ dom.initDrawer = function() {
 			$icon.removeClass("glyphicon-triangle-left");
 			$icon.addClass("glyphicon-triangle-right");
 			if( !accept.current_id ) return;
-			guide.setTour(8, [7]);
+			guide.setTour(guide.step.OPEN_EMPATHY_USERS_FORM, [guide.step.OPEN_NODE_LIST]);
 		}
 	});
 	

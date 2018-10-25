@@ -14,7 +14,7 @@ canvas.setFocusNode = function( node_name, isScroll ) {
 	var from_node = canvas.Node.list[node_name];
 	
 	if( !from_node ) {
-		guide.setTour(7, [4]);
+		guide.setTour(guide.step.OPEN_NODE_LIST, [guide.step.ADD_NEW_EDGE]);
 		return;
 	}
 
@@ -42,7 +42,7 @@ canvas.setFocusNode = function( node_name, isScroll ) {
 	
 	$("#associating-view").addClass("active");
 	
-	guide.setTour(5, [3, 4]);
+	guide.setTour(guide.step.CONTROL_MAIN_VIEW, [guide.step.ADD_NEW_NODE, guide.step.ADD_NEW_EDGE]);
 	
 	if( !isScroll ) return;
 	

@@ -80,23 +80,23 @@ dom.showUserModalFromHash = function() {
  */
 dom.initModal = function() {
 	$("#node-new").on("shown.bs.modal", function() {
-		guide.setTour(3);
+		guide.setTour(guide.step.ADD_NEW_NODE);
 		$("#node-new .node-name").focus();
 	}).on("hide.bs.modal", function() {
 		$("#node-new .node-name").blur();
 		if( window.location.hash.substring(1) === "node-new") {
-			guide.setTour(2, [4, 3]);
+			guide.setTour(guide.step.OPEN_FORM_NEW_NODE, [guide.step.ADD_NEW_NODE, guide.step.ADD_NEW_EDGE]);
 			window.location.hash = "";
 		}
 	});
 	
 	$("#edge-new").on("shown.bs.modal", function() {
-		guide.setTour(4);
+		guide.setTour(guide.step.ADD_NEW_EDGE);
 		$("#edge-new .node-name").focus();
 	}).on("hide.bs.modal", function() {
 		$("#edge-new .node-name").blur();
 		if( window.location.hash.substring(1).indexOf("edge-new-") === 0 ) {
-			guide.setTour(2, [4, 3]);
+			guide.setTour(guide.step.OPEN_FORM_NEW_NODE, [guide.step.ADD_NEW_NODE, guide.step.ADD_NEW_EDGE]);
 			window.location.hash = "";
 		}
 	});
@@ -105,6 +105,6 @@ dom.initModal = function() {
 		window.location.hash = "";
 	}).on("hidden.bs.modal", function() {
 		if( !accept.current_id ) return;
-		guide.setTour(11, [9, 10]);
+		guide.setTour(guide.step.OUTRO, [guide.step.LOOK_EMPATHY_USERS, guide.step.LOOK_EMPATHY_BUTTON]);
 	});
 };
