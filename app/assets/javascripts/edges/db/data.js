@@ -91,7 +91,7 @@ db.changeEdgesDB = function( snapshot ) {
 	//console.log("GET : edges update");
 	//console.log(db.data.edges);
 	
-	if( db.data.users[accept.current_id] ) {
+	if( !!db.data.users[accept.current_id] ) {
 		// 通知を確認
 		db.renewNotification();
 	}

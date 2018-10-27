@@ -74,9 +74,15 @@ canvas.addEdge = function( edge_id, user_id, from_node_name, to_node_name ) {
 
 	if( !from_node ) {
 		from_node = canvas.addNode(from_node_name, null);
+		if(!!accept.current_id && !!db.data.users[accept.current_id] && !!db.data.users[accept.current_id]["gaze"][from_node_name]) {
+			canvas.addGaze( from_node_name );
+		}
 	}
 	if( !to_node ) {
 		to_node = canvas.addNode(to_node_name, from_node);
+		if(!!accept.current_id && !!db.data.users[accept.current_id] && !!db.data.users[accept.current_id]["gaze"][to_node_name]) {
+			canvas.addGaze( to_node_name );
+		}
 	}
 	
 	var edge = from_node.getToEdge( to_node );
