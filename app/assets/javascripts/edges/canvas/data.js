@@ -1,5 +1,6 @@
 
 /* global THREE */
+/* global accept */
 /* global ajax */
 
 var PI2 = Math.PI * 2;
@@ -39,7 +40,7 @@ canvas.NodeLabel = {
 					data.context.strokeStyle = "rgba(0, 0, 0, 0.5)";
 					data.context.fillStyle = "rgba(255, 255, 255, 1)";
 					
-					if( node == canvas.data.focusNode ) {
+					if( !!accept.current_id && node == canvas.data.focusNode ) {
 						var gaze_text = "";
 						if( node.is_gaze ) {
 							gaze_text = "[通知受け取り：ON]";
