@@ -58,9 +58,11 @@ db.changeUsersDB = function( snapshot ) {
 		}
 		// 全データ取得
 		db.data.users[snapshot.key] = data;
-	} else {
+	} else if( !!data && !!data["edges"] ) {
 		// edgesのみ取得
 		db.data.users[snapshot.key] = {edges: data["edges"]};
+	} else {
+		db.data.users[snapshot.key] = undefined;
 	}
 	
 	//console.log("GET : users update " + snapshot.key);
