@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   def check_notification
     if user_signed_in?
       if current_user.notified_at < Time.now.ago(1.minutes)
-        update_notification
+        update_notification()
       else
         @notifications = current_user.notification_logs.order('created_at DESC')
       end

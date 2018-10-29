@@ -288,6 +288,12 @@ db.renewNotification = function() {
 db.renewNotificateTimestamp = function() {
 	//console.log("update time stamp");
 	firebase.database().ref().child( "users/" + accept.current_id ).update({ notified_at: firebase.database.ServerValue.TIMESTAMP });
-	accept.notified_at = undefined; // 通知作成が終わった
+	db.resetNotificateData();
 	//console.log("renew notificate timestamp: ", accept.notified_at);
+};
+
+// 通知データリセット
+db.resetNotificateData = function() {
+	ajax.data.notification_edges = {};
+	accept.notified_at = undefined;
 };

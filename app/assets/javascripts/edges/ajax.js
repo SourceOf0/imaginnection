@@ -61,10 +61,9 @@ ajax.sendNotificationEdge = function( notified_at ) {
 		datatype: "html",
 	}).done(function(data) {
 		//console.log("send notification edge: ", ajax.data.notification_edges);
-		ajax.data.notification_edges = {};
 		db.renewNotificateTimestamp();
 	}).fail(function(data) {
-		ajax.data.notification_edges = {};
+		db.resetNotificateData();
 		//console.log("fail notification edge: ", data);
 	});
 };

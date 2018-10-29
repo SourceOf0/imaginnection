@@ -1,5 +1,8 @@
 class NotificationLogsController < ApplicationController
   
+  # 通知生成が重複するためcreateでは通知チェックをスキップする
+  skip_before_action :check_notification, only: [:create]
+  
   def show
     # js側でリンク先を表示しつつ対象の通知を削除
     @notification_id = params[:id]
@@ -17,13 +20,12 @@ class NotificationLogsController < ApplicationController
     # エッジの通知作成
     data = params[:data].as_json
     
-    if !!data
+    if current_user.notified_at >= Time.now.ago(1.second)
+      render status: 400, json: { status: 400, message: 'Bad Request' }
+    elsif !!data
       data.each do |gaze, edge|
         words = []
         edge.each do |name, state|
-          if state['notified_at'] != 0 && Time.at( state['notified_at'].to_i / 1000 ) > current_user.notified_at - 2.second
-            next
-          end
           count = 0
           state['data'].each do |user_id, user_data|
             if user_id != current_user.ref_id
@@ -44,8 +46,8 @@ class NotificationLogsController < ApplicationController
         end
       end
     end
-    
-    @notifications = current_user.notification_logs.order('created_at DESC')
+
+    update_notification()
   end
 
   def destroy
