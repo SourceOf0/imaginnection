@@ -45,7 +45,7 @@ class NotificationLogsController < ApplicationController
       end
     end
     
-    update_notification()
+    @notifications = current_user.notification_logs.order('created_at DESC')
   end
 
   def destroy
