@@ -21,7 +21,7 @@ class NotificationLogsController < ApplicationController
       data.each do |gaze, edge|
         words = []
         edge.each do |name, state|
-          if state['notified_at'] != 0 && Time.at( state['notified_at'].to_i / 1000 ) == current_user.notified_at
+          if state['notified_at'] != 0 && Time.at( state['notified_at'].to_i / 1000 ) > current_user.notified_at - 1.second
             next
           end
           count = 0
