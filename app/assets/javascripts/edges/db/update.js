@@ -10,7 +10,7 @@ var db = db || {};
 
 // edgeのバリデーション
 db.validateEdge = function( edge ) {
-	if( edge.user_id != accept.current_id ) return "投稿に失敗しました";
+	//if( edge.user_id != accept.current_id ) return "投稿に失敗しました";
 	if( edge.from_node == edge.to_node ) return "前後で同じ名前の単語は使用できません";
 	var words = ["created_at", "updated_at"];
 	var ret = null;
@@ -204,7 +204,7 @@ setTimeout(function() {
 /**/
 
 // テスト用
-/*
+
 setTimeout(function() {
 	var id = "jlRrvBcYf6hiIOPVAiTjG4sEY5f6c0i_NOGT3pim";
 	//var id = "CCZvQH4FurVebU6NDlazhs-a3tXDHfy_HqGP-qz5";
