@@ -32,7 +32,7 @@ ajax.viewUserList = function( from_node_name, to_node_name ) {
 
 // 通知エッジ登録
 ajax.setNotificationEdge = function( gaze, from_node_name, to_node_name, data, notified_at ) {
-	if( !data || Object.keys(data) == 0 ) return;
+	if( !data || Object.keys(data).length == 0 ) return;
 	
 	if( !ajax.data.notification_edges[gaze] ) {
 		ajax.data.notification_edges[gaze] = {};
