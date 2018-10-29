@@ -20,8 +20,9 @@ class NotificationLogsController < ApplicationController
     # エッジの通知作成
     data = params[:data].as_json
     
-    if current_user.notified_at >= Time.now.ago(1.second)
+    if current_user.notified_at >= Time.now.ago(10.second)
       render status: 400, json: { status: 400, message: 'Bad Request' }
+      return
     elsif !!data
       data.each do |gaze, edge|
         words = []
