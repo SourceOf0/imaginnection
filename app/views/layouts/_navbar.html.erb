@@ -112,7 +112,7 @@
         
         <ul class="position-center" id="node-option">
           <% if user_signed_in? %>
-            <% if !@is_hide_user %>
+            <% if !@is_hide_user && controller.action_name == 'show' %>
               <li id="twitter-icon-view" class="active">
                 <%= link_to('', class: 'icon button', id: 'twitter-icon') do %>
                   <%= render 'layouts/twitter' %>
