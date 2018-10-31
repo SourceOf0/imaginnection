@@ -63,6 +63,7 @@ $(document).ready(function() {
 	});
 	
 	dom.initDrawer();
+	guide.initNavText();
 	
 	if( !accept.current_id ) return;
 	// 以下ログイン時のみ

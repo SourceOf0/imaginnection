@@ -122,6 +122,8 @@
             <li id="associating-view">
               <%= link_to('連想する', '', id: 'associating', class: 'btn btn-primary') %>
             </li>
+          <% elsif defined? @view_ref_ids %>
+            <small id="nav-text-guide"></small>
           <% end %>
         </ul><!-- .position-center -->
 

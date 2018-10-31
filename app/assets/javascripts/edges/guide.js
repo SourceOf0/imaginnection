@@ -1,4 +1,6 @@
 
+/* global $ */
+
 /* global Tour */
 
 var guide = guide || {};
@@ -218,4 +220,16 @@ guide.initTour = function() {
 		onResume: function (tour, duration) {},
 		onRedirectError: function (tour) {}
 	});
+};
+
+
+/**
+ * ナビに表示するテキストを初期化
+ */
+guide.initNavText = function() {
+	
+	var can_tap = window.ontouchstart === null;
+	var text = "回転：" + (can_tap? "スライド":"右ドラッグ" ) + "<br>移動：" + (can_tap? "指2本でスライド":"左ドラッグ" );
+	
+	$("#nav-text-guide").html(text);
 };
