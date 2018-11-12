@@ -41,7 +41,7 @@ class EdgesController < ApplicationController
     @is_hide_user = true
     
     set_world_data()
-    set_logger( 'edge/world', @view_ref_ids.to_json )
+    set_logger( 'edge/world', @view_ref_ids.count.to_s )
     render :index
   end
   
