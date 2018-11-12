@@ -3,11 +3,10 @@ class EdgesController < ApplicationController
   before_action :set_debug_view if ENV['DEBUG_VIEW'] == 'true'
   
   # deviseでのログイン認証をスキップする
-  skip_before_action :authenticate_user!, only: [:show]
+  skip_before_action :authenticate_user!, only: [:show, :world]
   
   def index
     @view_ref_ids = current_user.followings.map(&:ref_id).unshift(current_user.ref_id)
-    #@view_ref_ids = User.all.map(&:ref_id)
     @is_hide_user = current_user.is_hide_edges
     
     set_index_data()
@@ -35,6 +34,15 @@ class EdgesController < ApplicationController
     else
       set_logger( 'edge/show', 'user not found' )
     end
+  end
+  
+  def world
+    @view_ref_ids = User.where(deleted_at: nil, is_hide_edges: false).map(&:ref_id)
+    @is_hide_user = true
+    
+    set_world_data()
+    set_logger( 'edge/world', @view_ref_ids.to_json )
+    render :index
   end
   
   def users
@@ -80,6 +88,18 @@ class EdgesController < ApplicationController
       current_id: (user_signed_in?)? current_user.ref_id : '',
       map_user_id: (@target_user)? @target_user.ref_id : (user_signed_in?)? current_user.ref_id : '',
       map_user_name: (@target_user)? @target_user.name : (user_signed_in?)? current_user.name : '',
+      view_ids: @view_ref_ids,
+    }
+
+    @from_node = Node.new
+    @to_node = Node.new
+  end
+
+  def set_world_data
+    @json_data = {
+      current_id: (user_signed_in?)? current_user.ref_id : '',
+      map_user_id: '',
+      map_user_name: '',
       view_ids: @view_ref_ids,
     }
 

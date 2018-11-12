@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # エッジ
   resources :edges, only: [:index, :show, :new, :create, :destroy] do
     collection do
+      get :world
       get :users
     end
   end

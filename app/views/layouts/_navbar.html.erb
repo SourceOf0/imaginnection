@@ -20,11 +20,14 @@
                 <li>
                   <%= link_to(edge_path(current_user.ref_id), class: 'user') do %>
                     <p class="user-name"><%= current_user.name %></p>
-                    <p class="user-info">自分のマップ</p>
+                    <p class="user-info">個人マップ</p>
                   <% end %>
                 </li>
                 <li>
                   <%= link_to('全体マップ', edges_path) %>
+                </li>
+                <li>
+                  <%= link_to('ワールドマップ', world_edges_path) %>
                 </li>
                 <li role="separator" class="divider"></li>
                 <li>
