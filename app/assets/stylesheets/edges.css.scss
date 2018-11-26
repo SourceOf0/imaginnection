@@ -47,13 +47,21 @@
   overflow-y: scroll;
 }
 
-button.close {
-  color: $textColor;
-  opacity: .5;
-  margin: 4px 8px;
+.popover {
+  button.close {
+    color: $textColor;
+    opacity: .5;
+    margin: 4px 8px;
+  }
 }
 
 .modal {
+  button.close {
+    color: $textColor;
+    opacity: .5;
+    margin: 0px 8px;
+  }
+
   .modal-sm {
     width: 300px;
     margin: 30px auto;
