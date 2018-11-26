@@ -47,12 +47,13 @@
   overflow-y: scroll;
 }
 
+button.close {
+  color: $textColor;
+  opacity: .5;
+  margin: 4px 8px;
+}
+
 .modal {
-  .close {
-    color: $textColor;
-    opacity: .5;
-  }
-  
   .modal-sm {
     width: 300px;
     margin: 30px auto;

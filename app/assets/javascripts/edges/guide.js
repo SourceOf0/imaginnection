@@ -72,6 +72,7 @@ guide.initTour = function() {
 	var temp = "";
 	temp += "<div class='popover tour' role='tooltip'>";
 	temp += "	<div class='arrow'></div>";
+	temp += "	<button type='button' class='close' data-role='end'><span>×</span></button>";
 	temp += "	<h3 class='popover-title'></h3>";
 	temp += "	<div class='popover-content'></div>";
 	temp += "	<div class='popover-navigation'>";
@@ -82,29 +83,26 @@ guide.initTour = function() {
 	temp += "				<li><a href='#' onclick='guide.tour.restart(); guide.tour.goTo(guide.step.OPEN_NODE_LIST);'>単語一覧～フォロー、投稿削除</a></li>";
 	temp += "		</ul>";
 	temp += "		<button class='btn btn-default btn-sm' data-role='next'>最初から</button>";
-	temp += "		<button class='btn btn-default btn-sm' data-role='end'>閉じる</button>";
 	temp += "	</div>";
 	temp += "</div>";
 	
 	var temp_def = "";
 	temp_def += "<div class='popover tour' role='tooltip'>";
 	temp_def += "	<div class='arrow'></div>";
+	temp_def += "	<button type='button' class='close' data-role='end'><span>×</span></button>";
 	temp_def += "	<h3 class='popover-title'></h3>";
 	temp_def += "	<div class='popover-content'></div>";
 	temp_def += "	<div class='popover-navigation'>";
 	temp_def += "		<button type='button' class='btn btn-default btn-sm' data-role='next'>進む</button>";
-	temp_def += "		<button class='btn btn-default btn-sm' data-role='end'>終了</button>";
 	temp_def += "	</div>";
 	temp_def += "</div>";
 
 	var temp_wait = "";
 	temp_wait += "<div class='popover tour'>";
 	temp_wait += "	<div class='arrow'></div>";
+	temp_wait += "	<button type='button' class='close' data-role='end'><span>×</span></button>";
 	temp_wait += "	<h3 class='popover-title'></h3>";
 	temp_wait += "	<div class='popover-content'></div>";
-	temp_wait += "	<div class='popover-navigation'>";
-	temp_wait += "		<button class='btn btn-default btn-sm' data-role='end'>終了</button>";
-	temp_wait += "	</div>";
 	temp_wait += "</div>";
 	
 	guide.tour = new Tour({
@@ -161,7 +159,7 @@ guide.initTour = function() {
 				template: temp_wait,
 				element: "#drawer .glyphicon",
 				title: "単語一覧",
-				content: "画面端の「◀」を押すと、現在マップに表示されている単語の一覧が表示されます。<br><small>「▶」を押すと閉じます。</small>",
+				content: "画面端の「<span class='glyphicon glyphicon-triangle-left'></span>」を押すと、現在マップに表示されている単語の一覧が表示されます。<br><small>「<span class='glyphicon glyphicon-triangle-right'></span>」を押すと閉じます。</small>",
 				placement: "auto left",
 			},
 			{
