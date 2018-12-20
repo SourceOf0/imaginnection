@@ -40,7 +40,7 @@ class EdgesController < ApplicationController
     @view_ref_ids = User.where(deleted_at: nil, is_hide_edges: false).map(&:ref_id)
     @is_hide_user = true
     
-    set_world_data()
+    set_index_data()
     set_logger( 'edge/world', @view_ref_ids.count.to_s )
     render :index
   end
@@ -83,30 +83,40 @@ class EdgesController < ApplicationController
     params.require(:node).permit(:name)
   end
   
+  def create_custom_token(uid)
+    service_account_email = ENV['SERVICE_ACCOUNT_EMAIL']
+    private_key = OpenSSL::PKey::RSA.new(ENV['PRIVATE_KEY'].gsub("\\n", "\n"))
+    now_seconds = Time.now.to_i
+    payload = {
+      :iss => service_account_email,
+      :sub => service_account_email,
+      :aud => "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit",
+      :iat => now_seconds,
+      :exp => now_seconds+(60*60), # 有効時間
+      :uid => uid,
+      #:claims => {追加情報あれば},
+    }
+    return JWT.encode(payload, private_key, "RS256")
+  end
+    
   def set_index_data
-    @json_data = {
-      current_id: (user_signed_in?)? current_user.ref_id : '',
-      map_user_id: (@target_user)? @target_user.ref_id : (user_signed_in?)? current_user.ref_id : '',
-      map_user_name: (@target_user)? @target_user.name : (user_signed_in?)? current_user.name : '',
-      view_ids: @view_ref_ids,
-    }
+    @json_data = {}
+    
+    @json_data[:view_ids] = @view_ref_ids
+    
+    if user_signed_in?
+      @json_data[:current_id] = current_user.ref_id
+      @json_data[:token] = create_custom_token(current_user.ref_id)
+      if action_name != "world"
+        @json_data[:map_user_id] = (@target_user)? @target_user.ref_id : current_user.ref_id
+        @json_data[:map_user_name] = (@target_user)? @target_user.name : current_user.name
+      end
+    end
 
     @from_node = Node.new
     @to_node = Node.new
   end
 
-  def set_world_data
-    @json_data = {
-      current_id: (user_signed_in?)? current_user.ref_id : '',
-      map_user_id: '',
-      map_user_name: '',
-      view_ids: @view_ref_ids,
-    }
-
-    @from_node = Node.new
-    @to_node = Node.new
-  end
-  
   def create_users_data(data)
     is_hide_user = !!data[:is_hide_user]
     users = User.where(ref_id: data[:content], deleted_at: nil)

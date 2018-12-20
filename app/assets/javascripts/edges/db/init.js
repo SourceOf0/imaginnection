@@ -1,9 +1,6 @@
 
 /* global firebase */
 
-var db = db || {};
-
-
 /** 
  * firebase初期化
  */

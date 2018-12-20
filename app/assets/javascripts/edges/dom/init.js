@@ -50,16 +50,24 @@ dom.changeContent = function() {
 $(document).ready(function() {
 	
 	firebase.auth().onAuthStateChanged(function(user) {
-		if( user ) {
-			db.initDB();
-			guide.initTour();
-			canvas.init();
-			dom.changeContent();
-		} else {
-			firebase.auth().signInAnonymously().catch(function(error) {
+		if ( !!user && !accept.current_id ) {
+			// ログアウト済み
+      firebase.auth().signOut().catch(function(error) {
+        console.error("ログアウトエラー", error);
+      });
+			return;
+		} else if( !!accept.current_id && ( !user || user.uid != accept.current_id ) ) {
+			// 未ログイン or id違いのためログインしなおし
+			firebase.auth().signInWithCustomToken(accept.token).catch(function(error) {
 				console.error("ログインエラー", error);
 			});
-		}
+			return;
+    }
+		
+		db.initDB();
+		guide.initTour();
+		canvas.init();
+		dom.changeContent();
 	});
 	
 	dom.initDrawer();

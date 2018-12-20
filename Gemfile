@@ -71,6 +71,9 @@ gem 'omniauth-twitter'
 # please add dotenv-rails file `.env` to .gitignore
 gem 'dotenv-rails'
 
+# RFC 7519 OAuth JSON Web Token (use with CustomToken)
+gem 'jwt'
+
 group :development, :test do 
   # break point system
   gem 'pry-byebug'
