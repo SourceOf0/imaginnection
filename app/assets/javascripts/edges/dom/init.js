@@ -12,6 +12,22 @@ var dom = dom || {};
 
 
 /**
+ * エラー表示
+ */
+dom.setErrorStr = function( message ) {
+	$("main").prepend(
+		"<div class='alert alert-danger'>" + 
+    "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" +
+		message +
+		"</div>"
+	);
+};
+dom.setError = function( error ) {
+	console.log(error);
+	dom.setErrorStr( error.message );
+};
+
+/**
  * 表示要素切り替え
  */
 dom.changeContent = function() {

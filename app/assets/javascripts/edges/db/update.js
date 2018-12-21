@@ -3,6 +3,7 @@
 /* global firebase */
 /* global accept */
 /* global ajax */
+/* global dom */
 
 
 var db = db || {};
@@ -149,12 +150,7 @@ db.createEdge = function( edge ) {
 	// バリデーション
 	var checkResult = db.validateEdge(edge);
 	if( checkResult ) {
-		$("main").prepend(
-			"<div class='alert alert-danger'>" + 
-	    "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>" +
-			checkResult +
-			"</div>"
-		);
+		dom.setErrorStr( checkResult );
 		return false;
 	}
 	
