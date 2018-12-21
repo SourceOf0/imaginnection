@@ -241,12 +241,12 @@ db.renewNotification = function() {
 	};
 	var checkEdge = function( gaze, from_node, to_node, data, gaze_created_at ) {
 		if( !data["users"] ) return; // 共感者がいない
-		if( !isValidTimestamp( data, accept.notified_at, gaze_created_at ) ) return; // タイムスタンプが無効
+		if( !isValidTimestamp( data, gaze_created_at ) ) return; // タイムスタンプが無効
 		
 		var send_data = {};
 		Object.keys(data["users"]).forEach(function(user_id) {
 			if( user_id == accept.current_id ) return; // 自分自身
-			if( !isValidTimestamp( data["users"][user_id], accept.notified_at, gaze_created_at ) ) return; // タイムスタンプが無効
+			if( !isValidTimestamp( data["users"][user_id], gaze_created_at ) ) return; // タイムスタンプが無効
 			send_data[user_id] = data["users"][user_id];
 		});
 		ajax.setNotificationEdge(gaze, from_node, to_node, send_data, accept.notified_at);
@@ -260,7 +260,7 @@ db.renewNotification = function() {
 		if( !!gaze_list[key] ) {
 			var gaze_created_at = gaze_list[key]["created_at"];
 			
-			if( !isValidTimestamp( edges[key], notified_at, gaze_created_at) ) return; // タイムスタンプが無効
+			if( !isValidTimestamp( edges[key], gaze_created_at) ) return; // タイムスタンプが無効
 			
 			// from_nodeで該当ノードチェック
 			Object.keys(edges[key]).forEach(function(to_node) {
