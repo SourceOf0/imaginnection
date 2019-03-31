@@ -3,12 +3,12 @@ FactoryBot.define do
     
     sequence(:name) { |n| "テストユーザ#{n}" };
     sequence(:email) { |n| "tester#{n}@example.com" }
-    password "dottle-nouveau-pavilion-tights-furze"
+    password { "dottle-nouveau-pavilion-tights-furze" }
 
     
     # 一時的に使用する値
     transient do
-      count 5
+      count { 5 }
     end
 
     # エッジ持ち
@@ -35,7 +35,7 @@ FactoryBot.define do
 
     # 無効なモデル
     trait :invalid do
-      name nil
+      name { nil }
     end
 
   end

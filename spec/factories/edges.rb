@@ -8,7 +8,7 @@ FactoryBot.define do
     
     # 昨日作成した
     trait :at_yesterday do
-      created_at 1.day.ago
+      created_at { 1.day.ago }
     end
     
   end

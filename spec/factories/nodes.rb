@@ -5,7 +5,7 @@ FactoryBot.define do
     
     # 一時的に使用する値
     transient do
-      count 5
+      count { 5 }
     end
     
     # 注視設定持ち
