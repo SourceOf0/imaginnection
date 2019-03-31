@@ -102,3 +102,5 @@ group :production do
   # for heroku
   gem 'pg', '~> 0.19.0'
 end
+
+gem 'therubyracer'
