@@ -64,8 +64,6 @@ gem 'kaminari'
 
 # login system
 gem 'devise'
-gem 'omniauth'
-gem 'omniauth-twitter'
 
 # load environment variables from `.env` 
 # please add dotenv-rails file `.env` to .gitignore
