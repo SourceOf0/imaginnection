@@ -6,4 +6,7 @@ Disallow: /users/
 Allow: /users/sign_in
 Allow: /users/sign_up
 
+Disallow: /edges/
+Allow: /edges/world
+
 Disallow: /follows/
