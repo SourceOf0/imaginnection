@@ -61,7 +61,7 @@ gem 'jquery-ui-rails'
 gem 'rails-i18n'
 
 # Paginator 
-gem 'kaminari'
+gem 'kaminari', '>= 1.2.1'
 
 # login system
 gem 'devise'
