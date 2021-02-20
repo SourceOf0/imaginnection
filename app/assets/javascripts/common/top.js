@@ -21,6 +21,9 @@ $(document).ready(function() {
 	var fadeTime = 0;
 
 	var img = new Image();
+	img.addEventListener("load", function() {
+		draw();
+	});
 	img.src = "logo.png";
 	
 	var animeCount = [];
@@ -89,7 +92,7 @@ $(document).ready(function() {
 	
 	/* 描画処理 */
 	var timeCount = new Date().getTime();
-	(function draw() {
+	function draw() {
 		if(!canvas.parentNode) {
 			return cancelAnimationFrame(draw);
 		}
@@ -159,6 +162,6 @@ $(document).ready(function() {
 		}
 		timeCount = nowTimeCount;
 	
-	})();
+	};
 	
 });
