@@ -15,7 +15,7 @@ Rails.application.configure do
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = {
-    'Cache-Control' => "public, max-age=#{1.hour.seconds.to_i}"
+    'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
 
   # Show full error reports and disable caching.
@@ -27,6 +27,10 @@ Rails.application.configure do
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
+
+  # Store uploaded files on the local file system in a temporary directory
+  config.active_storage.service = :test
+
   config.action_mailer.perform_caching = false
 
   # Tell Action Mailer not to deliver emails to the real world.
@@ -40,7 +44,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  # ãƒ¡ãƒ¼ãƒ©ãƒ¼
+  # ƒ[ƒ‰[
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
@@ -50,27 +54,27 @@ Rails.application.configure do
     :address => "smtp.gmail.com",
     :port => 587,
     :domain => 'gmail.com',
-    :user_name => ENV['MAILER_USER_NAME'], #gmailã‚¢ãƒ‰ãƒ¬ã‚¹
-    :password => ENV['MAILER_PASSWORD'], #gmailãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+    :user_name => ENV['MAILER_USER_NAME'], #gmailƒAƒhƒŒƒX
+    :password => ENV['MAILER_PASSWORD'], #gmailƒpƒXƒ[ƒh
     :authentication => 'plain',
   }
   config.action_mailer.delivery_method = :letter_opener_web
 
   config.after_initialize do
     
-    Bullet.enable = true   # bullet ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+    Bullet.enable = true   # bullet ‚ğ—LŒø‚É‚·‚é
     
-    # ä»¥ä¸‹ã¯N+1å•é¡Œã‚’ç™ºè¦‹ã—ãŸæ™‚ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ã¸ã®é€šçŸ¥æ–¹æ³•
-    Bullet.alert         = true # ãƒ–ãƒ©ã‚¦ã‚¶ã®JavaScriptã‚¢ãƒ©ãƒ¼ãƒˆ
+    # ˆÈ‰º‚ÍN+1–â‘è‚ğ”­Œ©‚µ‚½‚Ìƒ†[ƒU[‚Ö‚Ì’Ê’m•û–@
+    Bullet.alert         = true # ƒuƒ‰ƒEƒU‚ÌJavaScriptƒAƒ‰[ƒg
     Bullet.bullet_logger = true # Rails.root/log/bullet.log
-    Bullet.console       = true # ãƒ–ãƒ©ã‚¦ã‚¶ã® console.log ã®å‡ºåŠ›å…ˆ
-    Bullet.rails_logger  = true # Railsã®ãƒ­ã‚°
-    #Bullet.bugsnag      = true # ç·åˆãƒ‡ãƒãƒƒã‚¬ãƒ„ãƒ¼ãƒ«bugsnag
+    Bullet.console       = true # ƒuƒ‰ƒEƒU‚Ì console.log ‚Ìo—Íæ
+    Bullet.rails_logger  = true # Rails‚ÌƒƒO
+    #Bullet.bugsnag      = true # ‘‡ƒfƒoƒbƒKƒc[ƒ‹bugsnag
     #Bullet.airbrake     = true # Airbrake
-    #Bullet.raise        = true # Exceptionã‚’ç™ºç”Ÿ
-    Bullet.add_footer    = true # ç”»é¢ã®ä¸‹éƒ¨ã«è¡¨ç¤º
+    #Bullet.raise        = true # Exception‚ğ”­¶
+    Bullet.add_footer    = true # ‰æ–Ê‚Ì‰º•”‚É•\¦
    
-    # ãƒ›ãƒ¯ã‚¤ãƒˆãƒªã‚¹ãƒˆã‚’æŒ‡å®šã™ã‚‹ã¨ãã®ä¾‹
+    # ƒzƒƒCƒgƒŠƒXƒg‚ğw’è‚·‚é‚Æ‚«‚Ì—á
     #Bullet.add_whitelist type: :n_plus_one_query, class_name: 'User', association: :prefecture
     #Bullet.add_whitelist type: :unused_eager_loading, class_name: 'User', association: :prefecture
     #Bullet.add_whitelist type: :counter_cache, class_name: 'User', association: :comments

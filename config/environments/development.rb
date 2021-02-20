@@ -13,18 +13,22 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
-  if Rails.root.join('tmp/caching-dev.txt').exist?
+  # Run rails dev:cache to toggle caching.
+  if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }
   else
     config.action_controller.perform_caching = false
 
     config.cache_store = :null_store
   end
+
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -36,6 +40,9 @@ Rails.application.configure do
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
+
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
@@ -53,7 +60,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
 
-  # ãƒ¡ãƒ¼ãƒ©ãƒ¼
+  # ƒ[ƒ‰[
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
@@ -63,27 +70,27 @@ Rails.application.configure do
     :address => "smtp.gmail.com",
     :port => 587,
     :domain => 'gmail.com',
-    :user_name => ENV['MAILER_USER_NAME'], #gmailã‚¢ãƒ‰ãƒ¬ã‚¹
-    :password => ENV['MAILER_PASSWORD'], #gmailãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+    :user_name => ENV['MAILER_USER_NAME'], #gmailƒAƒhƒŒƒX
+    :password => ENV['MAILER_PASSWORD'], #gmailƒpƒXƒ[ƒh
     :authentication => 'plain',
   }
   config.action_mailer.delivery_method = :letter_opener_web
   
   config.after_initialize do
     
-    Bullet.enable = true   # bullet ã‚’æœ‰åŠ¹ã«ã™ã‚‹
+    Bullet.enable = true   # bullet ‚ğ—LŒø‚É‚·‚é
     
-    # ä»¥ä¸‹ã¯N+1å•é¡Œã‚’ç™ºè¦‹ã—ãŸæ™‚ã®ãƒ¦ãƒ¼ã‚¶ãƒ¼ã¸ã®é€šçŸ¥æ–¹æ³•
-    Bullet.alert         = true # ãƒ–ãƒ©ã‚¦ã‚¶ã®JavaScriptã‚¢ãƒ©ãƒ¼ãƒˆ
+    # ˆÈ‰º‚ÍN+1–â‘è‚ğ”­Œ©‚µ‚½‚Ìƒ†[ƒU[‚Ö‚Ì’Ê’m•û–@
+    Bullet.alert         = true # ƒuƒ‰ƒEƒU‚ÌJavaScriptƒAƒ‰[ƒg
     Bullet.bullet_logger = true # Rails.root/log/bullet.log
-    Bullet.console       = true # ãƒ–ãƒ©ã‚¦ã‚¶ã® console.log ã®å‡ºåŠ›å…ˆ
-    Bullet.rails_logger  = true # Railsã®ãƒ­ã‚°
-    #Bullet.bugsnag      = true # ç·åˆãƒ‡ãƒãƒƒã‚¬ãƒ„ãƒ¼ãƒ«bugsnag
+    Bullet.console       = true # ƒuƒ‰ƒEƒU‚Ì console.log ‚Ìo—Íæ
+    Bullet.rails_logger  = true # Rails‚ÌƒƒO
+    #Bullet.bugsnag      = true # ‘‡ƒfƒoƒbƒKƒc[ƒ‹bugsnag
     #Bullet.airbrake     = true # Airbrake
-    #Bullet.raise        = true # Exceptionã‚’ç™ºç”Ÿ
-    Bullet.add_footer    = true # ç”»é¢ã®ä¸‹éƒ¨ã«è¡¨ç¤º
+    #Bullet.raise        = true # Exception‚ğ”­¶
+    Bullet.add_footer    = true # ‰æ–Ê‚Ì‰º•”‚É•\¦
    
-    # ãƒ›ãƒ¯ã‚¤ãƒˆãƒªã‚¹ãƒˆã‚’æŒ‡å®šã™ã‚‹ã¨ãã®ä¾‹
+    # ƒzƒƒCƒgƒŠƒXƒg‚ğw’è‚·‚é‚Æ‚«‚Ì—á
     #Bullet.add_whitelist type: :n_plus_one_query, class_name: 'User', association: :prefecture
     #Bullet.add_whitelist type: :unused_eager_loading, class_name: 'User', association: :prefecture
     #Bullet.add_whitelist type: :counter_cache, class_name: 'User', association: :comments
