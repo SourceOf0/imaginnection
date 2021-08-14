@@ -17,14 +17,12 @@
                 <span class="icon-bar-bottom"></span>
               </button>
               <ul class="dropdown-menu">
-                <li>
-                  <%= link_to(edge_path(current_user.ref_id), class: 'user') do %>
+                <li class="user">
+                  <%= link_to(edge_path(current_user.ref_id)) do %>
                     <p class="user-name"><%= current_user.name %></p>
                     <p class="user-info">個人マップ</p>
                   <% end %>
-                </li>
-                <li>
-                  <%= link_to('全体マップ', edges_path) %>
+                  <%= link_to('全体マップ', edges_path, class: 'user-info') %>
                 </li>
                 <li>
                   <%= link_to('ワールドマップ', world_edges_path) %>
